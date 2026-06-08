@@ -1,12 +1,14 @@
 const Notifications = (() => {
-  const RESEND_KEY = 'COLOQUE_SUA_CHAVE_RESEND_AQUI';
+  const WORKER_URL = 'https://ware-email.joaocassianowork-55c.workers.dev';
   const FROM = 'joao@warejuridico.com.br';
 
   async function send(to, subject, html) {
     try {
-      const res = await fetch('https://api.resend.com/emails', {
+      const key = localStorage.getItem('resend_key') || '';
+      if (!key) return false;
+      const res = await fetch(WORKER_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + RESEND_KEY },
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
         body: JSON.stringify({ from: FROM, to, subject, html })
       });
       return res.ok;
