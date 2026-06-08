@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manifesto Ware Jurídico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --blue: #4F7EFF;
+    --blue-dim: rgba(79,126,255,0.10);
+    --blue-border: rgba(79,126,255,0.25);
+    --white: #f5f2ee;
+    --white-60: rgba(245,242,238,0.60);
+    --white-30: rgba(245,242,238,0.30);
+    --white-08: rgba(245,242,238,0.08);
+    --white-04: rgba(245,242,238,0.04);
+    --border: rgba(245,242,238,0.09);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.8;
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    padding: 22px 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.97) 0%, transparent 100%);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Sora', sans-serif;
+    font-size: 17px; font-weight: 700; letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--blue); }
+  .nav-pill {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--white-60);
+    border: 1px solid var(--border); padding: 6px 16px; border-radius: 100px;
+  }
+
+  /* ─── LAYOUT ─── */
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+
+  section {
+    padding: 110px 60px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 60px 100px;
+    max-width: 860px; margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-bg {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    background:
+      radial-gradient(ellipse 800px 600px at -100px 40%, rgba(79,126,255,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 400px at 80% 80%, rgba(79,126,255,0.04) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+
+  .hero > * { position: relative; z-index: 1; }
+
+  .hero-kicker {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 36px;
+    opacity: 0; animation: rise 0.9s ease forwards 0.3s;
+  }
+
+  .hero h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 800; line-height: 0.95;
+    letter-spacing: -0.045em;
+    margin-bottom: 40px;
+    opacity: 0; animation: rise 0.9s ease forwards 0.5s;
+  }
+  .hero h1 em { font-style: normal; color: var(--blue); }
+
+  .hero-lead {
+    font-size: 19px; font-weight: 300; color: var(--white-60);
+    max-width: 520px; line-height: 1.65;
+    opacity: 0; animation: rise 0.9s ease forwards 0.7s;
+  }
+
+  .scroll-hint {
+    margin-top: 64px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--white-30);
+    opacity: 0; animation: rise 0.9s ease forwards 1s;
+  }
+  .scroll-hint-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--blue), transparent);
+  }
+
+  /* ─── DIVIDER ─── */
+  hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border) 20%, var(--border) 80%, transparent);
+    margin: 0 60px;
+    max-width: calc(860px - 120px);
+    margin-left: auto; margin-right: auto;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  .chapter-label {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 36px;
+  }
+  .chapter-label::before {
+    content: ''; display: block;
+    width: 20px; height: 1px; background: var(--blue);
+  }
+
+  h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(34px, 4.5vw, 56px);
+    font-weight: 700; line-height: 1.08;
+    letter-spacing: -0.035em;
+    margin-bottom: 36px;
+  }
+  h2 em { font-style: normal; color: var(--blue); }
+
+  h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px; font-weight: 600;
+    letter-spacing: -0.02em; line-height: 1.3;
+    color: var(--white);
+    margin: 48px 0 14px;
+  }
+
+  p { color: var(--white-60); font-weight: 300; margin-bottom: 22px; }
+  p:last-child { margin-bottom: 0; }
+  p strong { color: var(--white); font-weight: 500; }
+
+  /* ─── PULL QUOTE ─── */
+  .pq {
+    border-left: 2px solid var(--blue);
+    padding: 24px 32px;
+    margin: 48px 0;
+    background: var(--blue-dim);
+    border-radius: 0 12px 12px 0;
+  }
+  .pq p {
+    font-family: 'Sora', sans-serif;
+    font-size: 21px; font-weight: 500;
+    color: var(--white); line-height: 1.45;
+    letter-spacing: -0.015em;
+    margin: 0; font-style: italic;
+  }
+
+  /* ─── CALLOUT ─── */
+  .callout {
+    border: 1px solid var(--blue-border);
+    background: var(--blue-dim);
+    border-radius: 12px;
+    padding: 32px 36px;
+    margin: 40px 0;
+  }
+  .callout p { color: var(--white); font-size: 16px; margin: 0; font-weight: 300; }
+
+  /* ─── CARD GRID ─── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 48px 0;
+  }
+  .card {
+    background: var(--black);
+    padding: 32px 28px;
+    transition: background 0.25s;
+  }
+  .card:hover { background: rgba(79,126,255,0.06); }
+  .card-num {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.15em; color: var(--blue);
+    margin-bottom: 16px;
+  }
+  .card h3 { font-size: 17px; margin: 0 0 10px; }
+  .card p { font-size: 14px; line-height: 1.65; margin: 0; }
+
+  /* ─── TRANSFORM BLOCKS ─── */
+  .transforms { margin: 48px 0; display: flex; flex-direction: column; gap: 12px; }
+  .tx {
+    display: grid;
+    grid-template-columns: 1fr 32px 1fr;
+    align-items: center;
+    gap: 12px;
+  }
+  .tx-box {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+  }
+  .tx-box.from { background: var(--white-04); }
+  .tx-box.to   { background: var(--blue-dim); border-color: var(--blue-border); }
+  .tx-tag {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white-30); margin-bottom: 6px;
+  }
+  .tx-box.to .tx-tag { color: var(--blue); }
+  .tx-word {
+    font-family: 'Sora', sans-serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--white-60);
+  }
+  .tx-box.to .tx-word { color: var(--white); }
+  .tx-sub { font-size: 13px; color: var(--white-30); margin-top: 4px; }
+  .tx-box.to .tx-sub { color: var(--white-60); }
+  .tx-arrow { text-align: center; color: var(--blue); font-size: 18px; opacity: 0.5; }
+
+  /* ─── LIST ─── */
+  .prose-list { list-style: none; margin: 28px 0; }
+  .prose-list li {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 0; border-bottom: 1px solid var(--border);
+    color: var(--white-60); font-weight: 300; font-size: 16px;
+    line-height: 1.7;
+  }
+  .prose-list li:last-child { border-bottom: none; }
+  .prose-list li::before {
+    content: ''; flex-shrink: 0;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--blue); margin-top: 10px;
+  }
+  .prose-list li strong { color: var(--white); font-weight: 500; }
+
+  /* ─── BELIEFS ─── */
+  .belief {
+    padding: 36px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .belief:last-child { border-bottom: none; }
+  .belief-stmt {
+    font-family: 'Sora', sans-serif;
+    font-size: 19px; font-weight: 600;
+    letter-spacing: -0.02em; line-height: 1.3;
+    color: var(--white); margin-bottom: 14px;
+  }
+  .belief p { font-size: 15px; line-height: 1.75; margin: 0; }
+
+  /* ─── PILLARS ─── */
+  .pillars { margin: 48px 0; display: flex; flex-direction: column; gap: 0; }
+  .pillar {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0 28px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .pillar:last-child { border-bottom: none; }
+  .pillar-n {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--blue); letter-spacing: 0.05em;
+    padding-top: 3px;
+  }
+  .pillar h3 { font-size: 17px; margin: 0 0 8px; }
+  .pillar p  { font-size: 15px; margin: 0; }
+
+  /* ─── CLOSING ─── */
+  .closing {
+    text-align: center;
+    padding: 120px 60px 80px;
+    max-width: 860px; margin: 0 auto;
+    position: relative;
+  }
+  .closing::before {
+    content: '';
+    position: absolute;
+    top: 40%; left: 50%; transform: translate(-50%,-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(79,126,255,0.09) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .closing > * { position: relative; }
+  .closing h2 { font-size: clamp(38px, 5.5vw, 68px); margin-bottom: 24px; }
+  .closing .lead { font-size: 18px; max-width: 480px; margin: 0 auto 16px; }
+  .closing-mark {
+    margin-top: 72px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--white-30);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 60px;
+    max-width: 860px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p { font-size: 12px; color: var(--white-30); margin: 0; }
+
+  /* ─── TOC ─── */
+  .toc {
+    margin-top: 64px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .toc-head {
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--blue);
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--border);
+    gap: 1px;
+  }
+  .toc-item {
+    background: var(--black);
+    padding: 16px 32px;
+    text-decoration: none;
+    color: var(--white-60);
+    font-size: 14px; font-weight: 300;
+    transition: color 0.2s, background 0.2s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .toc-item:hover { color: var(--white); background: var(--white-04); }
+  .toc-num { color: var(--blue); font-size: 11px; font-weight: 600; flex-shrink: 0; }
+
+  /* ─── REVEAL ─── */
+  .reveal {
+    opacity: 0; transform: translateY(18px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.on { opacity: 1; transform: none; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 700px) {
+    nav { padding: 18px 20px; }
+    section, .hero, .closing { padding-left: 20px; padding-right: 20px; }
+    hr { margin-left: 20px; margin-right: 20px; }
+    footer { padding: 28px 20px; flex-direction: column; gap: 10px; text-align: center; }
+    .hero h1 { font-size: 44px; }
+    .tx { grid-template-columns: 1fr; }
+    .tx-arrow { transform: rotate(90deg); }
+    .toc-grid { grid-template-columns: 1fr; }
+    .pillar { grid-template-columns: 1fr; gap: 4px; }
+    .pillar-n { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+<div class="hero-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ware<span>.</span></div>
+  <div class="nav-pill">Manifesto Interno</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">Ware Jurídico — Documento de Identidade</div>
+  <h1>Bons advogados<br>merecem ser<br><em>encontrados.</em></h1>
+  <p class="hero-lead">Este documento existe para uma razão: fazer com que todo colaborador da Ware entenda profundamente onde trabalha, o que transforma, e por que isso importa. Não é um manual de processos. É a alma da empresa.</p>
+  <div class="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    Continue lendo
+  </div>
+
+  <div class="toc">
+    <div class="toc-head">O que você vai encontrar aqui</div>
+    <div class="toc-grid">
+      <a href="#contexto"    class="toc-item"><span class="toc-num">01</span> O Contexto — o mercado e o problema</a>
+      <a href="#quem-somos"  class="toc-item"><span class="toc-num">02</span> Quem Somos — identidade e origem</a>
+      <a href="#problema"    class="toc-item"><span class="toc-num">03</span> O Problema Real — o teto invisível</a>
+      <a href="#transformacao" class="toc-item"><span class="toc-num">04</span> A Transformação — o que entregamos</a>
+      <a href="#cliente"     class="toc-item"><span class="toc-num">05</span> Nosso Cliente — quem é e por que</a>
+      <a href="#servicos"    class="toc-item"><span class="toc-num">06</span> O Que Fazemos — serviços e diferenciais</a>
+      <a href="#venda"       class="toc-item"><span class="toc-num">07</span> Como Vendemos — a filosofia comercial</a>
+      <a href="#cultura"     class="toc-item"><span class="toc-num">08</span> Nossa Cultura — como somos por dentro</a>
+      <a href="#crencas"     class="toc-item"><span class="toc-num">09</span> O Que Acreditamos — nossas verdades</a>
+      <a href="#voce"        class="toc-item"><span class="toc-num">10</span> Você — seu papel aqui</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 01 — CONTEXTO -->
+<!-- ══════════════════════════════════════════ -->
+<section id="contexto" class="reveal">
+  <div class="chapter-label">01 — O Contexto</div>
+  <h2>O mercado em que<br>a Ware <em>vive</em></h2>
+
+  <p>Para entender a Ware, você precisa primeiro entender o mercado em que ela opera. E esse mercado tem características muito específicas que explicam por que a Ware existe — e por que ela tem espaço tão grande para crescer.</p>
+
+  <h3>O Brasil tem 1,4 milhão de advogados</h3>
+  <p>O Brasil é o segundo país com mais advogados no mundo. São mais de 1,4 milhão de profissionais registrados na OAB. São advogados em cidades grandes, em cidades do interior, em escritórios solo, em bancas gigantes, em firmas familiares. A advocacia é uma das profissões mais populares do país — e uma das mais competitivas.</p>
+  <p>Essa abundância cria um paradoxo: <strong>tem muito advogado bom que ninguém conhece</strong>. A competência técnica, sozinha, não garante clientela. Nunca garantiu.</p>
+
+  <h3>O advogado foi ensinado a ser advogado — não empresário</h3>
+  <p>A faculdade de Direito ensina peças jurídicas, jurisprudência, teoria do Direito. Cinco anos de formação sem uma única aula de posicionamento de marca, captação de clientes, marketing ou gestão de negócio. O advogado que se forma já começa em desvantagem empresarial — não por incompetência, mas por ausência de formação nessa área.</p>
+  <p>O resultado é que a maioria dos advogados gerencia o escritório de forma intuitiva e reativa. Aceita qualquer cliente que aparecer. Não tem preço mínimo claro. Não tem estratégia de crescimento. Não sabe de onde vai vir o próximo cliente.</p>
+
+  <h3>A OAB tem regras — e isso muda tudo</h3>
+  <p>O Código de Ética e Disciplina da OAB regulamenta severamente como advogados podem se comunicar. É proibido: prometer resultados, usar linguagem sensacionalista, comparar-se com outros advogados, fazer propaganda mercantilista. Quem faz marketing jurídico sem entender essas regras expõe o cliente a sanções disciplinares — inclusive suspensão.</p>
+  <p>Isso significa que qualquer agência que atenda advogados precisa entender a OAB tão profundamente quanto entende de marketing. E a maioria não entende. <strong>Esse é um dos maiores buracos do mercado que a Ware ocupa.</strong></p>
+
+  <h3>O mercado de marketing jurídico é fraco</h3>
+  <p>Existem agências que "atendem advogados". Mas a maioria são agências generalistas que também colocam advogados na carteira — junto com restaurantes, clínicas, lojas de roupa e imobiliárias. Elas entregam posts genéricos, sites sem estratégia e relatórios cheios de números vazios.</p>
+  <p>O advogado paga alguns meses, não vê resultado, desiste e fica com uma memória ruim de marketing digital. Volta a depender de indicações. Esse ciclo se repete com milhares de escritórios no Brasil inteiro.</p>
+
+  <div class="pq">
+    <p>"O maior problema do mercado jurídico não é falta de demanda por marketing. É falta de quem saiba fazer marketing jurídico de verdade."</p>
+  </div>
+
+  <p>É nesse contexto que a Ware existe. Não como mais uma agência — mas como a primeira escolha real de quem quer resultado dentro das regras, com quem entende do setor e trata o escritório como negócio.</p>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 02 — QUEM SOMOS -->
+<!-- ══════════════════════════════════════════ -->
+<section id="quem-somos" class="reveal">
+  <div class="chapter-label">02 — Quem Somos</div>
+  <h2>Uma empresa que nasceu<br>para <em>preencher um vazio</em></h2>
+
+  <p>A Ware Jurídico é uma <strong>agência de marketing digital exclusiva para advogados e escritórios de advocacia</strong>. Fundada em Araçatuba, São Paulo, com atuação em todo o Brasil e em Portugal.</p>
+  <p>Temos cerca de dois anos de mercado. Somos jovens — mas somos construídos com intenção. Cada decisão que tomamos desde o início foi pensada para o longo prazo: o posicionamento, o ticket, os serviços, a linguagem, a tecnologia, a presença internacional.</p>
+
+  <h3>Exclusividade não é marketing — é estrutura</h3>
+  <p>A Ware não atende empresas fora do mercado jurídico. Nunca atendeu. Essa decisão não foi tomada por acidente — foi tomada porque exclusividade de nicho é o que torna a Ware mais competente do que qualquer agência generalista.</p>
+  <p>Quando você só atende advogados, o que você aprende em um cliente serve para o próximo. O que funciona em uma campanha alimenta a inteligência de todas as outras. Você desenvolve repertório, linguagem, intuição de mercado que só se constrói com profundidade — não com largura.</p>
+
+  <div class="callout">
+    <p>Pense assim: você prefere ser operado por um cirurgião geral ou por um especialista da área exata da sua cirurgia? O especialista não é melhor porque é mais caro. É melhor porque fez aquela operação centenas de vezes. A Ware é o especialista.</p>
+  </div>
+
+  <h3>Brasil e Portugal</h3>
+  <p>A Ware tem presença ativa em dois países. No Brasil, pelo site <strong>warejuridico.com.br</strong> — com mais de 60 URLs indexadas, páginas por cidade e por especialidade jurídica, blog de autoridade e campanhas ativas. Em Portugal, pelo <strong>waremarketing.pt</strong> — um site completo com 51 URLs, desenvolvido especificamente para o mercado jurídico português e para advogados brasileiros que atuam fora do país.</p>
+  <p>Essa presença internacional não é só uma bandeira. É um diferencial real: pouquíssimas agências do setor têm profundidade para atender os dois mercados, com as diferenças culturais, jurídicas e linguísticas que isso implica.</p>
+
+  <h3>Enxutos por escolha</h3>
+  <p>A Ware não é uma empresa grande. E isso é intencional. Não queremos crescer em volume. Queremos crescer em profundidade — atender cada cliente com excelência, ter uma operação que funciona bem, construir reputação de quem entrega. Uma empresa que cresce rápido demais sem estrutura vira medíocre. A Ware cresce com cuidado.</p>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 03 — O PROBLEMA -->
+<!-- ══════════════════════════════════════════ -->
+<section id="problema" class="reveal">
+  <div class="chapter-label">03 — O Problema Real</div>
+  <h2>O teto que ninguém<br>te ensinou a <em>quebrar</em></h2>
+
+  <p>Existe um padrão que se repete na carreira da maioria dos advogados. É tão comum que parece inevitável — mas não é. Entender esse padrão é entender o problema que a Ware resolve.</p>
+
+  <h3>O início: crescimento por força pessoal</h3>
+  <p>O advogado se forma, passa na OAB e começa a construir. Nos primeiros anos, o crescimento é natural: amigos da faculdade indicam, família indica, o primeiro cliente satisfeito indica o próximo. O escritório cresce porque o advogado está em movimento, construindo relacionamentos, sendo visto.</p>
+
+  <h3>A estagnação: o teto invisível</h3>
+  <p>Depois de cinco, oito, dez anos, esse crescimento trava. O advogado olha para trás e percebe que tem uma boa carreira — mas quando analisa de onde vieram os clientes dos últimos dois anos, a resposta é sempre a mesma: <strong>indicação.</strong></p>
+  <p>E indicação tem um limite natural. Você só consegue indicações de quem te conhece. E o número de pessoas que te conhecem é finito. Para crescer além disso, você precisa ser encontrado por pessoas que nunca te viram na vida.</p>
+
+  <div class="pq">
+    <p>"O problema não é que o advogado parou de crescer. É que ele nunca construiu um sistema que crescesse por ele."</p>
+  </div>
+
+  <h3>As três consequências práticas</h3>
+  <ul class="prose-list">
+    <li><strong>Imprevisibilidade financeira.</strong> Se as indicações secam — por qualquer razão — o caixa vai junto. O advogado não tem como planejar o crescimento porque não controla a entrada de clientes. Meses bons e meses ruins se alternam sem lógica aparente.</li>
+    <li><strong>Perda de seleção de clientes.</strong> Quem depende de indicações aceita o que chega. Não pode dizer não com frequência. Acaba pegando casos que não quer, em áreas que não gosta, com clientes difíceis — porque precisa do caso.</li>
+    <li><strong>Estagnação de posicionamento.</strong> O advogado que não aparece online não existe para o mercado. Hoje, quando alguém precisa de um advogado, a primeira coisa que faz é pesquisar no Google. Se o escritório não aparece, ele não é considerado — independente de quanto o advogado é bom.</li>
+  </ul>
+
+  <h3>A barreira cultural: o trauma com marketing</h3>
+  <p>Muitos advogados já tentaram resolver esse problema antes. Contrataram agências, investiram em anúncios, tentaram criar redes sociais. E na maioria dos casos, a experiência foi decepcionante: resultado fraco, atendimento genérico, relatório cheio de métricas que não dizem nada.</p>
+  <p>Esse histórico cria uma barreira. O advogado quer crescer, mas desconfia de quem oferece ajuda. Quando a Ware chega, ela não está competindo apenas com outras agências — está competindo com a memória ruim que o cliente tem de tentativas anteriores.</p>
+  <p><strong>Saber disso é fundamental para a equipe comercial.</strong> Não entramos numa reunião para vender. Entramos para mostrar que somos diferentes — pela profundidade, pela especificidade, pela seriedade.</p>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 04 — TRANSFORMAÇÃO -->
+<!-- ══════════════════════════════════════════ -->
+<section id="transformacao" class="reveal">
+  <div class="chapter-label">04 — A Transformação</div>
+  <h2>O que de fato<br><em>muda</em> na vida do cliente</h2>
+
+  <p>A Ware não vende serviços de marketing. Isso é o meio. O que a Ware vende é uma transformação — uma mudança real e mensurável no estado do escritório e, consequentemente, na vida do advogado.</p>
+  <p>Essa transformação acontece em três eixos. Memorize esses três eixos. Eles são a forma mais clara de explicar o valor da Ware para qualquer pessoa.</p>
+
+  <div class="transforms">
+    <div class="tx">
+      <div class="tx-box from">
+        <div class="tx-tag">Antes</div>
+        <div class="tx-word">Invisível</div>
+        <div class="tx-sub">Desconhecido fora do seu círculo</div>
+      </div>
+      <div class="tx-arrow">→</div>
+      <div class="tx-box to">
+        <div class="tx-tag">Depois</div>
+        <div class="tx-word">Visível</div>
+        <div class="tx-sub">Encontrado por quem nunca o viu</div>
+      </div>
+    </div>
+    <div class="tx">
+      <div class="tx-box from">
+        <div class="tx-tag">Antes</div>
+        <div class="tx-word">Imprevisível</div>
+        <div class="tx-sub">Clientes chegam quando querem</div>
+      </div>
+      <div class="tx-arrow">→</div>
+      <div class="tx-box to">
+        <div class="tx-tag">Depois</div>
+        <div class="tx-word">Previsível</div>
+        <div class="tx-sub">Fluxo constante, planejável</div>
+      </div>
+    </div>
+    <div class="tx">
+      <div class="tx-box from">
+        <div class="tx-tag">Antes</div>
+        <div class="tx-word">Dependente</div>
+        <div class="tx-sub">Refém de quem indica</div>
+      </div>
+      <div class="tx-arrow">→</div>
+      <div class="tx-box to">
+        <div class="tx-tag">Depois</div>
+        <div class="tx-word">Independente</div>
+        <div class="tx-sub">Captação própria, sem depender de ninguém</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>O que esses três eixos significam na prática</h3>
+  <p><strong>Visível</strong> significa que o advogado passa a aparecer para pessoas que nunca o conheceram. Seu site aparece no Google quando alguém da sua cidade pesquisa "advogado trabalhista" ou "advogado de divórcio". Seu Instagram cresce com conteúdo que o posiciona como referência na área. Seu Google Meu Negócio aparece no mapa quando alguém está a um quilômetro de distância e precisa de ajuda jurídica.</p>
+  <p><strong>Previsível</strong> significa que o escritório para de depender de sorte. Com campanhas de tráfego pago rodando de forma estratégica, há um fluxo constante de pessoas entrando em contato. O advogado consegue prever receita, contratar, escalar — porque sabe que as pessoas vão continuar chegando.</p>
+  <p><strong>Independente</strong> significa que o escritório tem uma estrutura própria de captação que funciona mesmo quando o advogado está num julgamento, de férias ou dormindo. Ele para de ser o único motor de crescimento do próprio negócio.</p>
+
+  <div class="callout">
+    <p>No final das contas, o que a Ware entrega é <strong>paz</strong>. O advogado para de acordar com a pergunta "de onde vai vir o próximo cliente?" e começa a dormir sabendo que o sistema está funcionando por ele. Essa paz tem um nome: <strong>estabilidade</strong>. E é isso que vendemos.</p>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 05 — CLIENTE IDEAL -->
+<!-- ══════════════════════════════════════════ -->
+<section id="cliente" class="reveal">
+  <div class="chapter-label">05 — Nosso Cliente</div>
+  <h2>Para quem a Ware<br>foi <em>feita</em></h2>
+
+  <p>A Ware não é para qualquer advogado. Temos um cliente ideal muito específico, e reconhecê-lo rapidamente faz toda a diferença — tanto para vender bem quanto para entregar bem.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-num">PERFIL</div>
+      <h3>Quem é</h3>
+      <p>Advogado com 5 a 15 anos de carreira. Já se estabeleceu na profissão. Tem clientes ativos, casos relevantes, reputação no seu círculo. Pode ser autônomo, sócio de escritório pequeno ou médio.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">DOR</div>
+      <h3>Qual o problema</h3>
+      <p>Chegou num teto de crescimento. A renda é boa, mas instável. Sente que deveria estar em outro patamar, mas não sabe como crescer além das indicações. Já tentou marketing antes e se decepcionou.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">DESEJO</div>
+      <h3>O que quer</h3>
+      <p>Previsibilidade. Clientes qualificados chegando por conta própria. Autoridade reconhecida no seu nicho. Tempo para focar nos casos — não em buscar clientes. Controle sobre o próprio crescimento.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">GATILHO</div>
+      <h3>O que o move</h3>
+      <p>Ver outro advogado da mesma área aparecer antes no Google. Perder um cliente para um concorrente com presença digital mais forte. Perceber que depende 100% de indicações para sobreviver.</p>
+    </div>
+  </div>
+
+  <h3>O ticket mínimo e o que ele significa</h3>
+  <p>O investimento mínimo na Ware é <strong>R$2.000 por mês</strong>. Esse número não é arbitrário. É um filtro intencional.</p>
+  <p>Clientes que investem pouco tendem a ter expectativas distorcidas — querem resultado na segunda semana, questionam cada centavo, e quando os primeiros resultados ainda estão sendo construídos, somem. Esse perfil é caro para a operação e destrutivo para a equipe.</p>
+  <p>O cliente que investe R$2.000 ou mais entende que marketing é investimento de médio prazo. Ele já tem um negócio rodando, já passou pela fase de sobrevivência e está pensando em crescimento. Ele tem a maturidade empresarial para entender o processo — e é com esse perfil que a Ware consegue entregar transformação real.</p>
+
+  <h3>Outros perfis que atendemos</h3>
+  <p><strong>Escritórios maiores</strong> que querem estruturar a presença digital de forma profissional — nesse caso, o ponto de entrada não é a dor individual, mas a visão estratégica de sócios que entenderam que o mercado mudou.</p>
+  <p><strong>Associações e entidades jurídicas</strong> — como a ABA (Associação Brasileira dos Advogados), com quem mantemos parceria ativa. Nesses casos, a proposta de valor é institucional: ajudamos a entidade a crescer, posicionar sua marca e atrair mais associados.</p>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 06 — SERVIÇOS -->
+<!-- ══════════════════════════════════════════ -->
+<section id="servicos" class="reveal">
+  <div class="chapter-label">06 — O Que Fazemos</div>
+  <h2>Serviços que constroem<br><em>presença real</em></h2>
+
+  <p>Os serviços da Ware não são pacotes avulsos. São peças de uma estratégia integrada. Cada um tem um papel específico na transformação do cliente — e juntos, formam a estrutura que vai de invisível a referência.</p>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-n">01</div>
+      <div>
+        <h3>Criação de Sites</h3>
+        <p>Um site jurídico na Ware não é uma vitrine bonita. É uma máquina de captação. Construímos com arquitetura pensada para SEO: páginas por cidade (para aparecer em buscas locais), páginas por especialidade (para aparecer na busca de quem precisa de um nicho específico), e copy estratégico que converte visitante em contato. O design é profissional e adequado à seriedade da profissão jurídica.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-n">02</div>
+      <div>
+        <h3>Tráfego Pago</h3>
+        <p>Gerenciamos campanhas no Google Ads e Meta Ads (Facebook e Instagram) para escritórios jurídicos. O diferencial está em que sabemos exatamente quais palavras-chave têm intenção de compra no Direito, quais públicos convertem para cada área de atuação, e como construir campanhas que respeitam os limites éticos da OAB. Não é achismo — é histórico de dados e testes constantes no setor.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-n">03</div>
+      <div>
+        <h3>Gestão de Redes Sociais</h3>
+        <p>Conteúdo que posiciona. Não posts genéricos sobre "datas comemorativas do Direito". Conteúdo que mostra o advogado como autoridade real na sua área — que educa o potencial cliente, que constrói confiança ao longo do tempo, que diferencia o escritório de todos os outros. Nossa estratégia editorial tem pilares definidos, linguagem adequada à OAB e cadência que mantém presença consistente.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-n">04</div>
+      <div>
+        <h3>Google Meu Negócio</h3>
+        <p>Para advogados que atendem uma cidade ou região, o perfil no Google Meu Negócio é uma das ferramentas mais poderosas — e mais negligenciadas. Quando alguém pesquisa "advogado previdenciário em Araçatuba", o que aparece primeiro é o mapa. Otimizamos esse perfil completamente: fotos, descrição, categorias, respostas a avaliações, publicações periódicas — tudo para que o escritório apareça nas primeiras posições locais.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>O ecossistema que vai além do serviço</h3>
+  <p>Todo cliente Ware tem acesso a um conjunto de entregáveis que não existem em outras agências do setor:</p>
+
+  <ul class="prose-list">
+    <li><strong>Painel de Leads + Mini CRM próprio.</strong> Desenvolvido internamente pela Ware. O cliente acompanha em tempo real cada lead gerado pelas campanhas: nome, contato, origem, estágio no funil. Não depende de planilha, não depende de relatório manual. É visibilidade total sobre o que está sendo gerado.</li>
+    <li><strong>Scripts por estágio de lead.</strong> Roteiros desenvolvidos pela Ware para que a equipe do escritório saiba exatamente como abordar cada tipo de contato — quem veio pelo Google, quem veio pelo Instagram, quem é indicação. Isso aumenta a taxa de conversão do escritório, não só a geração de leads.</li>
+    <li><strong>Relatórios mensais estratégicos.</strong> Não são relatórios de vaidade — não estamos aqui para mostrar quantos seguidores cresceram. São documentos que mostram o que foi feito, o que gerou resultado, o que foi ajustado e qual é o próximo movimento estratégico.</li>
+    <li><strong>Curadoria de notícias jurídicas.</strong> Seleção periódica de notícias relevantes do setor para o cliente usar nas redes sociais ou nas comunicações internas. Mantemos o conteúdo do escritório atualizado e relevante.</li>
+    <li><strong>Consultoria estratégica.</strong> Reuniões periódicas para revisar resultados, pensar o crescimento e ajustar a rota. Não somos um fornecedor que some depois de entregar — somos parceiros que pensam junto.</li>
+  </ul>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 07 — COMO VENDEMOS -->
+<!-- ══════════════════════════════════════════ -->
+<section id="venda" class="reveal">
+  <div class="chapter-label">07 — Como Vendemos</div>
+  <h2>Uma filosofia que<br><em>não convence</em> — revela</h2>
+
+  <p>A forma como a Ware vende é parte da sua identidade. Todo colaborador que tiver contato com um prospecto — seja numa reunião formal, num evento, numa conversa casual — precisa carregar essa filosofia.</p>
+
+  <div class="pq">
+    <p>"Não tentamos convencer ninguém. Ajudamos o advogado a enxergar a si mesmo no problema — e a entender que existe saída."</p>
+  </div>
+
+  <h3>Por que não convencer</h3>
+  <p>Convencer pressiona. Quem é convencido na pressão assina e depois cancela. Quem fecha porque enxergou o próprio problema com clareza fica — porque a decisão foi dele, não foi vendida para ele.</p>
+  <p>Além disso, o advogado é um profissional que passou anos aprendendo a argumentar, questionar e desconfiar de raciocínios fracos. Tentar convencê-lo com argumentos de vendas é subestimá-lo. A abordagem certa é a consultiva: fazer as perguntas certas, deixar o diagnóstico aparecer pela própria boca do cliente.</p>
+
+  <h3>Os 5 atos de uma reunião comercial</h3>
+  <ul class="prose-list">
+    <li><strong>Conexão.</strong> Antes de qualquer coisa, construímos relação real. Quem é o advogado, qual é a área de atuação, há quanto tempo está no mercado, como está o escritório hoje. Curiosidade genuína — não protocolo de rapport.</li>
+    <li><strong>Diagnóstico.</strong> Fazemos as perguntas que revelam o problema. De onde vêm os clientes? A receita é previsível? O escritório tem meta de crescimento para esse ano? O advogado tem controle sobre quantos leads chegam por semana? Essas perguntas não são interrogatório — são o espelho que o advogado precisa ver.</li>
+    <li><strong>A lição.</strong> Apresentamos o que está acontecendo no mercado e o que escritórios similares estão fazendo. Não vendemos ainda — educamos. O advogado começa a enxergar que tem uma solução para o problema que ele tem.</li>
+    <li><strong>O espelho.</strong> Conectamos o diagnóstico dele com a transformação que entregamos. Não "nossos serviços fazem X" — mas "dado o que você me contou, o que você precisa é Y — e foi exatamente para isso que a Ware foi construída."</li>
+    <li><strong>Próximo passo.</strong> Apresentamos a proposta com clareza, sem pressão. Damos ao advogado todas as informações para tomar uma decisão consciente. Quem fecha convicto fica. Quem fecha pressionado cancela em 30 dias.</li>
+  </ul>
+
+  <h3>A pesquisa pré-reunião</h3>
+  <p>Toda reunião importante começa antes da reunião. A Ware tem uma metodologia de pesquisa prévia: levantamos o site atual do escritório, presença no Google Meu Negócio, avaliações, redes sociais, área de atuação, cidades atendidas e o que os principais concorrentes estão fazendo.</p>
+  <p>Quando o advogado percebe que você estudou o negócio dele antes de chegar — que você sabe o que está faltando, o que o concorrente dele está fazendo melhor — ele para de ver você como um vendedor. Passa a ver como alguém que pode de fato ajudá-lo.</p>
+
+  <div class="callout">
+    <p><strong>O obstáculo real nas vendas da Ware não é falta de prova de resultado.</strong> É a desconfiança acumulada de experiências ruins com agências anteriores. Nossa postura consultiva, nossa profundidade técnica e o fato de que entendemos o mercado jurídico são as ferramentas para superar isso. Não falamos que somos diferentes. Demonstramos.</p>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 08 — CULTURA -->
+<!-- ══════════════════════════════════════════ -->
+<section id="cultura" class="reveal">
+  <div class="chapter-label">08 — Nossa Cultura</div>
+  <h2>Como somos<br><em>por dentro</em></h2>
+
+  <p>Cultura não é o que está escrito na parede. É o que acontece quando ninguém está olhando — quando a decisão difícil aparece, quando o cliente está insatisfeito, quando o prazo aperta. A cultura da Ware é feita de escolhas repetidas, não de frases bonitas.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-num">PRINCÍPIO 01</div>
+      <h3>Profundidade sobre volume</h3>
+      <p>Preferimos ter menos clientes e atendê-los com excelência do que crescer rápido e entregar mediocridade. Não somos uma empresa de escala — somos uma empresa de qualidade. Crescer com consciência é uma decisão estratégica, não limitação.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">PRINCÍPIO 02</div>
+      <h3>Honestidade acima do conforto</h3>
+      <p>Se uma estratégia não está funcionando, dizemos. Se o cliente tem uma expectativa irreal, corrigimos. Se cometemos um erro, assumimos e ajustamos. Não escondemos resultado ruim atrás de relatório bonito. A honestidade é o que constrói confiança de longo prazo.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">PRINCÍPIO 03</div>
+      <h3>Aprendizado contínuo</h3>
+      <p>O marketing digital muda rápido. Algoritmos mudam. Ferramentas mudam. Boas práticas mudam. A Ware tem cultura de atualização permanente. Quem para de aprender começa a entregar resultado do passado para os problemas do presente.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">PRINCÍPIO 04</div>
+      <h3>Foco no impacto real</h3>
+      <p>Nosso trabalho não é entregar tarefas. É gerar impacto no negócio do cliente. A pergunta que guia tudo o que fazemos é uma só: isso está contribuindo para a transformação que prometemos ao cliente?</p>
+    </div>
+    <div class="card">
+      <div class="card-num">PRINCÍPIO 05</div>
+      <h3>Parceiro, não fornecedor</h3>
+      <p>Não executamos o que é pedido e sumimos. Pensamos junto. Questionamos quando algo não faz sentido. Apontamos problemas antes que virem crises. O cliente não nos contratou para obedecer — nos contratou para ajudar a crescer.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">PRINCÍPIO 06</div>
+      <h3>Execução limpa</h3>
+      <p>Prometemos o que entregamos. Entregamos o que prometemos. No prazo. Com qualidade. Sem desculpa elaborada. A consistência de execução é o que transforma cliente em fã — e fã em pessoa que indica.</p>
+    </div>
+  </div>
+
+  <h3>O padrão de experiência que carregamos</h3>
+  <p>A Ware é uma empresa premium por escolha. Não competimos por preço. Não tentamos ser a opção mais barata. Somos como uma Apple, como uma AmEx Platinum — você não contrata porque é econômico. Contrata porque é o melhor, e sabe disso.</p>
+  <p>Isso tem uma implicação direta para a equipe: <strong>cada ponto de contato com o cliente ou prospecto precisa ter o padrão que essa proposta exige.</strong> A primeira mensagem. O relatório. A reunião. O e-mail de alinhamento. A forma como atendemos o telefone. Tudo comunica quem somos.</p>
+  <p>A experiência do cliente com a Ware começa antes de ele assinar o contrato — começa no primeiro contato — e continua depois que ele recebe os resultados. Não existe ponto de contato irrelevante.</p>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 09 — CRENÇAS -->
+<!-- ══════════════════════════════════════════ -->
+<section id="crencas" class="reveal">
+  <div class="chapter-label">09 — O Que Acreditamos</div>
+  <h2>As verdades que<br><em>guiam tudo</em></h2>
+
+  <p>Crenças definem decisões. Estas são as coisas que a Ware acredita com convicção — e que você, como parte da empresa, precisa entender e carregar.</p>
+
+  <div class="beliefs">
+
+    <div class="belief">
+      <div class="belief-stmt">Competência técnica não deveria ser invisível.</div>
+      <p>Um advogado que dedicou anos da vida ao Direito, que estuda, que se especializa, que tem jurisprudência construída — esse profissional merece ser encontrado pelas pessoas que precisam dele. Talento que ninguém conhece é talento desperdiçado. E é injusto. A Ware existe para corrigir essa injustiça.</p>
+    </div>
+
+    <div class="belief">
+      <div class="belief-stmt">Marketing jurídico exige respeito à ética — sem abrir mão da eficácia.</div>
+      <p>As regras da OAB existem para proteger a dignidade da profissão e a confiança da sociedade nos advogados. Elas não são obstáculos ao marketing — são o terreno dentro do qual trabalhamos. Marketing jurídico ético não é mais fraco. É mais sustentável, mais respeitoso e mais duradouro. Acreditamos nisso genuinamente.</p>
+    </div>
+
+    <div class="belief">
+      <div class="belief-stmt">Resultado sustentável leva tempo — e isso precisa ser dito desde o primeiro dia.</div>
+      <p>SEO leva de três a seis meses para maturar. Autoridade de marca leva anos. Campanhas precisam de dados para otimizar. Quem promete resultado imediato está mentindo ou entregando algo que vai quebrar rapidamente. A Ware trabalha para o longo prazo — e tem a responsabilidade de educar o cliente sobre isso antes de ele assinar qualquer contrato.</p>
+    </div>
+
+    <div class="belief">
+      <div class="belief-stmt">Transparência não é diferencial. É obrigação.</div>
+      <p>O cliente tem o direito de saber o que está sendo feito com o dinheiro dele, por quê cada decisão foi tomada e como isso se conecta com os resultados esperados. Relatório mensal não é burocracia. É prestação de contas. É respeito. E quando o resultado está ruim, a transparência é ainda mais importante — não menos.</p>
+    </div>
+
+    <div class="belief">
+      <div class="belief-stmt">Mostrar é melhor do que falar.</div>
+      <p>A Ware não conta que é boa em marketing. Demonstra — pelo próprio posicionamento, pelo site, pelo conteúdo, pela forma como aparece nos buscadores, pela parceria com a ABA, pela presença em dois países. Quando um prospecto nos pesquisa no Google antes de uma reunião, o que ele encontra já é parte da nossa proposta de valor. Somos o primeiro case de sucesso que ele vê.</p>
+    </div>
+
+    <div class="belief">
+      <div class="belief-stmt">O advogado é um empresário — e ele precisa entender isso.</div>
+      <p>Por mais que a vocação seja o Direito, um escritório de advocacia é um negócio. Tem caixa, tem cliente, tem concorrência, tem posicionamento, tem custo de aquisição. O advogado que não enxerga o escritório com olhos de empreendedor tende a estagnar — não por incompetência jurídica, mas por ausência de visão empresarial. Parte do papel da Ware é ajudá-lo a desenvolver esse olhar.</p>
+    </div>
+
+    <div class="belief">
+      <div class="belief-stmt">As pessoas certas são mais importantes do que os processos certos.</div>
+      <p>A Ware não contrata apenas por habilidade técnica. Contrata por alinhamento de valores. Uma pessoa tecnicamente competente mas que não tem compromisso com qualidade, honestidade e resultado vai degradar o que construímos — independente de quanto ela sabe. Cultura é feita de pessoas. E pessoas se escolhem com cuidado.</p>
+    </div>
+
+  </div>
+</section>
+
+<hr>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 10 — VOCÊ -->
+<!-- ══════════════════════════════════════════ -->
+<section id="voce" class="reveal">
+  <div class="chapter-label">10 — Você</div>
+  <h2>Seu papel<br>dentro da <em>Ware</em></h2>
+
+  <p>Este capítulo existe porque o manifesto não seria completo sem falar diretamente com você — que está lendo isso porque faz parte ou está prestes a fazer parte da Ware.</p>
+
+  <h3>Você é a Ware para quem te vê</h3>
+  <p>Quando você fala sobre a empresa numa conversa, quando responde um cliente, quando aparece num evento — você não está representando a Ware. Você <em>é</em> a Ware naquele momento. A percepção que a pessoa vai ter da empresa depende diretamente de como você se comunica, do quanto você conhece o que está falando e da confiança que você transmite.</p>
+  <p>Por isso este documento existe. Para que você nunca precise improvisar o que é a Ware. Para que você possa falar com convicção — não porque alguém mandou, mas porque você entendeu.</p>
+
+  <div class="pq">
+    <p>"O colaborador da Ware é o nosso maior ativo. Não porque é obrigação dizer isso — mas porque é a verdade operacional do que construímos."</p>
+  </div>
+
+  <h3>O que esperamos de você</h3>
+  <ul class="prose-list">
+    <li><strong>Que você conheça o cliente.</strong> Não como um contato no CRM. Como um advogado com uma história, com um problema específico, com uma expectativa que precisa ser gerenciada e superada.</li>
+    <li><strong>Que você seja honesto.</strong> Quando algo não está indo bem, diga. Para o cliente, para a equipe, para a liderança. A honestidade interna é o que nos permite corrigir antes que vire problema.</li>
+    <li><strong>Que você entenda o porquê.</strong> Não execute tarefas no automático. Entenda por que cada entregável importa, qual o papel dele na transformação do cliente. Quem entende o porquê faz o quê melhor.</li>
+    <li><strong>Que você carregue a marca com orgulho.</strong> Não performance de orgulho — orgulho real, que vem de acreditar no que faz. Se você leu até aqui e entendeu o que a Ware faz e por que faz, esperamos que você sinta isso.</li>
+    <li><strong>Que você cresça junto.</strong> A Ware está construindo algo grande. Quem está aqui no começo está construindo junto — não como funcionário, mas como parte da história que está sendo escrita.</li>
+  </ul>
+
+  <h3>O que você pode esperar da Ware</h3>
+  <p>Ambiente de crescimento real — você vai aprender marketing digital aplicado, vai entender um mercado específico em profundidade, vai desenvolver visão estratégica que não se aprende em curso. Transparência sobre o que está acontecendo na empresa — ninguém fica no escuro. Liderança que respeita quem faz — o trabalho bem feito é reconhecido. E o compromisso de construir algo que, daqui a alguns anos, seja referência absoluta no marketing jurídico no Brasil e em Portugal.</p>
+
+  <div class="callout">
+    <p>Se você chegou até o fim deste documento, você já sabe mais sobre a Ware do que a maioria das pessoas. Agora o trabalho é fazer isso virar convicção — e convicção vira confiança, e confiança vira resultado. Bem-vindo.</p>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing reveal">
+  <div class="chapter-label" style="justify-content:center;">Ware Jurídico</div>
+  <h2>Bons advogados<br>merecem ser <em>encontrados.</em></h2>
+  <p class="lead">Esta é nossa razão de existir. Tudo que construímos serve a essa verdade.</p>
+  <div class="closing-mark">Ware Jurídico · warejuridico.com.br · waremarketing.pt</div>
+</div>
+
+<footer>
+  <p>Documento interno — uso exclusivo da equipe Ware Jurídico</p>
+  <p>Versão 2026</p>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.07 });
+  els.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
