@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal do Cliente — Ware Jurídico</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#080808;--s1:#0f0f0f;--s2:#161616;--s3:#1e1e1e;--blue:#4F7EFF;--bd:rgba(79,126,255,0.10);--bb:rgba(79,126,255,0.22);--green:#2ECC8A;--gd:rgba(46,204,138,0.10);--gb:rgba(46,204,138,0.22);--amber:#F5A623;--ad:rgba(245,166,35,0.10);--red:#FF5C5C;--w:#f5f2ee;--w7:rgba(245,242,238,0.7);--w4:rgba(245,242,238,0.4);--w2:rgba(245,242,238,0.2);--br:rgba(245,242,238,0.08);--br2:rgba(245,242,238,0.13);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;background:var(--bg);}
+body{font-family:'DM Sans',sans-serif;color:var(--w);font-size:14px;display:flex;flex-direction:column;}
+/* Login */
+#loginScreen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;}
+#loginScreen.hide{display:none;}
+.login-box{background:var(--s1);border:1px solid var(--br2);border-radius:16px;padding:40px;width:100%;max-width:380px;}
+.login-logo{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.03em;text-align:center;margin-bottom:4px;}
+.login-logo span{color:var(--blue);}
+.login-sub{font-size:13px;color:var(--w4);text-align:center;margin-bottom:28px;}
+.login-err{font-size:12px;color:var(--red);margin-top:8px;text-align:center;min-height:18px;}
+/* App */
+#appShell{display:none;flex:1;flex-direction:column;height:100%;overflow:hidden;}
+#appShell.show{display:flex;}
+.topbar{height:52px;background:var(--s1);border-bottom:1px solid var(--br);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;}
+.logo{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;letter-spacing:-0.02em;}
+.logo span{color:var(--blue);}
+.portal-tag{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--w4);border:1px solid var(--br);padding:3px 10px;border-radius:100px;}
+.ml-auto{margin-left:auto;}
+.user-chip{display:flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border:1px solid var(--br);border-radius:100px;}
+.user-av{width:26px;height:26px;border-radius:50%;background:var(--bd);border:1px solid var(--bb);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blue);}
+.user-nm{font-size:13px;color:var(--w7);}
+.logout-btn{font-size:12px;color:var(--w4);cursor:pointer;padding:4px 8px;border-radius:6px;background:none;border:none;transition:color .2s;}
+.logout-btn:hover{color:var(--w);}
+/* Body */
+.portal-body{flex:1;overflow-y:auto;padding:24px;}
+.portal-header{margin-bottom:24px;}
+.portal-name{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.03em;}
+.portal-sub{font-size:13px;color:var(--w4);margin-top:4px;}
+/* Tabs */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--br);margin-bottom:20px;}
+.tab{padding:10px 16px;font-size:13px;color:var(--w4);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;user-select:none;}
+.tab.on{color:var(--w);border-bottom-color:var(--blue);}
+.tab-pane{display:none;}
+.tab-pane.on{display:block;}
+/* Cards */
+.card{background:var(--s1);border:1px solid var(--br);border-radius:12px;margin-bottom:16px;overflow:hidden;}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--br);}
+.card-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:600;}
+/* KPIs */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px;}
+.kpi{background:var(--s1);border:1px solid var(--br);border-radius:12px;padding:16px;}
+.kpi-lbl{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--w4);margin-bottom:6px;}
+.kpi-val{font-family:'Sora',sans-serif;font-size:24px;font-weight:700;line-height:1;}
+/* Checklist */
+.chk-group{padding:12px 18px;border-bottom:1px solid var(--br);}
+.chk-group:last-child{border-bottom:none;}
+.chk-svc{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+.chk-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--br);}
+.chk-item:last-child{border-bottom:none;}
+.chk-icon{width:16px;height:16px;border-radius:4px;border:2px solid var(--br2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;font-weight:700;}
+.chk-icon.done{background:var(--green);border-color:var(--green);color:#000;}
+.chk-text{font-size:13px;color:var(--w7);font-weight:300;}
+.chk-text.done{text-decoration:line-through;color:var(--w4);}
+/* Progress */
+.prog-wrap{display:flex;align-items:center;gap:8px;padding:14px 18px;}
+.prog-bg{flex:1;height:6px;background:var(--br);border-radius:100px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:100px;}
+.prog-txt{font-size:12px;color:var(--w4);min-width:36px;text-align:right;}
+/* Timeline */
+.tl-item{display:flex;gap:10px;padding:10px 18px;border-bottom:1px solid var(--br);}
+.tl-item:last-child{border-bottom:none;}
+.tl-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:5px;}
+.tl-title{font-size:13px;color:var(--w);}
+.tl-meta{font-size:11px;color:var(--w4);margin-top:2px;}
+/* Approval */
+.ap-item{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--br);}
+.ap-item:last-child{border-bottom:none;}
+.ap-icon{width:38px;height:38px;border-radius:8px;background:var(--s3);border:1px solid var(--br);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.ap-info{flex:1;}
+.ap-name{font-size:13px;font-weight:500;color:var(--w);}
+.ap-meta{font-size:11px;color:var(--w4);margin-top:2px;}
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:3px 8px;border-radius:100px;}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;}
+.b-green{background:var(--gd);color:var(--green);border:1px solid var(--gb);}
+.b-amber{background:var(--ad);color:var(--amber);border:1px solid rgba(245,166,35,.2);}
+.b-blue{background:var(--bd);color:var(--blue);border:1px solid var(--bb);}
+/* Button */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:opacity .15s;}
+.btn-p{background:var(--blue);color:#fff;}
+.btn-g{background:transparent;color:var(--w7);border:1px solid var(--br);}
+.btn-sm{padding:5px 10px;font-size:12px;}
+/* Loading */
+.loading{display:flex;align-items:center;gap:8px;padding:32px;justify-content:center;color:var(--w4);font-size:13px;}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--br);border-top-color:var(--blue);border-radius:50%;animation:sp .7s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+/* Empty */
+.empty{text-align:center;padding:32px;color:var(--w4);font-size:13px;}
+/* Form */
+.fr{margin-bottom:14px;}
+label{display:block;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--w4);margin-bottom:5px;}
+textarea{width:100%;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:10px 12px;color:var(--w);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:72px;transition:border-color .2s;}
+textarea:focus{border-color:var(--blue);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">Ware<span>.</span></div>
+    <p class="login-sub">Portal exclusivo do cliente</p>
+
+    <div id="loginForm">
+      <div class="fr"><label>E-mail</label><input type="email" id="lEmail" style="width:100%;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:10px 12px;color:var(--w);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;" placeholder="seu@escritorio.com.br" onkeydown="if(event.key==='Enter')login()"></div>
+      <div class="fr"><label>Senha</label><input type="password" id="lPass" style="width:100%;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:10px 12px;color:var(--w);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()"></div>
+      <button style="width:100%;padding:10px;border-radius:8px;background:var(--blue);color:#fff;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;margin-top:6px;" onclick="login()">Entrar</button>
+      <div style="text-align:center;margin-top:14px;">
+        <span style="font-size:13px;color:var(--w4);cursor:pointer;" onclick="showMagicLink()">Primeiro acesso ou esqueceu a senha?</span>
+      </div>
+    </div>
+
+    <div id="magicLinkForm" style="display:none;">
+      <div style="font-size:13px;color:var(--w7);margin-bottom:16px;line-height:1.6;">Digite seu e-mail e enviaremos um link de acesso. Não precisa de senha.</div>
+      <div class="fr"><label>E-mail</label><input type="email" id="mlEmail" style="width:100%;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:10px 12px;color:var(--w);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;" placeholder="seu@escritorio.com.br"></div>
+      <button style="width:100%;padding:10px;border-radius:8px;background:var(--blue);color:#fff;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;margin-top:6px;" onclick="sendMagicLink()" id="mlBtn">Enviar link de acesso</button>
+      <div style="text-align:center;margin-top:14px;">
+        <span style="font-size:13px;color:var(--w4);cursor:pointer;" onclick="showLogin()">← Voltar para o login</span>
+      </div>
+      <div id="mlSent" style="display:none;background:var(--gd);border:1px solid var(--gb);border-radius:8px;padding:14px;margin-top:14px;font-size:13px;color:var(--green);text-align:center;line-height:1.6;">
+        ✓ Link enviado! Verifique seu e-mail e clique no link para acessar o portal.
+      </div>
+    </div>
+
+    <div class="login-err" id="lErr"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appShell">
+  <div class="topbar">
+    <div class="logo">Ware<span>.</span></div>
+    <span class="portal-tag">Portal do Cliente</span>
+    <div class="ml-auto" style="display:flex;align-items:center;gap:10px;">
+      <div class="user-chip">
+        <div class="user-av" id="userAv">A</div>
+        <span class="user-nm" id="userNm">—</span>
+      </div>
+      <button class="logout-btn" onclick="logout()">Sair</button>
+    </div>
+  </div>
+
+  <div class="portal-body">
+    <div class="portal-header">
+      <div class="portal-name" id="clientName">Carregando...</div>
+      <div class="portal-sub" id="clientSub">—</div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab on" onclick="switchTab('visao',this)">Visão Geral</div>
+      <div class="tab" onclick="switchTab('projeto',this)">Projeto</div>
+      <div class="tab" onclick="switchTab('aprovacoes',this)">Aprovações</div>
+      <div class="tab" onclick="switchTab('historico',this)">Histórico</div>
+    </div>
+
+    <!-- VISÃO GERAL -->
+    <div class="tab-pane on" id="pane-visao">
+      <div class="kpi-row" id="portalKpis"></div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Últimas Entregas</div></div>
+        <div id="portalTimeline"></div>
+      </div>
+    </div>
+
+    <!-- PROJETO -->
+    <div class="tab-pane" id="pane-projeto">
+      <div class="card" id="portalProject">
+        <div class="loading"><div class="spin"></div></div>
+      </div>
+    </div>
+
+    <!-- APROVAÇÕES -->
+    <div class="tab-pane" id="pane-aprovacoes">
+      <div class="card" id="portalApprovals">
+        <div class="loading"><div class="spin"></div></div>
+      </div>
+    </div>
+
+    <!-- HISTÓRICO -->
+    <div class="tab-pane" id="pane-historico">
+      <div class="card" id="portalHistory">
+        <div class="loading"><div class="spin"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const sb = supabase.createClient(
+  'https://bxtmtnxpyikjfzoliatw.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4dG10bnhweWlramZ6b2xpYXR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NjEzOTMsImV4cCI6MjA5NjMzNzM5M30.7uJLOfj-5QSEPFTQLd-3snbBrhDiTJW3xOrAiCOfnY0'
+);
+
+let clientData = null, projectData = null, tasksData = [], approvalsData = [], timelineData = [], reportsData = [];
+
+function showMagicLink() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('magicLinkForm').style.display = 'block';
+  document.getElementById('lErr').textContent = '';
+}
+
+function showLogin() {
+  document.getElementById('magicLinkForm').style.display = 'none';
+  document.getElementById('loginForm').style.display = 'block';
+  document.getElementById('lErr').textContent = '';
+}
+
+async function sendMagicLink() {
+  const email = document.getElementById('mlEmail').value.trim();
+  if (!email) { document.getElementById('lErr').textContent = 'Digite seu e-mail.'; return; }
+  const btn = document.getElementById('mlBtn');
+  btn.textContent = 'Enviando...'; btn.disabled = true;
+  const { error } = await sb.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: 'https://crm.warejuridico.com.br/portal.html' }
+  });
+  btn.textContent = 'Enviar link de acesso'; btn.disabled = false;
+  if (error) { document.getElementById('lErr').textContent = 'Erro ao enviar. Tente novamente.'; return; }
+  document.getElementById('mlSent').style.display = 'block';
+  document.getElementById('mlBtn').style.display = 'none';
+}
+
+async function login() {
+  const email = document.getElementById('lEmail').value.trim();
+  const pass = document.getElementById('lPass').value;
+  const err = document.getElementById('lErr');
+  err.textContent = '';
+  if (!email || !pass) { err.textContent = 'Preencha e-mail e senha.'; return; }
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) { err.textContent = 'E-mail ou senha incorretos. Use o link de acesso se for seu primeiro login.'; return; }
+  boot();
+}
+
+async function logout() { await sb.auth.signOut(); location.reload(); }
+
+async function boot() {
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) return;
+
+  // Find client by email
+  const { data: client } = await sb.from('clients').select('*').eq('email', user.email).single();
+  if (!client) {
+    document.getElementById('lErr').textContent = 'Acesso não encontrado. Fale com a Ware.';
+    await sb.auth.signOut(); return;
+  }
+  clientData = client;
+
+  document.getElementById('loginScreen').classList.add('hide');
+  document.getElementById('appShell').classList.add('show');
+
+  const name = client.lawyer_name || client.name;
+  document.getElementById('userAv').textContent = name[0].toUpperCase();
+  document.getElementById('userNm').textContent = name.split(' ')[0];
+  document.getElementById('clientName').textContent = client.name;
+  document.getElementById('clientSub').textContent = (client.specialties || []).join(', ') || client.city || '—';
+
+  await loadData();
+  renderAll();
+
+  // Realtime — atualiza automaticamente quando a Ware faz mudanças
+  sb.channel('portal-' + client.id)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'project_tasks' }, () => loadData().then(renderAll))
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'approvals', filter: 'client_id=eq.' + client.id }, () => loadData().then(renderAll))
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'client_timeline', filter: 'client_id=eq.' + client.id }, () => loadData().then(renderAll))
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'reports', filter: 'client_id=eq.' + client.id }, () => loadData().then(renderAll))
+    .subscribe();
+  
+  // Visual indicator of realtime connection
+  const rtDot = document.createElement('div');
+  rtDot.style.cssText = 'position:fixed;bottom:16px;left:16px;display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(245,242,238,0.3);z-index:100;';
+  rtDot.innerHTML = '<div style="width:6px;height:6px;border-radius:50%;background:#2ECC8A;animation:pulse 2s ease infinite;"></div>ao vivo';
+  document.body.appendChild(rtDot);
+}
+
+async function loadData() {
+  const id = clientData.id;
+  const [proj, ap, tl, rep] = await Promise.all([
+    sb.from('projects').select('*').eq('client_id', id).order('created_at', { ascending: false }).limit(1),
+    sb.from('approvals').select('*').eq('client_id', id).order('created_at', { ascending: false }),
+    sb.from('client_timeline').select('*').eq('client_id', id).order('created_at', { ascending: false }).limit(30),
+    sb.from('reports').select('*').eq('client_id', id).order('created_at', { ascending: false }),
+  ]);
+  projectData = proj.data?.[0] || null;
+  approvalsData = ap.data || [];
+  timelineData = tl.data || [];
+  reportsData = rep.data || [];
+
+  if (projectData) {
+    const { data: t } = await sb.from('project_tasks').select('*').eq('project_id', projectData.id).order('"order"');
+    tasksData = t || [];
+  }
+}
+
+function renderAll() {
+  renderOverview();
+  renderProject();
+  renderApprovals();
+  renderHistory();
+}
+
+function renderOverview() {
+  const done = tasksData.filter(t => t.done).length;
+  const total = tasksData.length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const pendingAp = approvalsData.filter(a => a.status === 'pendente').length;
+  const lastRep = reportsData[0];
+  const lastMo = lastRep?.month ? new Date(lastRep.month + 'T12:00').toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) : '—';
+
+  document.getElementById('portalKpis').innerHTML = `
+    <div class="kpi"><div class="kpi-lbl">Progresso</div><div class="kpi-val" style="color:var(--blue);">${pct}%</div></div>
+    <div class="kpi"><div class="kpi-lbl">Tarefas Concluídas</div><div class="kpi-val">${done}/${total}</div></div>
+    <div class="kpi"><div class="kpi-lbl">Aprovações Pendentes</div><div class="kpi-val" style="color:${pendingAp>0?'var(--amber)':'var(--green)'};">${pendingAp}</div></div>
+    <div class="kpi"><div class="kpi-lbl">Último Relatório</div><div class="kpi-val" style="font-size:14px;margin-top:4px;">${lastMo}</div></div>
+  `;
+
+  const typeC = { reunião:'var(--blue)',entrega:'var(--green)',contrato:'var(--amber)',nota:'var(--w4)',projeto:'var(--green)',onboarding:'var(--amber)',conteúdo:'var(--amber)' };
+  document.getElementById('portalTimeline').innerHTML = timelineData.slice(0, 8).map(t =>
+    `<div class="tl-item"><div class="tl-dot" style="background:${typeC[t.type]||'var(--blue)'};"></div><div><div class="tl-title">${t.title}</div><div class="tl-meta">${timeAgo(t.created_at)}</div></div></div>`
+  ).join('') || '<div class="empty">Sem atividade registrada.</div>';
+}
+
+function renderProject() {
+  const el = document.getElementById('portalProject');
+  if (!projectData || !tasksData.length) { el.innerHTML = '<div class="empty">Projeto em configuração. Em breve você verá o progresso aqui.</div>'; return; }
+  const done = tasksData.filter(t => t.done).length;
+  const total = tasksData.length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const pc = pct >= 80 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--blue)';
+  const svcs = [...new Set(tasksData.map(t => t.service))];
+  el.innerHTML = `
+    <div class="card-head"><div class="card-title">Progresso do Projeto</div><span class="badge b-blue">${projectData.status}</span></div>
+    <div class="prog-wrap"><div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${pc};"></div></div><div class="prog-txt">${done}/${total} · ${pct}%</div></div>
+    ${svcs.map(svc => {
+      const st = tasksData.filter(t => t.service === svc);
+      const sd = st.filter(t => t.done).length;
+      return `<div class="chk-group"><div class="chk-svc">${svc} — ${sd}/${st.length}</div>
+        ${st.map(t => `<div class="chk-item"><div class="chk-icon ${t.done ? 'done' : ''}">${t.done ? '✓' : ''}</div><div class="chk-text ${t.done ? 'done' : ''}">${t.task}</div></div>`).join('')}
+      </div>`;
+    }).join('')}
+  `;
+}
+
+function renderApprovals() {
+  const el = document.getElementById('portalApprovals');
+  if (!approvalsData.length) { el.innerHTML = '<div class="empty">Nenhum conteúdo enviado para aprovação ainda.</div>'; return; }
+  el.innerHTML = `<div class="card-head"><div class="card-title">Conteúdos para Aprovação</div></div>` +
+    approvalsData.map(ap => {
+      const mo = ap.month ? new Date(ap.month + 'T12:00').toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) : '—';
+      const sb2 = ap.status === 'aprovado' ? 'b-green' : ap.status === 'revisão' ? 'b-amber' : 'b-blue';
+      return `<div class="ap-item">
+        <div class="ap-icon">📁</div>
+        <div class="ap-info"><div class="ap-name">${mo}</div><div class="ap-meta">${(ap.files||[]).length} arquivo(s)</div></div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="badge ${sb2}">${ap.status}</span>
+          ${(ap.files||[]).slice(0,2).map(f=>`<a href="${f}" target="_blank" class="btn btn-g btn-sm">Ver</a>`).join('')}
+          ${ap.status==='pendente'?`<button class="btn btn-p btn-sm" onclick="approveContent('${ap.id}')">✓ Aprovar</button>`:''}
+        </div>
+      </div>`;
+    }).join('');
+}
+
+async function approveContent(id) {
+  if (!confirm('Confirma aprovação do conteúdo?')) return;
+  await sb.from('approvals').update({ status: 'aprovado', responded_at: new Date().toISOString() }).eq('id', id);
+  loadData().then(renderAll);
+}
+
+function renderHistory() {
+  const el = document.getElementById('portalHistory');
+  const typeC = { reunião:'var(--blue)',entrega:'var(--green)',contrato:'var(--amber)',nota:'var(--w4)',projeto:'var(--green)',onboarding:'var(--amber)',conteúdo:'var(--amber)' };
+  el.innerHTML = timelineData.length
+    ? `<div class="card-head"><div class="card-title">Linha do Tempo</div></div>` +
+      timelineData.map(t => `<div class="tl-item"><div class="tl-dot" style="background:${typeC[t.type]||'var(--blue)'};"></div><div><div class="tl-title">${t.title}</div>${t.description?`<div class="tl-meta">${t.description}</div>`:''}<div class="tl-meta">${timeAgo(t.created_at)} · ${t.type}</div></div></div>`).join('')
+    : '<div class="empty">Sem histórico ainda.</div>';
+}
+
+function switchTab(pane, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('pane-' + pane).classList.add('on');
+}
+
+function timeAgo(ts) {
+  if (!ts) return '—';
+  const d = Math.floor((Date.now() - new Date(ts)) / 86400000);
+  const h = Math.floor((Date.now() - new Date(ts)) / 3600000);
+  const m = Math.floor((Date.now() - new Date(ts)) / 60000);
+  return d > 0 ? d + 'd atrás' : h > 0 ? h + 'h atrás' : m > 0 ? m + 'min atrás' : 'agora';
+}
+
+sb.auth.onAuthStateChange((ev, sess) => { if (sess) boot(); });
+</script>
+</body>
+</html>

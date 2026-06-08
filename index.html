@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ware CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">Ware<span>.</span></div>
+    <p class="login-sub">Painel interno — acesso restrito</p>
+    <div class="fr"><label>E-mail</label><input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"></div>
+    <div class="fr"><label>Senha</label><input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')Auth.login()"></div>
+    <button class="btn btn-p" style="width:100%;justify-content:center;margin-top:6px;" onclick="Auth.login()">Entrar</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="appShell">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="logo">Ware<span>.</span></div>
+    <span class="topbar-tag">CRM Interno</span>
+    <div class="topbar-right">
+      <div class="user-chip">
+        <div class="user-av" id="userInitial">J</div>
+        <span class="user-nm" id="userName">—</span>
+      </div>
+      <button class="logout-btn" onclick="Auth.logout()">Sair</button>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="nav-sec">
+        <span class="nav-lbl">Principal</span>
+        <div class="ni on" data-page="dashboard" onclick="Nav.go('dashboard',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Dashboard</span>
+        </div>
+        <div class="ni" data-page="alertas" onclick="Nav.go('alertas',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span>Alertas</span>
+          <span class="ni-badge" id="alertBadge" style="display:none;">0</span>
+        </div>
+      </div>
+      <div class="nav-sec">
+        <span class="nav-lbl">Operação</span>
+        <div class="ni" data-page="clientes" onclick="Nav.go('clientes',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <span>Clientes</span>
+        </div>
+        <div class="ni" data-page="leads" onclick="Nav.go('leads',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Leads</span>
+        </div>
+        <div class="ni" data-page="financeiro" onclick="Nav.go('financeiro',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          <span>Financeiro</span>
+        </div>
+      </div>
+      <div class="nav-sec">
+        <span class="nav-lbl">Projetos</span>
+        <div class="ni" data-page="projetos" onclick="Nav.go('projetos',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>Projetos</span>
+        </div>
+        <div class="ni" data-page="aprovacoes" onclick="Nav.go('aprovacoes',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 12 12 15 16 9"/></svg>
+          <span>Aprovações</span>
+          <span class="ni-badge amber" id="apBadge" style="display:none;">0</span>
+        </div>
+        <div class="ni" data-page="onboardings" onclick="Nav.go('onboardings',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+          <span>Onboardings</span>
+        </div>
+      </div>
+      <div class="nav-sec">
+        <span class="nav-lbl">Interno</span>
+        <div class="ni" data-page="base" onclick="Nav.go('base',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          <span>Base de Conhecimento</span>
+        </div>
+        <div class="ni" data-page="erros" onclick="Nav.go('erros',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>Log de Erros</span>
+        </div>
+      </div>
+      <div class="nav-sec">
+        <span class="nav-lbl">Comunicação</span>
+        <div class="ni" data-page="reunioes" onclick="Nav.go('reunioes',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <span>Reuniões</span>
+        </div>
+        <div class="ni" data-page="relatorios" onclick="Nav.go('relatorios',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Relatórios</span>
+        </div>
+        <div class="ni" data-page="noticias" onclick="Nav.go('noticias',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+          <span>Notícias Semanais</span>
+        </div>
+        <div class="ni" data-page="scripts" onclick="Nav.go('scripts',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span>Biblioteca de Scripts</span>
+        </div>
+      </div>
+      <div class="nav-sec">
+        <span class="nav-lbl">Ferramentas</span>
+        <div class="ni" data-page="cofre" onclick="Nav.go('cofre',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <span>Cofre de Acessos</span>
+        </div>
+        <div class="ni" data-page="calendario" onclick="Nav.go('calendario',this);Calendar.init()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Calendário</span>
+        </div>
+        <div class="ni" data-page="diagnostico" onclick="Nav.go('diagnostico',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Diagnóstico</span>
+        </div>
+        <div class="ni" data-page="satisfacao" onclick="Nav.go('satisfacao',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          <span>Satisfação (NPS)</span>
+        </div>
+      </div>
+      <div class="nav-sec">
+        <span class="nav-lbl">Produtividade</span>
+        <div class="ni" data-page="minhastarefas" onclick="Nav.go('minhastarefas',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          <span>Minhas Tarefas</span>
+        </div>
+        <div class="ni" data-page="configuracoes" onclick="Nav.go('configuracoes',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Configurações</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- DASHBOARD -->
+      <div class="page on" id="page-dashboard">
+        <div class="ph"><div class="ph-left"><div class="pt">Dashboard</div><div class="ps" id="dashDate"></div></div><button class="btn btn-g" onclick="Modals.goal()">Definir Metas</button></div>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-lbl">MRR</div><div class="kpi-val c-blue" id="kpiMrr">—</div><div class="kpi-sub">receita recorrente</div></div>
+          <div class="kpi"><div class="kpi-lbl">Clientes Ativos</div><div class="kpi-val" id="kpiClients">—</div></div>
+          <div class="kpi"><div class="kpi-lbl">Leads no Funil</div><div class="kpi-val c-amber" id="kpiLeads">—</div></div>
+          <div class="kpi"><div class="kpi-lbl">Saúde Média</div><div class="kpi-val c-green" id="kpiHealth">—</div></div>
+          <div class="kpi"><div class="kpi-lbl">A Receber</div><div class="kpi-val" id="kpiReceivable">—</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div class="card"><div class="card-head"><div class="card-title">Metas do Mês</div><button class="btn btn-g btn-sm" onclick="Modals.goal()">Editar</button></div><div id="goalList"><div class="loading"><div class="spin"></div></div></div></div>
+          <div class="card"><div class="card-head"><div class="card-title">Alertas</div><button class="btn btn-g btn-sm" onclick="Nav.go('alertas')">Ver todos</button></div><div id="dashAlerts"><div class="loading"><div class="spin"></div></div></div></div>
+        </div>
+        <div class="card"><div class="card-head"><div class="card-title">Funil de Leads</div></div><div class="funil-grid" id="funilGrid"></div></div>
+      </div>
+
+      <!-- ALERTAS -->
+      <div class="page" id="page-alertas">
+        <div class="ph"><div class="ph-left"><div class="pt">Alertas</div><div class="ps">Itens que precisam de atenção agora</div></div></div>
+        <div class="card"><div id="alertList"><div class="loading"><div class="spin"></div></div></div></div>
+      </div>
+
+      <!-- CLIENTES -->
+      <div class="page" id="page-clientes">
+        <div class="ph"><div class="ph-left"><div class="pt">Clientes</div><div class="ps">Carteira ativa</div></div><div class="ph-right"><input type="search" id="clientSearch" placeholder="Buscar..." style="width:200px;" oninput="Clients.render()"><button class="btn btn-p" onclick="Clients.openModal()">+ Novo Cliente</button></div></div>
+        <div class="card"><table class="tbl"><thead><tr><th>Escritório</th><th>Serviços</th><th>Valor</th><th>Saúde</th><th>Vencimento</th><th>Status</th></tr></thead><tbody id="clientsTbody"><tr><td colspan="6" class="td-empty"><div class="loading"><div class="spin"></div></div></td></tr></tbody></table></div>
+      </div>
+
+      <!-- LEADS -->
+      <div class="page" id="page-leads">
+        <div class="ph"><div class="ph-left"><div class="pt">Leads</div><div class="ps">Funil de prospecção</div></div><button class="btn btn-p" onclick="Leads.openModal()">+ Novo Lead</button></div>
+        <div class="card">
+          <div class="tabs">
+            <div class="tab on" onclick="Leads.switchTab('todos',this)">Todos</div>
+            <div class="tab" onclick="Leads.switchTab('novo',this)">Novos</div>
+            <div class="tab" onclick="Leads.switchTab('contatado',this)">Contatados</div>
+            <div class="tab" onclick="Leads.switchTab('reunião',this)">Reunião</div>
+            <div class="tab" onclick="Leads.switchTab('proposta',this)">Proposta</div>
+            <div class="tab" onclick="Leads.switchTab('fechado',this)">Fechados</div>
+            <div class="tab" onclick="Leads.switchTab('perdido',this)">Perdidos</div>
+          </div>
+          <table class="tbl"><thead><tr><th>Nome</th><th>Especialidade</th><th>Origem</th><th>Estágio</th><th>Follow-ups</th><th>Último Contato</th><th></th></tr></thead><tbody id="leadsTbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- FINANCEIRO -->
+      <div class="page" id="page-financeiro">
+        <div class="ph"><div class="ph-left"><div class="pt">Financeiro</div><div class="ps">Controle de recebimentos</div></div><button class="btn btn-p" onclick="Finance.openModal()">+ Lançar Cobrança</button></div>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-lbl">A Receber</div><div class="kpi-val c-amber" id="finPend">—</div></div>
+          <div class="kpi"><div class="kpi-lbl">Recebido no Mês</div><div class="kpi-val c-green" id="finPago">—</div></div>
+          <div class="kpi"><div class="kpi-lbl">Em Atraso</div><div class="kpi-val c-red" id="finAtr">—</div></div>
+        </div>
+        <div class="card"><table class="tbl"><thead><tr><th>Cliente</th><th>Mês Ref.</th><th>Valor</th><th>Vencimento</th><th>Status</th><th></th></tr></thead><tbody id="payTbody"></tbody></table></div>
+      </div>
+
+      <!-- PROJETOS -->
+      <div class="page" id="page-projetos">
+        <div class="ph"><div class="ph-left"><div class="pt">Projetos</div><div class="ps">Checklists por serviço</div></div><button class="btn btn-p" onclick="Projects.openModal()">+ Novo Projeto</button></div>
+        <div id="projectsList"><div class="loading"><div class="spin"></div></div></div>
+      </div>
+
+      <!-- APROVAÇÕES -->
+      <div class="page" id="page-aprovacoes">
+        <div class="ph"><div class="ph-left"><div class="pt">Aprovações de Conteúdo</div></div><button class="btn btn-p" onclick="Approvals.openModal()">+ Enviar para Aprovação</button></div>
+        <div class="card"><div id="approvalsList"><div class="loading"><div class="spin"></div></div></div></div>
+      </div>
+
+      <!-- ONBOARDINGS -->
+      <div class="page" id="page-onboardings">
+        <div class="ph"><div class="ph-left"><div class="pt">Onboardings</div><div class="ps">Formulários recebidos</div></div><div style="display:flex;gap:8px;">
+          <button class="btn btn-g" onclick="UI.copyObLink()">📋 Copiar Link do Onboarding</button>
+          <button class="btn btn-g" onclick="UI.copyPortalLink()">🔗 Link do Portal</button>
+        </div></div>
+        <div class="card"><table class="tbl"><thead><tr><th>Cliente</th><th>Especialidades</th><th>Cidades</th><th>Tom</th><th>Recebido</th></tr></thead><tbody id="obTbody"><tr><td colspan="5" class="td-empty"><div class="loading"><div class="spin"></div></div></td></tr></tbody></table></div>
+      </div>
+
+      <!-- BASE DE CONHECIMENTO -->
+      <div class="page" id="page-base">
+        <div class="ph"><div class="ph-left"><div class="pt">Base de Conhecimento</div><div class="ps">Documentos internos</div></div><button class="btn btn-p" onclick="Knowledge.openModal()">+ Novo Documento</button></div>
+        <div id="docsList"><div class="loading"><div class="spin"></div></div></div>
+      </div>
+
+      <!-- LOG DE ERROS -->
+      <div class="page" id="page-erros">
+        <div class="ph"><div class="ph-left"><div class="pt">Log de Erros e Aprendizados</div></div><button class="btn btn-p" onclick="Errors.openModal()">+ Registrar</button></div>
+        <div class="card"><table class="tbl"><thead><tr><th>Categoria</th><th>O que aconteceu</th><th>O que mudou</th><th>Data</th></tr></thead><tbody id="errorTbody"></tbody></table></div>
+      </div>
+
+      <!-- REUNIÕES -->
+      <div class="page" id="page-reunioes">
+        <div class="ph"><div class="ph-left"><div class="pt">Reuniões</div><div class="ps">Registro de reuniões e atas</div></div><button class="btn btn-p" onclick="Meetings.openModal()">+ Registrar Reunião</button></div>
+        <div class="card"><div id="meetingsList"><div class="loading"><div class="spin"></div></div></div></div>
+      </div>
+
+      <!-- RELATÓRIOS -->
+      <div class="page" id="page-relatorios">
+        <div class="ph"><div class="ph-left"><div class="pt">Relatórios Mensais</div><div class="ps">Crie e envie relatórios para seus clientes</div></div><button class="btn btn-p" onclick="Reports.openModal()">+ Novo Relatório</button></div>
+        <div class="card"><div id="reportsList"><div class="loading"><div class="spin"></div></div></div></div>
+      </div>
+
+      <!-- NOTÍCIAS -->
+      <div class="page" id="page-noticias">
+        <div class="ph"><div class="ph-left"><div class="pt">Notícias Semanais</div><div class="ps">Envie conteúdo segmentado por especialidade</div></div><button class="btn btn-p" onclick="News.openModal()">+ Nova Notícia</button></div>
+        <div class="card"><div id="newsList"><div class="loading"><div class="spin"></div></div></div></div>
+      </div>
+
+      <!-- SCRIPTS -->
+      <div class="page" id="page-scripts">
+        <div class="ph"><div class="ph-left"><div class="pt">Biblioteca de Scripts</div><div class="ps">Roteiros prontos para cada situação</div></div><button class="btn btn-p" onclick="Scripts.openModal()">+ Novo Script</button></div>
+        <div id="scriptsList"><div class="loading"><div class="spin"></div></div></div>
+      </div>
+
+      <!-- COFRE -->
+      <div class="page" id="page-cofre">
+        <div class="ph"><div class="ph-left"><div class="pt">Cofre de Acessos</div><div class="ps">Senhas e logins de cada cliente</div></div><button class="btn btn-p" onclick="Vault.openModal()">+ Novo Acesso</button></div>
+        <div class="card">
+          <div class="card-head">
+            <select id="vaultClientFilter" style="width:240px;" onchange="Vault.loadByClient(this.value)"><option value="">Selecionar cliente...</option></select>
+          </div>
+          <div id="vaultItems"><div style="padding:32px;text-align:center;color:var(--w4);font-size:13px;">Selecione um cliente para ver os acessos.</div></div>
+        </div>
+      </div>
+
+
+
+      <!-- MINHAS TAREFAS -->
+      <div class="page" id="page-minhastarefas">
+        <div class="ph"><div class="ph-left"><div class="pt">Minhas Tarefas</div><div class="ps">O que precisa ser feito hoje</div></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="card">
+            <div class="card-head"><div class="card-title">Tarefas Pendentes de Projetos</div></div>
+            <div id="myTasksList"><div class="loading"><div class="spin"></div></div></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div class="card-title">Próximos 7 Dias</div></div>
+            <div id="agendaList"><div class="loading"><div class="spin"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONFIGURAÇÕES -->
+      <div class="page" id="page-configuracoes">
+        <div class="ph"><div class="ph-left"><div class="pt">Configurações</div><div class="ps">E-mails automáticos e preferências</div></div></div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Notificações por E-mail</div></div>
+          <div id="notifSettings"><div class="loading"><div class="spin"></div></div></div>
+        </div>
+      </div>
+
+      <!-- DIAGNÓSTICO -->
+      <div class="page" id="page-diagnostico">
+        <div class="ph"><div class="ph-left"><div class="pt">Diagnóstico de Prospecto</div><div class="ps">Analise a presença digital antes da reunião</div></div></div>
+        <div class="card" style="padding:22px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:flex-end;">
+            <div class="fr" style="margin:0;"><label>Nome do Escritório</label><input id="diagName" placeholder="Escritório Silva..."></div>
+            <div class="fr" style="margin:0;"><label>Cidade</label><input id="diagCity" placeholder="Araçatuba, SP"></div>
+            <div class="fr" style="margin:0;"><label>Especialidade</label><input id="diagSpec" placeholder="Trabalhista"></div>
+            <button class="btn btn-p" id="diagBtn" onclick="Diagnosis.run()">Analisar</button>
+          </div>
+          <div id="diagResult"></div>
+        </div>
+      </div>
+
+      <!-- SATISFAÇÃO -->
+      <div class="page" id="page-satisfacao">
+        <div class="ph">
+          <div class="ph-left"><div class="pt">Pesquisas de Satisfação</div><div class="ps">NPS e feedback dos clientes</div></div>
+          <button class="btn btn-p" onclick="Satisfaction.openSendModal()">Enviar Link ao Cliente</button>
+        </div>
+        <div class="card"><div id="satList"><div class="loading"><div class="spin"></div></div></div></div>
+      </div>
+
+      <!-- CALENDÁRIO -->
+      <div class="page" id="page-calendario">
+        <div class="ph"><div class="ph-left"><div class="pt">Calendário Operacional</div><div class="ps">Vencimentos, reuniões e entregas</div></div></div>
+        <div class="card" style="padding:18px;">
+          <div class="cal-nav">
+            <button class="btn btn-g btn-sm" onclick="Calendar.prev()">← Anterior</button>
+            <div class="cal-title" id="calTitle"></div>
+            <button class="btn btn-g btn-sm" onclick="Calendar.next()">Próximo →</button>
+          </div>
+          <div id="calendarGrid"></div>
+          <div style="display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--w4);"><div style="width:10px;height:10px;border-radius:2px;background:var(--red);opacity:.7;"></div>Vencimento de contrato</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--w4);"><div style="width:10px;height:10px;border-radius:2px;background:var(--amber);opacity:.7;"></div>Pagamento</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--w4);"><div style="width:10px;height:10px;border-radius:2px;background:var(--blue);opacity:.7;"></div>Reunião</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ═══ MODALS ═══ -->
+<!-- CLIENTE -->
+<div class="overlay" id="moClient"><div class="modal">
+  <div class="modal-head"><div class="modal-title" id="moClientTitle">Novo Cliente</div><button class="modal-x" onclick="UI.closeModal('moClient')">×</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="cId">
+    <div class="fr2"><div class="fr"><label>Nome do Escritório</label><input id="cName" placeholder="Escritório Silva Advocacia"></div><div class="fr"><label>Nome do Advogado</label><input id="cLawyer" placeholder="Dr. João Silva"></div></div>
+    <div class="fr2"><div class="fr"><label>E-mail</label><input id="cEmail" type="email"></div><div class="fr"><label>WhatsApp</label><input id="cWpp" placeholder="(18) 99999-9999"></div></div>
+    <div class="fr2"><div class="fr"><label>Cidade</label><input id="cCity" placeholder="Araçatuba, SP"></div><div class="fr"><label>Valor Mensal (R$)</label><input id="cValue" type="number" placeholder="2000"></div></div>
+    <div class="fr2"><div class="fr"><label>Início do Contrato</label><input id="cStart" type="date"></div><div class="fr"><label>Fim do Contrato</label><input id="cEnd" type="date"></div></div>
+    <div class="fr"><label>Serviços</label><div class="svc-checks" id="cServices"><label><input type="checkbox" value="site"> Site</label><label><input type="checkbox" value="tráfego"> Tráfego Pago</label><label><input type="checkbox" value="social"> Redes Sociais</label><label><input type="checkbox" value="gmb"> Google Meu Negócio</label></div></div>
+    <div class="fr"><label>Especialidades (separar por vírgula)</label><input id="cSpecialties" placeholder="Trabalhista, Previdenciário"></div>
+    <div class="fr"><label>Status</label><select id="cStatus"><option value="ativo">Ativo</option><option value="pausado">Pausado</option><option value="cancelado">Cancelado</option></select></div>
+    <div class="fr"><label>Notas Internas</label><textarea id="cNotes"></textarea></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moClient')">Cancelar</button><button class="btn btn-p" onclick="Clients.save()">Salvar</button></div>
+</div></div>
+
+<!-- LEAD -->
+<div class="overlay" id="moLead"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Novo Lead</div><button class="modal-x" onclick="UI.closeModal('moLead')">×</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="lId">
+    <div class="fr2"><div class="fr"><label>Nome</label><input id="lName"></div><div class="fr"><label>WhatsApp</label><input id="lWpp"></div></div>
+    <div class="fr2"><div class="fr"><label>E-mail</label><input id="lEmail" type="email"></div><div class="fr"><label>Cidade</label><input id="lCity"></div></div>
+    <div class="fr2"><div class="fr"><label>Especialidade</label><input id="lSpecialty" placeholder="Direito Trabalhista"></div><div class="fr"><label>Origem</label><select id="lSource"><option value="google">Google</option><option value="instagram">Instagram</option><option value="indicação">Indicação</option><option value="linkedin">LinkedIn</option><option value="evento">Evento</option><option value="aba">ABA</option><option value="outro">Outro</option></select></div></div>
+    <div class="fr"><label>Estágio</label><select id="lStage"><option value="novo">Novo</option><option value="contatado">Contatado</option><option value="reunião">Reunião Agendada</option><option value="proposta">Proposta Enviada</option><option value="fechado">Fechado</option><option value="perdido">Perdido</option></select></div>
+    <div class="fr"><label>Notas</label><textarea id="lNotes" placeholder="Contexto, histórico de conversa..."></textarea></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moLead')">Cancelar</button><button class="btn btn-p" onclick="Leads.save()">Salvar</button></div>
+</div></div>
+
+<!-- PAGAMENTO -->
+<div class="overlay" id="moPayment"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Lançar Cobrança</div><button class="modal-x" onclick="UI.closeModal('moPayment')">×</button></div>
+  <div class="modal-body">
+    <div class="fr"><label>Cliente</label><select id="pClient"></select></div>
+    <div class="fr2"><div class="fr"><label>Mês de Referência</label><input id="pMonth" type="month"></div><div class="fr"><label>Valor (R$)</label><input id="pAmount" type="number"></div></div>
+    <div class="fr2"><div class="fr"><label>Vencimento</label><input id="pDue" type="date"></div><div class="fr"><label>Status</label><select id="pStatus"><option value="pendente">Pendente</option><option value="pago">Pago</option><option value="atrasado">Atrasado</option></select></div></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moPayment')">Cancelar</button><button class="btn btn-p" onclick="Finance.save()">Salvar</button></div>
+</div></div>
+
+<!-- META -->
+<div class="overlay" id="moGoal"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Metas do Mês</div><button class="modal-x" onclick="UI.closeModal('moGoal')">×</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="goalId">
+    <div class="fr"><label>Período</label><input id="gPeriod" type="month"></div>
+    <div class="fr"><label>Meta de MRR (R$)</label><input id="gMrr" type="number" placeholder="10000"></div>
+    <div class="fr"><label>Meta de Novos Clientes</label><input id="gClients" type="number" placeholder="3"></div>
+    <div class="fr"><label>Meta de Renovação (%)</label><input id="gRenewal" type="number" placeholder="90"></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moGoal')">Cancelar</button><button class="btn btn-p" onclick="Modals.saveGoal()">Salvar</button></div>
+</div></div>
+
+<!-- PROJETO -->
+<div class="overlay" id="moProject"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Novo Projeto</div><button class="modal-x" onclick="UI.closeModal('moProject')">×</button></div>
+  <div class="modal-body">
+    <div class="fr"><label>Cliente</label><select id="projClient"></select></div>
+    <div class="fr"><label>Serviços Contratados</label><div class="svc-checks" id="projSvcs"><label><input type="checkbox" value="site" onchange="Projects.updateChecklist()"> Site</label><label><input type="checkbox" value="tráfego" onchange="Projects.updateChecklist()"> Tráfego Pago</label><label><input type="checkbox" value="social" onchange="Projects.updateChecklist()"> Redes Sociais</label><label><input type="checkbox" value="gmb" onchange="Projects.updateChecklist()"> Google Meu Negócio</label></div></div>
+    <div class="fr"><label>Data de Início</label><input id="projStart" type="date"></div>
+    <div id="chkPreview"></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moProject')">Cancelar</button><button class="btn btn-p" onclick="Projects.save()">Criar Projeto</button></div>
+</div></div>
+
+<!-- APROVAÇÃO -->
+<div class="overlay" id="moApproval"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Enviar para Aprovação</div><button class="modal-x" onclick="UI.closeModal('moApproval')">×</button></div>
+  <div class="modal-body">
+    <div class="fr"><label>Cliente</label><select id="apClient"></select></div>
+    <div class="fr"><label>Mês de Referência</label><input id="apMonth" type="month"></div>
+    <div class="fr"><label>Links dos Arquivos (um por linha)</label><textarea id="apFiles" placeholder="https://drive.google.com/..." style="min-height:90px;"></textarea><div style="font-size:11px;color:var(--w4);margin-top:4px;">Cole links do Google Drive ou qualquer URL pública.</div></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moApproval')">Cancelar</button><button class="btn btn-p" onclick="Approvals.save()">Enviar</button></div>
+</div></div>
+
+<!-- DOCUMENTO -->
+<div class="overlay" id="moDoc"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Novo Documento</div><button class="modal-x" onclick="UI.closeModal('moDoc')">×</button></div>
+  <div class="modal-body">
+    <div class="fr"><label>Título</label><input id="docTitle" placeholder="Manifesto Ware Jurídico"></div>
+    <div class="fr2"><div class="fr"><label>Categoria</label><select id="docCat"><option value="manifesto">Manifesto</option><option value="operacional">Operacional</option><option value="scripts">Scripts</option><option value="política">Política Interna</option><option value="outros">Outros</option></select></div><div class="fr"><label>Leitura Obrigatória</label><select id="docReq"><option value="false">Não</option><option value="true">Sim</option></select></div></div>
+    <div class="fr"><label>Conteúdo</label><textarea id="docContent" style="min-height:140px;"></textarea></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moDoc')">Cancelar</button><button class="btn btn-p" onclick="Knowledge.save()">Salvar</button></div>
+</div></div>
+
+<!-- ERRO -->
+<div class="overlay" id="moError"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Registrar Erro / Aprendizado</div><button class="modal-x" onclick="UI.closeModal('moError')">×</button></div>
+  <div class="modal-body">
+    <div class="fr"><label>Categoria</label><select id="eCategory"><option value="campanha">Campanha</option><option value="conteúdo">Conteúdo</option><option value="comunicação">Comunicação</option><option value="onboarding">Onboarding</option><option value="relatório">Relatório</option><option value="financeiro">Financeiro</option><option value="outro">Outro</option></select></div>
+    <div class="fr"><label>O que aconteceu</label><textarea id="eWhat"></textarea></div>
+    <div class="fr"><label>O que mudamos no processo</label><textarea id="eChanged"></textarea></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moError')">Cancelar</button><button class="btn btn-p" onclick="Errors.save()">Registrar</button></div>
+</div></div>
+
+
+<!-- RELATÓRIO -->
+<div class="overlay" id="moReport"><div class="modal" style="max-width:620px;">
+  <div class="modal-head"><div class="modal-title">Novo Relatório Mensal</div><button class="modal-x" onclick="UI.closeModal('moReport')">×</button></div>
+  <div class="modal-body">
+    <div class="fr2"><div class="fr"><label>Cliente</label><select id="repClient"></select></div><div class="fr"><label>Mês de Referência</label><input id="repMonth" type="month"></div></div>
+    <div class="fr"><label>Resumo Executivo</label><textarea id="repSummary" style="min-height:80px;" placeholder="Como foi o mês em uma leitura de 30 segundos..."></textarea></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">
+      <div class="fr"><label>Leads Gerados</label><input id="repLeads" type="number" placeholder="0"></div>
+      <div class="fr"><label>Custo por Lead (R$)</label><input id="repCpl" type="number" placeholder="0"></div>
+      <div class="fr"><label>Alcance Total</label><input id="repReach" type="number" placeholder="0"></div>
+      <div class="fr"><label>Impressões</label><input id="repImpressions" type="number" placeholder="0"></div>
+      <div class="fr"><label>Cliques GMB</label><input id="repGmb" type="number" placeholder="0"></div>
+      <div class="fr"><label>Visitas ao Site</label><input id="repSite" type="number" placeholder="0"></div>
+    </div>
+    <div class="fr"><label>Próximos Passos</label><textarea id="repNext" placeholder="O que será feito no próximo mês..."></textarea></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moReport')">Cancelar</button><button class="btn btn-p" onclick="Reports.save()">Salvar Rascunho</button></div>
+</div></div>
+
+<!-- REUNIÃO -->
+<div class="overlay" id="moMeeting"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Registrar Reunião</div><button class="modal-x" onclick="UI.closeModal('moMeeting')">×</button></div>
+  <div class="modal-body">
+    <div class="fr2"><div class="fr"><label>Cliente</label><select id="meetClient"></select></div><div class="fr"><label>Data</label><input id="meetDate" type="date"></div></div>
+    <div class="fr"><label>Resumo da Reunião</label><textarea id="meetSummary" style="min-height:100px;" placeholder="O que foi discutido..."></textarea></div>
+    <div class="fr"><label>Próximos Passos</label><textarea id="meetNext" placeholder="Ações definidas e responsáveis..."></textarea></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moMeeting')">Cancelar</button><button class="btn btn-p" onclick="Meetings.save()">Salvar</button></div>
+</div></div>
+
+<!-- NOTÍCIA -->
+<div class="overlay" id="moNews"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Nova Notícia Semanal</div><button class="modal-x" onclick="UI.closeModal('moNews')">×</button></div>
+  <div class="modal-body">
+    <div class="fr"><label>Título</label><input id="newsTitle" placeholder="Ex: STJ decide sobre prazo prescricional em ações trabalhistas"></div>
+    <div class="fr"><label>Especialidades (separar por vírgula — vazio = todos)</label><input id="newsSpecs" placeholder="Trabalhista, Previdenciário"></div>
+    <div class="fr"><label>Conteúdo da Notícia</label><textarea id="newsContent" style="min-height:120px;" placeholder="Resumo da notícia e por que é relevante para o cliente..."></textarea></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moNews')">Cancelar</button><button class="btn btn-p" onclick="News.save()">Registrar Envio</button></div>
+</div></div>
+
+<!-- SCRIPT -->
+<div class="overlay" id="moScript"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Novo Script</div><button class="modal-x" onclick="UI.closeModal('moScript')">×</button></div>
+  <div class="modal-body">
+    <div class="fr"><label>Título</label><input id="sTitle" placeholder="Ex: Abordagem lead frio pelo WhatsApp"></div>
+    <div class="fr"><label>Categoria</label><select id="sCat"><option value="prospecção">Prospecção</option><option value="follow-up">Follow-up</option><option value="onboarding">Onboarding</option><option value="operação">Operação</option></select></div>
+    <div class="fr"><label>Conteúdo do Script</label><textarea id="sContent" style="min-height:120px;" placeholder="Use [Nome], [data], [link] como variáveis..."></textarea></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moScript')">Cancelar</button><button class="btn btn-p" onclick="Scripts.save()">Salvar</button></div>
+</div></div>
+
+<!-- SATISFAÇÃO SEND -->
+<div class="overlay" id="moSatisfaction"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Enviar Pesquisa de Satisfação</div><button class="modal-x" onclick="UI.closeModal('moSatisfaction')">×</button></div>
+  <div class="modal-body">
+    <div class="fr"><label>Cliente</label><select id="satClient"></select></div>
+    <div style="background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:14px;font-size:13px;color:var(--w7);line-height:1.65;margin-top:8px;">Será gerada uma mensagem pronta para você colar no WhatsApp do cliente com o link da pesquisa.</div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moSatisfaction')">Cancelar</button><button class="btn btn-p" onclick="Satisfaction.sendLink()">📋 Copiar Mensagem</button></div>
+</div></div>
+
+<!-- COFRE/VAULT -->
+<div class="overlay" id="moVault"><div class="modal">
+  <div class="modal-head"><div class="modal-title">Novo Acesso</div><button class="modal-x" onclick="UI.closeModal('moVault')">×</button></div>
+  <div class="modal-body">
+    <div class="fr"><label>Cliente</label><select id="vaultClient"></select></div>
+    <div class="fr"><label>Plataforma</label><input id="vaultPlatform" placeholder="Ex: Google Ads, Instagram, GMB"></div>
+    <div class="fr"><label>Login / E-mail</label><input id="vaultLogin" placeholder="login@email.com"></div>
+    <div class="fr"><label>Senha</label><input id="vaultPassword" type="text" placeholder="Senha ou token de acesso"></div>
+    <div class="fr"><label>Observações</label><input id="vaultNotes" placeholder="Ex: Precisa de 2FA pelo celular do cliente"></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-g" onclick="UI.closeModal('moVault')">Cancelar</button><button class="btn btn-p" onclick="Vault.save()">Salvar</button></div>
+</div></div>
+
+<!-- ═══ DETAIL PANELS ═══ -->
+<!-- CLIENTE DETAIL -->
+<div class="dp-overlay" id="dpClient">
+  <div class="dp-back" onclick="UI.closeDP('dpClient')"></div>
+  <div class="dp-panel">
+    <div class="dp-head"><div><div class="dp-title" id="dpClientName">—</div><div class="dp-sub" id="dpClientSub">—</div></div><button class="dp-close" onclick="UI.closeDP('dpClient')">×</button></div>
+    <div class="dp-body">
+      <div class="dp-section"><div class="dp-section-lbl">Informações</div><div id="dpClientInfo"></div></div>
+      <div class="dp-section"><div class="dp-section-lbl">Linha do Tempo</div><div id="dpClientTimeline"><div class="loading"><div class="spin"></div></div></div></div>
+    </div>
+      <div class="dp-section">
+        <div class="dp-section-lbl">Indicadores de Campanha</div>
+        <div id="clientChartsPane"><div style="font-size:13px;color:var(--w4);">Carregando gráficos...</div></div>
+      </div>
+    </div>
+    <div class="dp-foot">
+      <button class="btn btn-g btn-sm" onclick="Clients.editCurrent()">Editar</button>
+      <div id="dpClientInviteBtn"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LEAD DETAIL -->
+<div class="dp-overlay" id="dpLead">
+  <div class="dp-back" onclick="UI.closeDP('dpLead')"></div>
+  <div class="dp-panel">
+    <div class="dp-head"><div><div class="dp-title" id="dpLeadName">—</div><div class="dp-sub" id="dpLeadSub">—</div></div><button class="dp-close" onclick="UI.closeDP('dpLead')">×</button></div>
+    <div class="dp-body">
+      <div class="dp-section"><div class="dp-section-lbl">Dados</div><div id="dpLeadInfo"></div></div>
+      <div class="dp-section"><div class="dp-section-lbl">Script Sugerido</div><div class="script-box" id="dpLeadScript"></div></div>
+      <div class="dp-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><div class="dp-section-lbl" style="margin:0;">Follow-ups</div><button class="fu-btn" onclick="Leads.registerFU()">+ Registrar</button></div>
+        <div id="dpLeadFups"></div>
+      </div>
+      <div class="dp-section"><div class="dp-section-lbl">Atualizar Estágio</div><div class="stage-btns" id="dpLeadStages"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJETO DETAIL -->
+<div class="dp-overlay" id="dpProject">
+  <div class="dp-back" onclick="UI.closeDP('dpProject')"></div>
+  <div class="dp-panel">
+    <div class="dp-head"><div><div class="dp-title" id="dpProjTitle">—</div><div class="dp-sub" id="dpProjSub">—</div></div><button class="dp-close" onclick="UI.closeDP('dpProject')">×</button></div>
+    <div class="dp-body">
+      <div class="dp-section">
+        <div class="dp-section-lbl">Progresso</div>
+        <div class="prog-wrap"><div class="prog-bg"><div class="prog-fill" id="dpProjProg" style="background:var(--blue);"></div></div><div class="prog-txt" id="dpProjProgTxt">0%</div></div>
+      </div>
+      <div id="dpProjChecklist"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- REPORT DETAIL -->
+<div class="dp-overlay" id="dpReport">
+  <div class="dp-back" onclick="UI.closeDP('dpReport')"></div>
+  <div class="dp-panel">
+    <div class="dp-head"><div><div class="dp-title" id="dpRepTitle">—</div><div class="dp-sub" id="dpRepSub">—</div></div><button class="dp-close" onclick="UI.closeDP('dpReport')">×</button></div>
+    <div class="dp-body" id="dpRepBody"></div>
+  </div>
+</div>
+
+<!-- SCRIPT DETAIL -->
+<div class="dp-overlay" id="dpScript">
+  <div class="dp-back" onclick="UI.closeDP('dpScript')"></div>
+  <div class="dp-panel">
+    <div class="dp-head"><div><div class="dp-title" id="dpScriptTitle">—</div><div class="dp-sub" id="dpScriptCat">—</div></div><button class="dp-close" onclick="UI.closeDP('dpScript')">×</button></div>
+    <div class="dp-body">
+      <div class="dp-section"><div class="dp-section-lbl">Conteúdo</div><div class="script-full" id="dpScriptContent"></div></div>
+      <button class="btn btn-p" style="width:100%;justify-content:center;margin-top:16px;" onclick="Scripts.copyScript()">📋 Copiar Script</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = supabase.createClient(
+  'https://bxtmtnxpyikjfzoliatw.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4dG10bnhweWlramZ6b2xpYXR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NjEzOTMsImV4cCI6MjA5NjMzNzM5M30.7uJLOfj-5QSEPFTQLd-3snbBrhDiTJW3xOrAiCOfnY0'
+);
+
+// STORE
+const Store = { clients:[], leads:[], payments:[], goals:[], docs:[], errors:[], projects:[], tasks:[], onboardings:[], approvals:[], reports:[], meetings:[], news:[], scripts:[], surveys:[] };
+
+// UTILS
+const Utils = {
+  timeAgo(ts){ if(!ts)return'—'; const d=Math.floor((Date.now()-new Date(ts))/86400000),h=Math.floor((Date.now()-new Date(ts))/3600000),m=Math.floor((Date.now()-new Date(ts))/60000); return d>0?d+'d atrás':h>0?h+'h atrás':m>0?m+'min atrás':'agora'; }
+};
+
+// UI
+const UI = {
+  set(id,html){ const el=document.getElementById(id); if(el) typeof html==='number'||typeof html==='string'?el.innerHTML=html:el.innerHTML=String(html); },
+  openModal(id){ document.getElementById(id)?.classList.add('on'); },
+  closeModal(id){ document.getElementById(id)?.classList.remove('on'); },
+  openDP(id){ document.getElementById(id)?.classList.add('on'); },
+  closeDP(id){ document.getElementById(id)?.classList.remove('on'); },
+  copyObLink(){ const url='https://crm.warejuridico.com.br/onboarding.html'; navigator.clipboard?.writeText(url).then(()=>alert('Link copiado!\n\n'+url)).catch(()=>alert('Link:\n\n'+url)); }
+};
+
+// MODALS helpers
+const Modals = {
+  async goal(){
+    const g=Store.goals[0];
+    document.getElementById('goalId').value=g?.id||'';
+    document.getElementById('gPeriod').value=g?.period?.slice(0,7)||new Date().toISOString().slice(0,7);
+    document.getElementById('gMrr').value=g?.mrr_target||'';
+    document.getElementById('gClients').value=g?.new_clients_target||'';
+    document.getElementById('gRenewal').value=g?.renewal_rate_target||'';
+    UI.openModal('moGoal');
+  },
+  async saveGoal(){
+    const id=document.getElementById('goalId').value;
+    const payload={period:document.getElementById('gPeriod').value+'-01',mrr_target:parseFloat(document.getElementById('gMrr').value)||0,new_clients_target:parseInt(document.getElementById('gClients').value)||0,renewal_rate_target:parseFloat(document.getElementById('gRenewal').value)||0};
+    if(id)await sb.from('agency_goals').update(payload).eq('id',id);
+    else await sb.from('agency_goals').insert(payload);
+    UI.closeModal('moGoal');App.loadAll();
+  }
+};
+
+// NAV
+const Nav = {
+  go(page,el){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+    document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+    document.getElementById('page-'+page)?.classList.add('on');
+    if(el) el.classList.add('on');
+    else document.querySelector(`.ni[data-page="${page}"]`)?.classList.add('on');
+  }
+};
+
+// AUTH
+const Auth = {
+  async login(){
+    const email=document.getElementById('loginEmail').value.trim();
+    const pass=document.getElementById('loginPass').value;
+    const err=document.getElementById('loginErr');
+    err.textContent='';
+    if(!email||!pass){err.textContent='Preencha e-mail e senha.';return;}
+    const{error}=await sb.auth.signInWithPassword({email,password:pass});
+    if(error){err.textContent='E-mail ou senha incorretos.';return;}
+    App.boot();
+  },
+  async logout(){ await sb.auth.signOut(); location.reload(); }
+};
+
+// APP
+const App = {
+  async boot(){
+    const{data:{user}}=await sb.auth.getUser();
+    if(!user)return;
+    document.getElementById('loginScreen').classList.add('hide');
+    document.getElementById('appShell').classList.add('show');
+    const name=user.email.split('@')[0];
+    UI.set('userName',name);
+    UI.set('userInitial',name[0].toUpperCase());
+    await App.loadAll();
+    App.realtime();
+  },
+  async loadAll(){
+    const now=new Date().toISOString().slice(0,7)+'-01';
+    const[c,l,p,g,d,e,pr,t,o,a,rep,mt,nw,sv]=await Promise.all([
+      sb.from('clients').select('*').order('name'),
+      sb.from('leads').select('*').order('created_at',{ascending:false}),
+      sb.from('payments').select('*').order('due_date',{ascending:true}),
+      sb.from('agency_goals').select('*').gte('period',now).order('period').limit(1),
+      sb.from('knowledge_docs').select('*').order('order'),
+      sb.from('error_logs').select('*').order('created_at',{ascending:false}),
+      sb.from('projects').select('*').order('created_at',{ascending:false}),
+      sb.from('project_tasks').select('*').order('"order"'),
+      sb.from('onboardings').select('*').order('submitted_at',{ascending:false}),
+      sb.from('approvals').select('*').order('created_at',{ascending:false}),
+      sb.from('reports').select('*').order('created_at',{ascending:false}),
+      sb.from('meetings').select('*').order('date',{ascending:false}),
+      sb.from('news_sends').select('*').order('sent_at',{ascending:false}),
+      sb.from('satisfaction_surveys').select('*').order('responded_at',{ascending:false})
+    ]);
+    Store.clients=c.data||[];Store.leads=l.data||[];Store.payments=p.data||[];
+    Store.goals=g.data||[];Store.docs=d.data||[];Store.errors=e.data||[];
+    Store.projects=pr.data||[];Store.tasks=t.data||[];Store.onboardings=o.data||[];Store.approvals=a.data||[];
+    Store.reports=rep.data||[];Store.meetings=mt.data||[];Store.news=nw.data||[];Store.surveys=sv.data||[];
+    App.renderAll();
+  },
+  renderAll(){
+    Dash.render();Alerts.render();Clients.render();Leads.render();
+    Finance.render();Projects.render();Approvals.render();Knowledge.render();Errors.render();
+    Reports.render();Meetings.render();News.render();Scripts.render();Vault.renderPage();Satisfaction.render();
+    Health.updateAllScores();Tasks.render();Tasks.renderAgenda();Notifications.render();
+    // Onboardings
+    const obs=Store.onboardings;
+    UI.set('obTbody',obs.length?obs.map(ob=>{const c=Store.clients.find(x=>x.id===ob.client_id);return`<tr><td class="td-name">${c?.name||'—'}</td><td style="font-size:12px;color:var(--w4);">${(ob.specialties||[]).slice(0,2).join(', ')||'—'}</td><td style="font-size:12px;color:var(--w4);">${(ob.cities||[]).slice(0,2).join(', ')||'—'}</td><td style="font-size:12px;color:var(--w4);">${ob.tone||'—'}</td><td style="font-size:12px;color:var(--w4);">${Utils.timeAgo(ob.submitted_at)}</td></tr>`;}).join(''):`<tr><td colspan="5" class="td-empty">Nenhum onboarding recebido ainda.</td></tr>`);
+    // Badges
+    const apPend=Store.approvals.filter(a=>a.status==='pendente').length;
+    const apB=document.getElementById('apBadge');if(apB){apB.style.display=apPend?'':'none';apB.textContent=apPend;}
+  },
+  realtime(){
+    sb.channel('ware').on('postgres_changes',{event:'*',schema:'public'},()=>App.loadAll()).subscribe();
+  }
+};
+
+// ESC + overlay click
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.querySelectorAll('.overlay.on').forEach(m=>m.classList.remove('on'));
+    document.querySelectorAll('.dp-overlay.on').forEach(d=>d.classList.remove('on'));
+  }
+});
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('on');}));
+
+// BOOT
+sb.auth.onAuthStateChange((ev,sess)=>{ if(sess)App.boot(); });
+</script>
+<script src="modules/dash.js"></script>
+<script src="modules/alerts.js"></script>
+<script src="modules/clients.js"></script>
+<script src="modules/leads.js"></script>
+<script src="modules/projects.js"></script>
+<script src="modules/finance.js"></script>
+<script src="modules/knowledge.js"></script>
+<script src="modules/errors.js"></script>
+<script src="modules/approvals.js"></script>
+<script src="modules/reports.js"></script>
+<script src="modules/meetings.js"></script>
+<script src="modules/news.js"></script>
+<script src="modules/scripts.js"></script>
+<script src="modules/vault.js"></script>
+<script src="modules/calendar.js"></script>
+<script src="modules/health.js"></script>
+<script src="modules/diagnosis.js"></script>
+<script src="modules/satisfaction.js"></script>
+<script src="modules/invite.js"></script>
+<script src="modules/notifications.js"></script>
+<script src="modules/activity.js"></script>
+<script src="modules/charts.js"></script>
+<script src="modules/tasks.js"></script>
+</body>
+</html>
