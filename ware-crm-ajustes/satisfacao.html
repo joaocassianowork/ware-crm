@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como estamos te atendendo?</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#080808;--s1:#0f0f0f;--s3:#1e1e1e;--blue:#4F7EFF;--bd:rgba(79,126,255,0.10);--bb:rgba(79,126,255,0.22);--green:#2ECC8A;--w:#f5f2ee;--w7:rgba(245,242,238,0.7);--w4:rgba(245,242,238,0.4);--br:rgba(245,242,238,0.08);--br2:rgba(245,242,238,0.14);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--w);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px;}
+.wrap{max-width:520px;width:100%;}
+.logo{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.03em;margin-bottom:32px;text-align:center;}
+.logo span{color:var(--blue);}
+.card{background:var(--s1);border:1px solid var(--br);border-radius:14px;padding:32px;}
+.q-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:600;letter-spacing:-0.02em;margin-bottom:8px;}
+.q-sub{font-size:13px;color:var(--w4);margin-bottom:24px;line-height:1.55;}
+.nps-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.nps-btn{flex:1;min-width:36px;height:44px;border-radius:8px;border:1px solid var(--br);background:var(--s3);color:var(--w4);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.nps-btn:hover{border-color:var(--br2);color:var(--w);}
+.nps-btn.on{background:var(--bd);border-color:var(--bb);color:var(--blue);}
+.nps-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--w4);margin-bottom:24px;}
+.fr{margin-bottom:16px;}
+label{display:block;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--w4);margin-bottom:6px;}
+textarea{width:100%;background:var(--s3);border:1px solid var(--br);border-radius:8px;padding:10px 12px;color:var(--w);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:72px;transition:border-color .2s;}
+textarea:focus{border-color:var(--blue);}
+.btn{width:100%;padding:12px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;background:var(--blue);color:#fff;transition:opacity .15s;margin-top:8px;}
+.btn:hover{opacity:.9;}
+.btn:disabled{opacity:.5;cursor:default;}
+.success{text-align:center;padding:20px 0;display:none;}
+.success.on{display:block;}
+.success-icon{font-size:56px;margin-bottom:12px;}
+.success-title{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;}
+.success-sub{color:var(--w4);font-size:14px;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">Ware<span>.</span></div>
+  <div class="card">
+    <div id="formContent">
+      <div class="q-title">Como você avalia o nosso atendimento?</div>
+      <p class="q-sub">De 0 a 10, qual a probabilidade de você recomendar a Ware para outro advogado?</p>
+      <div class="nps-row" id="npsRow">
+        ${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="nps-btn" onclick="selectNps(${n})">${n}</button>`).join('')}
+      </div>
+      <div class="nps-labels"><span>Não recomendaria</span><span>Recomendaria com certeza</span></div>
+      <div class="fr">
+        <label>O que está funcionando melhor?</label>
+        <textarea id="best" placeholder="O que você mais gosta no nosso trabalho..."></textarea>
+      </div>
+      <div class="fr">
+        <label>O que podemos melhorar?</label>
+        <textarea id="improve" placeholder="Alguma sugestão ou crítica construtiva..."></textarea>
+      </div>
+      <div id="errMsg" style="font-size:12px;color:#FF5C5C;margin-top:6px;"></div>
+      <button class="btn" id="submitBtn" onclick="submitForm()">Enviar Avaliação</button>
+    </div>
+    <div class="success" id="success">
+      <div class="success-icon">🙏</div>
+      <div class="success-title">Obrigado!</div>
+      <p class="success-sub">Sua avaliação foi recebida. Ela nos ajuda a melhorar continuamente e a entregar cada vez mais resultado para o seu escritório.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const sb = supabase.createClient(
+  'https://bxtmtnxpyikjfzoliatw.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4dG10bnhweWlramZ6b2xpYXR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NjEzOTMsImV4cCI6MjA5NjMzNzM5M30.7uJLOfj-5QSEPFTQLd-3snbBrhDiTJW3xOrAiCOfnY0'
+);
+let selectedNps = null;
+const clientId = new URLSearchParams(window.location.search).get('c');
+
+function selectNps(n) {
+  selectedNps = n;
+  document.querySelectorAll('.nps-btn').forEach((btn,i) => btn.classList.toggle('on', i===n));
+}
+
+async function submitForm() {
+  const err = document.getElementById('errMsg');
+  if (selectedNps === null) { err.textContent = 'Selecione uma nota de 0 a 10.'; return; }
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Enviando...'; btn.disabled = true;
+  await sb.from('satisfaction_surveys').insert({
+    client_id: clientId || null,
+    nps_score: selectedNps,
+    best_part: document.getElementById('best').value || null,
+    improve: document.getElementById('improve').value || null,
+    responded_at: new Date().toISOString()
+  });
+  document.getElementById('formContent').style.display = 'none';
+  document.getElementById('success').classList.add('on');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ware Jurídico — Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#080808;--s1:#0f0f0f;--s3:#1e1e1e;--blue:#4F7EFF;--bd:rgba(79,126,255,0.10);--bb:rgba(79,126,255,0.22);--green:#2ECC8A;--w:#f5f2ee;--w7:rgba(245,242,238,0.7);--w4:rgba(245,242,238,0.4);--br:rgba(245,242,238,0.08);--br2:rgba(245,242,238,0.14);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--w);min-height:100vh;padding:48px 20px 80px;}
+.wrap{max-width:580px;margin:0 auto;}
+.logo{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.03em;margin-bottom:6px;}
+.logo span{color:var(--blue);}
+.intro{font-size:14px;color:var(--w4);line-height:1.65;margin-bottom:36px;}
+.prog{display:flex;gap:5px;margin-bottom:32px;}
+.pd{flex:1;height:3px;border-radius:100px;background:var(--br);transition:background .3s;}
+.pd.on{background:var(--blue);}
+.step{display:none;animation:fadeIn .25s ease;}
+.step.on{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.step-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:600;margin-bottom:20px;letter-spacing:-0.02em;}
+.fr{margin-bottom:14px;}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+label{display:block;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--w4);margin-bottom:5px;}
+input,select,textarea{width:100%;background:var(--s1);border:1px solid var(--br);border-radius:8px;padding:10px 12px;color:var(--w);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);}
+textarea{resize:vertical;min-height:80px;}
+.tag-row{display:flex;gap:8px;margin-bottom:8px;}
+.tag-row input{flex:1;}
+.tags{display:flex;flex-wrap:wrap;gap:6px;min-height:10px;}
+.tag{background:var(--bd);border:1px solid var(--bb);color:var(--blue);padding:3px 10px;border-radius:100px;font-size:12px;display:flex;align-items:center;gap:6px;cursor:default;}
+.tag-x{cursor:pointer;opacity:.6;font-size:14px;line-height:1;}
+.tag-x:hover{opacity:1;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:opacity .15s;}
+.btn-p{background:var(--blue);color:#fff;}
+.btn-p:hover{opacity:.9;}
+.btn-p:disabled{opacity:.5;cursor:default;}
+.btn-g{background:transparent;color:var(--w7);border:1px solid var(--br);}
+.btn-g:hover{border-color:var(--br2);}
+.nav-btns{display:flex;gap:10px;margin-top:22px;}
+.err{font-size:12px;color:#FF5C5C;margin-top:8px;}
+.success{display:none;text-align:center;padding:60px 20px;}
+.success.on{display:block;}
+.success-icon{font-size:60px;margin-bottom:16px;}
+.success-title{font-family:'Sora',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.03em;margin-bottom:10px;}
+.success-sub{color:var(--w4);font-size:15px;line-height:1.65;}
+.hint{font-size:11px;color:var(--w4);margin-top:5px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">Ware<span>.</span></div>
+  <p class="intro">Bem-vindo(a)! Este formulário nos ajuda a entender o seu escritório em profundidade para construirmos a melhor estratégia. Leva cerca de 5 minutos.</p>
+  <div class="prog" id="prog"></div>
+
+  <!-- STEP 1: Identificação -->
+  <div class="step on" id="s1">
+    <div class="step-title">Sobre o escritório</div>
+    <div class="fr2">
+      <div class="fr"><label>Nome do Escritório</label><input id="f_name" placeholder="Escritório Silva Advocacia"></div>
+      <div class="fr"><label>Nome do Advogado(a)</label><input id="f_lawyer" placeholder="Dr(a). João Silva"></div>
+    </div>
+    <div class="fr2">
+      <div class="fr"><label>E-mail</label><input id="f_email" type="email" placeholder="contato@escritorio.com"></div>
+      <div class="fr"><label>WhatsApp</label><input id="f_wpp" placeholder="(18) 99999-9999"></div>
+    </div>
+    <div class="fr"><label>Cidade principal de atuação</label><input id="f_city" placeholder="Araçatuba, SP"></div>
+    <div class="nav-btns"><button class="btn btn-p" onclick="next()">Continuar →</button></div>
+  </div>
+
+  <!-- STEP 2: Atuação -->
+  <div class="step" id="s2">
+    <div class="step-title">Atuação e público-alvo</div>
+    <div class="fr">
+      <label>Especialidades Jurídicas</label>
+      <div class="tag-row"><input id="specIn" placeholder="Ex: Direito Trabalhista" onkeydown="if(event.key==='Enter'){event.preventDefault();addTag('spec','specIn');}"><button class="btn btn-g" style="padding:8px 14px;font-size:13px;flex-shrink:0;" onclick="addTag('spec','specIn')">+</button></div>
+      <div class="tags" id="spec"></div>
+      <div class="hint">Adicione cada especialidade separadamente. Pressione Enter ou clique +</div>
+    </div>
+    <div class="fr">
+      <label>Cidades onde atua</label>
+      <div class="tag-row"><input id="cityIn" placeholder="Ex: Araçatuba, SP" onkeydown="if(event.key==='Enter'){event.preventDefault();addTag('cities','cityIn');}"><button class="btn btn-g" style="padding:8px 14px;font-size:13px;flex-shrink:0;" onclick="addTag('cities','cityIn')">+</button></div>
+      <div class="tags" id="cities"></div>
+    </div>
+    <div class="fr"><label>Descreva seu cliente ideal</label><textarea id="f_ideal" placeholder="Ex: Trabalhadores que sofreram acidente de trabalho em indústrias, empresas do interior de SP com 10 a 50 funcionários..."></textarea></div>
+    <div class="nav-btns">
+      <button class="btn btn-g" onclick="prev()">← Voltar</button>
+      <button class="btn btn-p" onclick="next()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Identidade -->
+  <div class="step" id="s3">
+    <div class="step-title">Identidade e comunicação</div>
+    <div class="fr"><label>Diferenciais do seu escritório</label><textarea id="f_diff" placeholder="O que torna seu escritório único? Por que os clientes te escolhem? O que você faz que outros não fazem?"></textarea></div>
+    <div class="fr">
+      <label>Tom de comunicação</label>
+      <select id="f_tone">
+        <option value="">Selecione...</option>
+        <option value="formal e técnico">Formal e técnico — linguagem jurídica, distância profissional</option>
+        <option value="próximo e acessível">Próximo e acessível — fala direta, sem juridiquês</option>
+        <option value="sério e confiável">Sério e confiável — equilíbrio entre rigor e humanidade</option>
+        <option value="moderno e direto">Moderno e direto — objetivo, atual, sem rodeios</option>
+      </select>
+    </div>
+    <div class="fr"><label>WhatsApp que receberá os leads das campanhas</label><input id="f_leads_wpp" placeholder="(18) 99999-9999"><div class="hint">Pode ser diferente do seu WhatsApp pessoal — pode ser o da secretária ou recepção.</div></div>
+    <div class="nav-btns">
+      <button class="btn btn-g" onclick="prev()">← Voltar</button>
+      <button class="btn btn-p" onclick="next()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Identidade visual -->
+  <div class="step" id="s4">
+    <div class="step-title">Identidade visual</div>
+    <div class="fr">
+      <label>Link da Logo (Google Drive, Dropbox, etc.)</label>
+      <input id="f_logo" placeholder="https://drive.google.com/file/...">
+      <div class="hint">PNG com fundo transparente, em alta resolução. Certifique-se que o link está acessível (compartilhado como "qualquer pessoa com o link").</div>
+    </div>
+    <div class="fr">
+      <label>Links de fotos do escritório e do advogado</label>
+      <textarea id="f_photos" placeholder="Um link por linha:&#10;https://drive.google.com/file/abc&#10;https://drive.google.com/file/xyz" style="min-height:90px;"></textarea>
+      <div class="hint">Fotos profissionais do advogado, da equipe e do ambiente do escritório. Quanto mais melhor.</div>
+    </div>
+    <div class="fr"><label>Cores do escritório (se tiver)</label><input id="f_colors" placeholder="Ex: Azul marinho #0e1b2c e dourado #C9A84C"></div>
+    <div class="fr"><label>Observações adicionais</label><textarea id="f_notes" placeholder="Algo importante que devemos saber: histórico de marketing anterior, restrições, preferências específicas..."></textarea></div>
+    <div class="err" id="submitErr"></div>
+    <div class="nav-btns">
+      <button class="btn btn-g" onclick="prev()">← Voltar</button>
+      <button class="btn btn-p" id="submitBtn" onclick="submit()">Enviar ✓</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="success">
+    <div class="success-icon">✅</div>
+    <div class="success-title">Recebemos tudo!</div>
+    <p class="success-sub">Suas informações foram enviadas para a equipe Ware.<br>Entraremos em contato em breve para agendar o kickoff e dar início à construção da sua presença digital.<br><br><strong>Bem-vindo(a) à Ware.</strong></p>
+  </div>
+</div>
+
+<script>
+const sb = supabase.createClient(
+  'https://bxtmtnxpyikjfzoliatw.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4dG10bnhweWlramZ6b2xpYXR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NjEzOTMsImV4cCI6MjA5NjMzNzM5M30.7uJLOfj-5QSEPFTQLd-3snbBrhDiTJW3xOrAiCOfnY0'
+);
+
+const STEPS = 4;
+let cur = 1;
+const tags = { spec: [], cities: [] };
+
+function renderProg() {
+  document.getElementById('prog').innerHTML = Array.from({ length: STEPS }, (_, i) =>
+    `<div class="pd ${i < cur ? 'on' : ''}"></div>`).join('');
+}
+renderProg();
+
+function addTag(key, inputId) {
+  const inp = document.getElementById(inputId);
+  const val = inp.value.trim();
+  if (!val || tags[key].includes(val)) return;
+  tags[key].push(val);
+  inp.value = '';
+  renderTags(key);
+}
+function removeTag(key, i) { tags[key].splice(i, 1); renderTags(key); }
+function renderTags(key) {
+  document.getElementById(key).innerHTML = tags[key].map((t, i) =>
+    `<span class="tag">${t}<span class="tag-x" onclick="removeTag('${key}',${i})">×</span></span>`).join('');
+}
+
+function next() {
+  if (cur < STEPS) {
+    document.getElementById('s' + cur).classList.remove('on');
+    cur++;
+    document.getElementById('s' + cur).classList.add('on');
+    renderProg();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+function prev() {
+  if (cur > 1) {
+    document.getElementById('s' + cur).classList.remove('on');
+    cur--;
+    document.getElementById('s' + cur).classList.add('on');
+    renderProg();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+async function submit() {
+  const btn = document.getElementById('submitBtn');
+  const err = document.getElementById('submitErr');
+  err.textContent = '';
+  const name = document.getElementById('f_name').value.trim();
+  const lawyer = document.getElementById('f_lawyer').value.trim();
+  if (!name || !lawyer) { err.textContent = 'Preencha o nome do escritório e do advogado.'; return; }
+  btn.textContent = 'Enviando...'; btn.disabled = true;
+
+  // Find or create client
+  let clientId = null;
+  const { data: existing } = await sb.from('clients').select('id').ilike('name', '%' + name.split(' ')[0] + '%').limit(1);
+  if (existing?.length) {
+    clientId = existing[0].id;
+  } else {
+    const { data: nc } = await sb.from('clients').insert({
+      name, lawyer_name: lawyer,
+      email: document.getElementById('f_email').value || null,
+      whatsapp: document.getElementById('f_wpp').value || null,
+      city: document.getElementById('f_city').value || null,
+      status: 'ativo'
+    }).select().single();
+    clientId = nc?.id;
+  }
+
+  if (!clientId) { err.textContent = 'Erro ao salvar. Tente novamente.'; btn.textContent = 'Enviar ✓'; btn.disabled = false; return; }
+
+  const photos = document.getElementById('f_photos').value.split('\n').map(s => s.trim()).filter(Boolean);
+  await sb.from('onboardings').insert({
+    client_id: clientId,
+    specialties: tags.spec,
+    cities: tags.cities,
+    ideal_client: document.getElementById('f_ideal').value || null,
+    differentials: document.getElementById('f_diff').value || null,
+    tone: document.getElementById('f_tone').value || null,
+    whatsapp_leads: document.getElementById('f_leads_wpp').value || null,
+    logo_url: document.getElementById('f_logo').value || null,
+    photos_urls: photos,
+    extra_notes: (document.getElementById('f_colors').value ? 'Cores: ' + document.getElementById('f_colors').value + '\n' : '') + (document.getElementById('f_notes').value || ''),
+  });
+
+  await sb.from('client_timeline').insert({
+    client_id: clientId, type: 'onboarding',
+    title: 'Formulário de onboarding preenchido pelo cliente'
+  });
+
+  // Hide form, show success
+  for (let i = 1; i <= STEPS; i++) document.getElementById('s' + i).style.display = 'none';
+  document.getElementById('prog').style.display = 'none';
+  document.querySelector('.intro').style.display = 'none';
+  document.getElementById('success').classList.add('on');
+}
+</script>
+</body>
+</html>

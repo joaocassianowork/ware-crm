@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Operacional — Ware Jurídico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --blue: #4F7EFF;
+    --blue-dim: rgba(79,126,255,0.09);
+    --blue-border: rgba(79,126,255,0.22);
+    --green: #2ECC8A;
+    --green-dim: rgba(46,204,138,0.09);
+    --green-border: rgba(46,204,138,0.22);
+    --amber: #F5A623;
+    --amber-dim: rgba(245,166,35,0.09);
+    --white: #f5f2ee;
+    --white-70: rgba(245,242,238,0.70);
+    --white-50: rgba(245,242,238,0.50);
+    --white-30: rgba(245,242,238,0.30);
+    --white-10: rgba(245,242,238,0.10);
+    --white-05: rgba(245,242,238,0.05);
+    --border: rgba(245,242,238,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  /* GRAIN */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+    padding: 18px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(8,8,8,0.96);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family:'Sora',sans-serif; font-size:16px; font-weight:700; letter-spacing:-0.02em; }
+  .nav-logo span { color:var(--blue); }
+  .nav-tag { font-size:10px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--white-30); border:1px solid var(--border); padding:5px 14px; border-radius:100px; }
+
+  /* ── SIDEBAR NAV ── */
+  .sidebar {
+    position: fixed; left: 0; top: 60px; bottom: 0;
+    width: 240px;
+    background: rgba(8,8,8,0.97);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 32px 0 40px;
+    z-index: 200;
+    scrollbar-width: none;
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
+  .sidebar-section {
+    padding: 0 24px;
+    margin-bottom: 28px;
+  }
+  .sidebar-label {
+    font-size: 9px; font-weight:700; letter-spacing:0.2em;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 10px; padding: 0 8px;
+  }
+  .sidebar a {
+    display: block;
+    padding: 7px 8px;
+    font-size: 13px; font-weight:300; color:var(--white-50);
+    text-decoration: none; border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    line-height: 1.4;
+  }
+  .sidebar a:hover, .sidebar a.active { color:var(--white); background: var(--white-05); }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    margin-left: 240px;
+    padding-top: 60px;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 80px 72px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(79,126,255,0.04) 0%, transparent 60%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: 'OPERACIONAL';
+    position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
+    font-family:'Sora',sans-serif; font-size:96px; font-weight:800;
+    color: rgba(79,126,255,0.03); letter-spacing:-0.05em; pointer-events:none;
+    white-space: nowrap;
+  }
+  .hero-kicker {
+    font-size:10px; font-weight:700; letter-spacing:0.22em;
+    text-transform:uppercase; color:var(--blue); margin-bottom:20px;
+  }
+  .hero h1 {
+    font-family:'Sora',sans-serif;
+    font-size: clamp(36px,4vw,56px);
+    font-weight:800; line-height:1.05; letter-spacing:-0.04em;
+    margin-bottom:20px;
+  }
+  .hero h1 em { font-style:normal; color:var(--blue); }
+  .hero-sub { font-size:17px; font-weight:300; color:var(--white-50); max-width:560px; line-height:1.65; }
+
+  .hero-meta {
+    display:flex; gap:32px; margin-top:36px; flex-wrap:wrap;
+  }
+  .hero-meta-item { display:flex; align-items:center; gap:8px; }
+  .hero-meta-dot { width:6px; height:6px; border-radius:50%; background:var(--green); flex-shrink:0; }
+  .hero-meta-dot.blue { background:var(--blue); }
+  .hero-meta-dot.amber { background:var(--amber); }
+  .hero-meta-text { font-size:12px; color:var(--white-50); font-weight:300; }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 72px 80px;
+    border-bottom: 1px solid var(--border);
+    max-width: 100%;
+  }
+  .section:last-child { border-bottom: none; }
+
+  .chapter-label {
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:9px; font-weight:700; letter-spacing:0.22em;
+    text-transform:uppercase; color:var(--blue); margin-bottom:28px;
+  }
+  .chapter-label::before { content:''; width:18px; height:1px; background:var(--blue); }
+
+  h2 {
+    font-family:'Sora',sans-serif;
+    font-size: clamp(28px,3vw,42px);
+    font-weight:700; line-height:1.1; letter-spacing:-0.03em;
+    margin-bottom:24px;
+  }
+  h2 em { font-style:normal; color:var(--blue); }
+
+  h3 {
+    font-family:'Sora',sans-serif;
+    font-size:18px; font-weight:600;
+    letter-spacing:-0.02em; color:var(--white);
+    margin: 40px 0 12px;
+  }
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family:'Sora',sans-serif;
+    font-size:14px; font-weight:600;
+    letter-spacing:0.02em; text-transform:uppercase;
+    color:var(--blue); margin: 28px 0 10px;
+  }
+
+  p { color:var(--white-50); font-weight:300; margin-bottom:18px; font-size:15px; }
+  p:last-child { margin-bottom:0; }
+  p strong { color:var(--white); font-weight:500; }
+
+  /* ── PROCESS FLOW ── */
+  .flow {
+    display: flex; flex-direction: column; gap: 2px;
+    margin: 36px 0;
+  }
+  .flow-step {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 0;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::before {
+    content:'';
+    position:absolute; left:25px; top:52px; bottom:-2px;
+    width:2px; background: var(--border); z-index:1;
+  }
+  .flow-num {
+    width:50px; height:50px; border-radius:50%;
+    border: 2px solid var(--blue-border);
+    background: var(--blue-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Sora',sans-serif; font-size:13px; font-weight:700;
+    color:var(--blue); flex-shrink:0; position:relative; z-index:2;
+  }
+  .flow-body {
+    background: var(--white-05);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-left: 16px;
+    margin-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .flow-body:hover { border-color: var(--blue-border); }
+  .flow-title {
+    font-family:'Sora',sans-serif; font-size:15px; font-weight:600;
+    color:var(--white); margin-bottom:6px;
+  }
+  .flow-desc { font-size:14px; color:var(--white-50); font-weight:300; margin:0; line-height:1.65; }
+  .flow-tag {
+    display:inline-block; margin-top:10px;
+    font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase;
+    padding:3px 10px; border-radius:100px;
+    border: 1px solid var(--blue-border); color:var(--blue); background:var(--blue-dim);
+  }
+  .flow-tag.green { border-color:var(--green-border); color:var(--green); background:var(--green-dim); }
+  .flow-tag.amber { border-color:rgba(245,166,35,0.3); color:var(--amber); background:var(--amber-dim); }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    list-style:none; margin: 24px 0;
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .checklist li {
+    display:flex; align-items:flex-start; gap:14px;
+    padding:14px 18px;
+    background: var(--white-05); border:1px solid var(--border);
+    border-radius: 8px; font-size:14px; font-weight:300; color:var(--white-50);
+    line-height:1.6;
+  }
+  .checklist li strong { color:var(--white); font-weight:500; }
+  .check-icon {
+    width:20px; height:20px; border-radius:5px; flex-shrink:0;
+    border:2px solid var(--blue-border); background:var(--blue-dim);
+    display:flex; align-items:center; justify-content:center;
+    margin-top:1px;
+  }
+  .check-icon::after {
+    content:''; width:6px; height:4px;
+    border-left:2px solid var(--blue); border-bottom:2px solid var(--blue);
+    transform: rotate(-45deg) translateY(-1px);
+  }
+
+  /* ── RULE BLOCK ── */
+  .rule {
+    border-left: 2px solid var(--blue);
+    padding: 20px 24px;
+    background: var(--blue-dim);
+    border-radius: 0 10px 10px 0;
+    margin: 32px 0;
+  }
+  .rule p { color:var(--white); font-size:15px; font-weight:300; margin:0; }
+  .rule p strong { font-weight:600; }
+
+  .rule.green { border-color: var(--green); background: var(--green-dim); }
+  .rule.amber { border-color: var(--amber); background: var(--amber-dim); }
+
+  /* ── TWO COLUMN ── */
+  .two-col {
+    display:grid; grid-template-columns:1fr 1fr; gap:16px;
+    margin: 28px 0;
+  }
+  .col-box {
+    background: var(--white-05); border:1px solid var(--border);
+    border-radius:10px; padding:24px 22px;
+  }
+  .col-box-title {
+    font-family:'Sora',sans-serif; font-size:13px; font-weight:700;
+    letter-spacing:0.05em; text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .col-box-title.blue { color:var(--blue); }
+  .col-box-title.green { color:var(--green); }
+  .col-box-title.amber { color:var(--amber); }
+  .col-box ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .col-box ul li {
+    font-size:13px; font-weight:300; color:var(--white-50);
+    display:flex; align-items:flex-start; gap:10px; line-height:1.55;
+  }
+  .col-box ul li::before { content:'—'; color:var(--blue); flex-shrink:0; }
+
+  /* ── TABLE ── */
+  .ware-table {
+    width:100%; border-collapse:collapse; margin: 28px 0;
+    font-size:14px;
+  }
+  .ware-table th {
+    text-align:left; padding:12px 16px;
+    background: var(--white-05); border:1px solid var(--border);
+    font-family:'Sora',sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--blue);
+  }
+  .ware-table td {
+    padding:12px 16px; border:1px solid var(--border);
+    color:var(--white-50); font-weight:300; vertical-align:top;
+    line-height:1.6;
+  }
+  .ware-table td strong { color:var(--white); font-weight:500; }
+  .ware-table tr:hover td { background: var(--white-05); }
+
+  /* ── SLA BADGE ── */
+  .sla {
+    display:inline-block; font-size:10px; font-weight:700;
+    letter-spacing:0.12em; text-transform:uppercase;
+    padding:3px 10px; border-radius:100px;
+  }
+  .sla.blue { background:var(--blue-dim); border:1px solid var(--blue-border); color:var(--blue); }
+  .sla.green { background:var(--green-dim); border:1px solid var(--green-border); color:var(--green); }
+  .sla.amber { background:var(--amber-dim); border:1px solid rgba(245,166,35,0.3); color:var(--amber); }
+
+  /* ── KPI GRID ── */
+  .kpi-grid {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+    gap:2px; background:var(--border); border:1px solid var(--border);
+    border-radius:12px; overflow:hidden; margin:28px 0;
+  }
+  .kpi {
+    background:var(--black); padding:28px 24px;
+    transition: background 0.2s;
+  }
+  .kpi:hover { background: var(--white-05); }
+  .kpi-val {
+    font-family:'Sora',sans-serif; font-size:36px; font-weight:800;
+    color:var(--blue); letter-spacing:-0.04em; line-height:1;
+    margin-bottom:6px;
+  }
+  .kpi-label { font-size:12px; color:var(--white-30); font-weight:300; line-height:1.4; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border:1px solid var(--blue-border); background:var(--blue-dim);
+    border-radius:10px; padding:24px 28px; margin:28px 0;
+  }
+  .callout p { color:var(--white); font-size:14px; margin:0; font-weight:300; }
+  .callout p strong { font-weight:600; }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    margin: 32px 0;
+    display:flex; flex-direction:column; gap:0;
+  }
+  .tl-item {
+    display:grid; grid-template-columns: 100px 1fr;
+    gap:0 24px; padding:20px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .tl-item:last-child { border-bottom:none; }
+  .tl-time {
+    font-family:'Sora',sans-serif; font-size:12px; font-weight:700;
+    color:var(--blue); padding-top:3px; letter-spacing:0.05em;
+  }
+  .tl-content-title {
+    font-size:15px; font-weight:600; color:var(--white); margin-bottom:4px;
+    font-family:'Sora',sans-serif;
+  }
+  .tl-content-desc { font-size:13px; color:var(--white-50); font-weight:300; line-height:1.65; }
+
+  /* ── REVEAL ── */
+  .reveal { opacity:0; transform:translateY(16px); transition:opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.on { opacity:1; transform:none; }
+
+  /* ── FOOTER ── */
+  .footer-bar {
+    margin-left:240px;
+    border-top:1px solid var(--border);
+    padding:28px 80px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .footer-bar p { font-size:12px; color:var(--white-30); margin:0; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .sidebar { display:none; }
+    .main, .footer-bar { margin-left:0; }
+    .hero, .section { padding:60px 24px; }
+    .hero::after { display:none; }
+    .two-col { grid-template-columns:1fr; }
+    nav { padding:16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ware<span>.</span></div>
+  <div class="nav-tag">Manual Operacional</div>
+</nav>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Fundação</div>
+    <a href="#visao-geral">Visão Geral</a>
+    <a href="#principios">Princípios de Operação</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Jornada do Cliente</div>
+    <a href="#prospecção">1. Prospecção</a>
+    <a href="#reuniao">2. Reunião Comercial</a>
+    <a href="#proposta">3. Proposta & Contrato</a>
+    <a href="#onboarding">4. Onboarding</a>
+    <a href="#execucao">5. Execução Mensal</a>
+    <a href="#relatorio">6. Relatório & Reunião</a>
+    <a href="#retencao">7. Retenção & Renovação</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Serviços</div>
+    <a href="#proc-sites">Sites</a>
+    <a href="#proc-trafego">Tráfego Pago</a>
+    <a href="#proc-social">Redes Sociais</a>
+    <a href="#proc-gmb">Google Meu Negócio</a>
+    <a href="#proc-crm">CRM & Painel de Leads</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Gestão Interna</div>
+    <a href="#comunicacao">Comunicação</a>
+    <a href="#qualidade">Padrão de Qualidade</a>
+    <a href="#crises">Gestão de Crises</a>
+    <a href="#kpis">KPIs da Agência</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- HERO -->
+<div class="hero reveal" id="visao-geral">
+  <div class="hero-kicker">Ware Jurídico — Manual Operacional</div>
+  <h1>A fórmula que transforma<br>uma agência em <em>referência</em></h1>
+  <p class="hero-sub">Este documento define como a Ware opera. Cada processo, cada prazo, cada responsabilidade. É o padrão mínimo de excelência que todo colaborador deve conhecer e praticar.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><div class="hero-meta-dot green"></div><span class="hero-meta-text">Jornada completa do cliente</span></div>
+    <div class="hero-meta-item"><div class="hero-meta-dot blue"></div><span class="hero-meta-text">Processos por serviço</span></div>
+    <div class="hero-meta-item"><div class="hero-meta-dot amber"></div><span class="hero-meta-text">SLAs e padrões de qualidade</span></div>
+  </div>
+</div>
+
+<!-- PRINCÍPIOS -->
+<div class="section reveal" id="principios">
+  <div class="chapter-label">Fundação</div>
+  <h2>Os <em>princípios</em> que governam<br>tudo que fazemos</h2>
+  <p>Antes de qualquer processo, existem princípios. Processos sem princípios viram burocracia. Com princípios, viram cultura.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">P1</div>
+      <div class="flow-body">
+        <div class="flow-title">O cliente contratou transformação — não tarefas</div>
+        <div class="flow-desc">Nunca pense "entrego o post, entrego o relatório, cumpri". Pense: "isso está movendo o cliente de invisível para visível? De imprevisível para previsível?" Toda entrega deve ser avaliada pelo seu impacto na transformação prometida.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">P2</div>
+      <div class="flow-body">
+        <div class="flow-title">Clareza elimina conflito</div>
+        <div class="flow-desc">95% dos problemas com clientes nascem de expectativa não alinhada. Toda comunicação deve ser explícita: o que vai ser feito, quando, quem é responsável, e qual o resultado esperado. Nunca assuma que o cliente entendeu. Confirme.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">P3</div>
+      <div class="flow-body">
+        <div class="flow-title">Prazo é promessa — e promessa é caráter</div>
+        <div class="flow-desc">Se prometeu entregar sexta às 18h, entrega sexta às 18h. Se algo impossibilitar, avisa antes do prazo — nunca depois. Atraso sem comunicação prévia é quebra de confiança. Atraso com comunicação prévia é gestão responsável.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">P4</div>
+      <div class="flow-body">
+        <div class="flow-title">Proatividade vale mais do que reatividade</div>
+        <div class="flow-desc">Não espere o cliente reclamar para corrigir. Não espere o mês acabar para perceber que a campanha está mal. Monitore, antecipe, comunique. O cliente que a Ware quer manter é aquele que nunca precisou cobrar nada.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">P5</div>
+      <div class="flow-body">
+        <div class="flow-title">Documentado é real. Não documentado não existe</div>
+        <div class="flow-desc">Todo alinhamento importante deve ser registrado por escrito — WhatsApp, e-mail, CRM. Reuniões verbais geram interpretações diferentes. "Eu entendi que..." é a frase mais cara que uma agência pode ouvir. Registre tudo.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">P6</div>
+      <div class="flow-body">
+        <div class="flow-title">Cada cliente é único — o processo é padrão, a estratégia é personalizada</div>
+        <div class="flow-desc">Usamos os mesmos processos para todos os clientes. Mas a estratégia de cada um é feita para a realidade dele: sua cidade, sua área jurídica, seu perfil de cliente ideal, seu estágio de crescimento. Padronizar processo não é padronizar solução.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- JORNADA: 1. PROSPECÇÃO -->
+<!-- ══════════════════════════════════ -->
+<div class="section reveal" id="prospecção">
+  <div class="chapter-label">Jornada do Cliente — Etapa 1</div>
+  <h2><em>Prospecção</em><br>Do desconhecido ao interessado</h2>
+  <p>A jornada do cliente começa antes de ele nos conhecer. Prospecção ativa é o que diferencia uma agência que cresce de uma agência que espera. Na Ware, prospectamos de forma inteligente — com pesquisa, contexto e abordagem que não parece venda.</p>
+
+  <h3>Fontes de prospecção</h3>
+  <div class="two-col">
+    <div class="col-box">
+      <div class="col-box-title blue">Prospecção Ativa</div>
+      <ul>
+        <li>Advogados identificados via banco de CNPJs (CNAE jurídico)</li>
+        <li>LinkedIn — advogados com perfil ativo e escritório estabelecido</li>
+        <li>Google Maps — escritórios com GMB mal otimizado ou sem presença</li>
+        <li>Indicações de clientes atuais (programa de indicação)</li>
+        <li>Eventos da OAB, congressos jurídicos e happy hours da área</li>
+        <li>Parcerias institucionais — ABA e outras associações</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <div class="col-box-title green">Prospecção Passiva (Inbound)</div>
+      <ul>
+        <li>Leads vindos do site via formulário ou WhatsApp</li>
+        <li>Leads gerados pelas próprias campanhas da Ware</li>
+        <li>Seguidores que entram em contato pelo Instagram</li>
+        <li>Indicações orgânicas de clientes satisfeitos</li>
+        <li>Contatos vindos de artigos do blog ou conteúdo de autoridade</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Pesquisa pré-abordagem</h3>
+  <p>Antes de qualquer contato com um prospecto qualificado, fazemos uma pesquisa completa. Isso transforma a abordagem — de vendedor para consultor.</p>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div><strong>Site atual:</strong> tem site? É rápido? Tem SEO? Tem formulário de contato? É mobile-friendly?</div></li>
+    <li><div class="check-icon"></div><div><strong>Google Meu Negócio:</strong> o perfil existe? Está completo? Tem fotos? Quantas avaliações? Responde reviews?</div></li>
+    <li><div class="check-icon"></div><div><strong>Redes sociais:</strong> tem Instagram/LinkedIn ativo? Qual a frequência de posts? O conteúdo posiciona ou só informa?</div></li>
+    <li><div class="check-icon"></div><div><strong>Concorrentes diretos:</strong> quem mais aparece no Google para a especialidade e cidade dele? O que estão fazendo melhor?</div></li>
+    <li><div class="check-icon"></div><div><strong>Posicionamento atual:</strong> qual especialidade, em qual cidade, qual o perfil de cliente que ele busca atender?</div></li>
+  </ul>
+
+  <div class="rule">
+    <p><strong>Regra da abordagem:</strong> Nunca aborde com "posso te ajudar com marketing". Aborde com uma observação específica sobre o negócio dele. "Vi que você atua com direito previdenciário em [cidade] e notei que [observação concreta]." Especificidade demonstra que você fez o trabalho. Generalidade demonstra que você só quer vender.</p>
+  </div>
+
+  <h3>Qualificação do lead</h3>
+  <p>Não todo contato vira reunião. Antes de agendar, qualificamos com 3 perguntas essenciais — podem ser feitas por WhatsApp ou telefone de forma natural:</p>
+  <table class="ware-table">
+    <thead>
+      <tr><th>Pergunta</th><th>O que revela</th><th>Sinal positivo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>"Você já investiu em marketing jurídico antes?"</td><td>Maturidade e possível trauma com agências anteriores</td><td>Já tentou, não funcionou — está aberto a tentar de novo com quem entende</td></tr>
+      <tr><td>"De onde vêm a maioria dos seus clientes hoje?"</td><td>Dependência de indicações e consciência do problema</td><td>Reconhece que depende de indicações e quer mudar</td></tr>
+      <tr><td>"Você está buscando resultado no curto ou médio prazo?"</td><td>Expectativa de tempo — filtra quem quer milagre em 30 dias</td><td>Entende que é processo, está disposto a construir</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Lead qualificado:</strong> advogado com escritório ativo, receita razoável, consciência do problema e expectativa realista. Agenda reunião.<br>
+  <strong>Lead não qualificado agora:</strong> vai para lista de nutrição — conteúdo periódico até o momento dele chegar.</p>
+
+  <div class="callout">
+    <p><strong>SLA de prospecção:</strong> todo lead inbound (que entrou em contato por iniciativa própria) deve receber resposta em até <strong>2 horas</strong> em dias úteis. Lead que espera mais de 4 horas esfria. Lead que espera mais de 24 horas some.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- JORNADA: 2. REUNIÃO COMERCIAL -->
+<!-- ══════════════════════════════════ -->
+<div class="section reveal" id="reuniao">
+  <div class="chapter-label">Jornada do Cliente — Etapa 2</div>
+  <h2>Reunião <em>Comercial</em><br>O momento que define tudo</h2>
+  <p>A reunião comercial é o momento mais importante da jornada. É aqui que o prospecto decide se confia na Ware o suficiente para investir. Nossa abordagem não é de vendas — é consultiva. Não convencemos, revelamos.</p>
+
+  <h3>Antes da reunião</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div><strong>Briefing de pesquisa montado:</strong> site, GMB, redes sociais, concorrentes, especialidade — tudo documentado</div></li>
+    <li><div class="check-icon"></div><div><strong>Apresentação comercial preparada:</strong> 9 slides, personalizada com nome do escritório e observações do diagnóstico</div></li>
+    <li><div class="check-icon"></div><div><strong>Exemplos de resultados relevantes:</strong> cases ou dados de clientes em área similar (respeitando confidencialidade)</div></li>
+    <li><div class="check-icon"></div><div><strong>Horário confirmado 24h antes:</strong> mensagem de confirmação com link ou endereço</div></li>
+  </ul>
+
+  <h3>Os 5 atos da reunião</h3>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">01</div>
+      <div class="flow-body">
+        <div class="flow-title">Conexão — os primeiros 5 minutos</div>
+        <div class="flow-desc">Antes de qualquer coisa, crie relação. Pergunte sobre a trajetória dele, a área, o momento do escritório. Mostre interesse genuíno. O advogado precisa sentir que está falando com alguém que se importa com o negócio dele — não com alguém que quer fechar uma conta. <strong>Não abra o computador ainda.</strong></div>
+        <span class="flow-tag">⏱ 5 min</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">02</div>
+      <div class="flow-body">
+        <div class="flow-title">Diagnóstico — as perguntas que revelam</div>
+        <div class="flow-desc">Faça as perguntas certas. De onde vêm os clientes? A receita é previsível mês a mês? O escritório tem meta de crescimento? Ele aparece no Google para quem pesquisa a especialidade dele na cidade dele? Quanto ele acha que está perdendo por não aparecer? Deixe o problema aparecer pela boca dele — não pela sua.</div>
+        <span class="flow-tag">⏱ 15 min</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">03</div>
+      <div class="flow-body">
+        <div class="flow-title">A lição — o mercado e o que funciona</div>
+        <div class="flow-desc">Apresente a realidade do mercado. Mostre o que escritórios similares estão fazendo. Mostre o que os concorrentes dele estão fazendo (você já pesquisou). Apresente os três eixos de transformação: Invisível→Visível, Imprevisível→Previsível, Dependente→Independente. Nesse momento você educa — ainda não está vendendo.</div>
+        <span class="flow-tag">⏱ 15 min</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">04</div>
+      <div class="flow-body">
+        <div class="flow-title">O espelho — conecte diagnóstico com solução</div>
+        <div class="flow-desc">Conecte tudo que ele disse com o que a Ware entrega. Não "nossos serviços fazem X" — mas "você me disse que o problema é Y, e é exatamente para isso que construímos Z". Apresente a proposta de serviços de forma personalizada, citando as observações do diagnóstico dele.</div>
+        <span class="flow-tag">⏱ 15 min</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">05</div>
+      <div class="flow-body">
+        <div class="flow-title">Próximo passo — decisão consciente, sem pressão</div>
+        <div class="flow-desc">Apresente a proposta comercial com clareza. Explique o que acontece depois da assinatura. Dê um prazo razoável para resposta (48–72h). Não pressione. <strong>Quem fecha convicto fica. Quem fecha pressionado cancela.</strong> Agende o follow-up antes de sair da reunião.</div>
+        <span class="flow-tag">⏱ 10 min</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Objeções comuns e como responder</h3>
+  <table class="ware-table">
+    <thead>
+      <tr><th>Objeção</th><th>O que está por trás</th><th>Como responder</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>"Já tentei antes e não funcionou"</strong></td>
+        <td>Trauma com agência anterior. Desconfiança legítima.</td>
+        <td>"Faz todo sentido desconfiar. Me conta o que aconteceu — porque a forma como a Ware funciona é muito diferente, e eu quero que você veja isso concretamente, não que acredite na minha palavra."</td>
+      </tr>
+      <tr>
+        <td><strong>"Está caro"</strong></td>
+        <td>Não enxergou valor ainda, ou está comparando com agência genérica mais barata.</td>
+        <td>"Entendo. Posso te perguntar: quanto você acha que deixa de faturar por mês por não aparecer para quem pesquisa [especialidade] em [cidade]? O investimento precisa fazer sentido em relação a isso."</td>
+      </tr>
+      <tr>
+        <td><strong>"Preciso pensar"</strong></td>
+        <td>Tem dúvida não verbalizada. Ou simplesmente precisa de tempo — o que é legítimo.</td>
+        <td>"Claro. O que eu posso responder pra você tomar essa decisão com mais clareza? Tem alguma dúvida que ficou?" — identifique a dúvida real antes de deixar ele ir.</td>
+      </tr>
+      <tr>
+        <td><strong>"Não tenho tempo para acompanhar"</strong></td>
+        <td>Medo de que vai gerar mais trabalho do que resolver.</td>
+        <td>"Você não vai precisar. Nossa estrutura foi construída para funcionar com o mínimo de tempo do advogado. Você aprova os conteúdos em poucos minutos — o resto é com a gente."</td>
+      </tr>
+      <tr>
+        <td><strong>"A OAB não permite"</strong></td>
+        <td>Medo de sanção disciplinar. Ou desconhecimento das possibilidades dentro das regras.</td>
+        <td>"Entendemos a OAB em profundidade — é uma das razões da Ware ser exclusiva para advogados. Tudo que fazemos está dentro do Código de Ética. Posso te mostrar como."</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Pós-reunião — obrigatório</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div>Enviar mensagem de agradecimento até 2h após a reunião — com resumo do que foi discutido</div></li>
+    <li><div class="check-icon"></div><div>Registrar a reunião no CRM: data, prospecto, observações, próximo passo, prazo de follow-up</div></li>
+    <li><div class="check-icon"></div><div>Enviar proposta formal em até 24h após a reunião (nunca mais de 48h — o interesse esfria)</div></li>
+    <li><div class="check-icon"></div><div>Fazer follow-up no prazo combinado — se não combinado, em 48h</div></li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- JORNADA: 3. PROPOSTA & CONTRATO -->
+<!-- ══════════════════════════════════ -->
+<div class="section reveal" id="proposta">
+  <div class="chapter-label">Jornada do Cliente — Etapa 3</div>
+  <h2><em>Proposta</em> & Contrato<br>Clareza que previne conflito</h2>
+
+  <h3>A proposta comercial</h3>
+  <p>A proposta não é uma lista de serviços com preços. É um documento que conta uma história: o problema do cliente, a solução proposta, o que será entregue, em qual prazo e por qual investimento.</p>
+
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div><strong>Diagnóstico personalizado:</strong> 2–3 parágrafos sobre o momento atual do escritório com base na reunião</div></li>
+    <li><div class="check-icon"></div><div><strong>A transformação esperada:</strong> o que o escritório vai parecer em 3, 6 e 12 meses com a estratégia da Ware</div></li>
+    <li><div class="check-icon"></div><div><strong>Serviços incluídos:</strong> descrição clara e objetiva de cada entregável mensal</div></li>
+    <li><div class="check-icon"></div><div><strong>O que NÃO está incluído:</strong> evita expectativas erradas (ex: impulsionamento de posts não está incluído no pacote de redes sociais se não foi combinado)</div></li>
+    <li><div class="check-icon"></div><div><strong>Investimento e forma de pagamento:</strong> valor mensal, vencimento, forma de reajuste</div></li>
+    <li><div class="check-icon"></div><div><strong>Prazo de vigência:</strong> mínimo recomendado de 6 meses — explicar o motivo (resultado sustentável leva tempo)</div></li>
+    <li><div class="check-icon"></div><div><strong>Próximos passos:</strong> o que acontece após a assinatura — deixar claro que o processo inicia em X dias</div></li>
+  </ul>
+
+  <div class="rule amber">
+    <p><strong>Regra de ouro da proposta:</strong> se você precisar explicar o que a proposta quis dizer depois que o cliente a recebeu, a proposta falhou. Clareza não é opcional — é a proposta.</p>
+  </div>
+
+  <h3>O contrato</h3>
+  <p>O contrato não é burocracia. É proteção para os dois lados — e sinaliza profissionalismo. Todo cliente Ware assina contrato, sem exceção.</p>
+
+  <div class="two-col">
+    <div class="col-box">
+      <div class="col-box-title blue">O que o contrato deve cobrir</div>
+      <ul>
+        <li>Escopo exato dos serviços contratados</li>
+        <li>Valor, vencimento e condições de reajuste</li>
+        <li>Prazo mínimo de vigência e condições de rescisão</li>
+        <li>Responsabilidades do cliente (fornecer materiais, aprovar conteúdos)</li>
+        <li>Propriedade dos materiais produzidos</li>
+        <li>Confidencialidade mútua</li>
+        <li>SLA de atendimento e entrega da Ware</li>
+        <li>Condições de renovação automática</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <div class="col-box-title amber">Armadilhas a evitar</div>
+      <ul>
+        <li>Não prometer resultados específicos no contrato (viola a OAB indiretamente e gera passivo)</li>
+        <li>Não deixar o escopo vago — "gestão de redes sociais" sem especificar quantidade de posts gera conflito</li>
+        <li>Não esquecer de especificar o que é responsabilidade do cliente</li>
+        <li>Não omitir as condições de rescisão — cliente precisa saber com antecedência</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- JORNADA: 4. ONBOARDING -->
+<!-- ══════════════════════════════════ -->
+<div class="section reveal" id="onboarding">
+  <div class="chapter-label">Jornada do Cliente — Etapa 4</div>
+  <h2><em>Onboarding</em><br>Os primeiros 30 dias são decisivos</h2>
+  <p>O onboarding é o momento em que o cliente forma a opinião definitiva sobre se tomou a decisão certa. Uma agência medíocre some após o contrato assinado. A Ware intensifica a presença no início — porque impressão inicial é difícil de reverter.</p>
+
+  <div class="rule green">
+    <p><strong>Regra do onboarding:</strong> o cliente deve sentir, na primeira semana, que a Ware é diferente de tudo que já contratou. Não pelo que prometemos — pelo que já começamos a fazer.</p>
+  </div>
+
+  <h3>Semana 1 — Imersão e alinhamento</h3>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time">Dia 1</div>
+      <div>
+        <div class="tl-content-title">Mensagem de boas-vindas</div>
+        <div class="tl-content-desc">Mensagem personalizada via WhatsApp e e-mail confirmando o início, apresentando o responsável pelo atendimento, e com o link do formulário de onboarding.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Dia 1–3</div>
+      <div>
+        <div class="tl-content-title">Formulário de onboarding preenchido pelo cliente</div>
+        <div class="tl-content-desc">Especialidades, cidades de atuação, cliente ideal, diferenciais do escritório, tom de comunicação, histórico de marketing, senhas e acessos necessários, materiais visuais (logo, fotos, paleta).</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Dia 3–5</div>
+      <div>
+        <div class="tl-content-title">Reunião de kickoff</div>
+        <div class="tl-content-desc">Reunião de 45–60 minutos para revisar o formulário, alinhar estratégia inicial, apresentar o cronograma do primeiro mês e esclarecer todas as dúvidas operacionais. Confirmar: canal de comunicação, frequência de reuniões, processo de aprovação de conteúdos.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Até Dia 7</div>
+      <div>
+        <div class="tl-content-title">Documento de estratégia inicial entregue</div>
+        <div class="tl-content-desc">1–2 páginas com o diagnóstico atual, os objetivos do primeiro trimestre, as frentes de trabalho priorizadas e os indicadores que serão acompanhados. O cliente vê que a Ware já está pensando no negócio dele.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Semanas 2 a 4 — Estruturação</h3>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time">Semana 2</div>
+      <div>
+        <div class="tl-content-title">Acessos e integrações configurados</div>
+        <div class="tl-content-desc">Acesso ao Google Analytics, Search Console, Google Ads, Meta Business, GMB e painel de leads da Ware. Pixel do Meta e tag do Google configurados no site. Tudo testado e funcionando.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Semana 2–3</div>
+      <div>
+        <div class="tl-content-title">Primeiras entregas iniciadas</div>
+        <div class="tl-content-desc">Conforme os serviços contratados: calendário editorial da primeira quinzena, primeiros posts para aprovação, otimização inicial do GMB, estrutura das primeiras campanhas de tráfego para revisão do cliente.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Semana 4</div>
+      <div>
+        <div class="tl-content-title">Check-in de onboarding</div>
+        <div class="tl-content-desc">Mensagem ativa perguntando como está sendo a experiência até aqui — o que está bom, o que pode melhorar. Não espere o cliente reclamar. Pergunte antes. Ajuste o que for necessário.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Acessos que precisamos do cliente — checklist</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div>Acesso admin ao site (WordPress, Hostgator, etc.) ou domínio para configuração de novo site</div></li>
+    <li><div class="check-icon"></div><div>Acesso ao Google Meu Negócio (ou solicitação de acesso via e-mail do escritório)</div></li>
+    <li><div class="check-icon"></div><div>Acesso ao Meta Business Suite / Instagram e Facebook do escritório</div></li>
+    <li><div class="check-icon"></div><div>Acesso ao Google Analytics / Search Console (ou criação de nova conta)</div></li>
+    <li><div class="check-icon"></div><div>Logo em alta resolução (PNG com fundo transparente), cores e fontes do escritório</div></li>
+    <li><div class="check-icon"></div><div>Fotos profissionais do advogado e escritório (ou agendamento de sessão fotográfica)</div></li>
+    <li><div class="check-icon"></div><div>Número de WhatsApp que receberá os leads das campanhas</div></li>
+    <li><div class="check-icon"></div><div>Dados para faturamento e nota fiscal</div></li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- JORNADA: 5. EXECUÇÃO MENSAL -->
+<!-- ══════════════════════════════════ -->
+<div class="section reveal" id="execucao">
+  <div class="chapter-label">Jornada do Cliente — Etapa 5</div>
+  <h2>Execução <em>Mensal</em><br>O ritmo que sustenta resultado</h2>
+  <p>Depois do onboarding, a operação entra em ritmo mensal. Cada mês tem um ciclo previsível — e previsibilidade é o que mantém a operação saudável e o cliente tranquilo.</p>
+
+  <h3>O ciclo mensal da Ware</h3>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time">Dia 1–5</div>
+      <div>
+        <div class="tl-content-title">Planejamento do mês</div>
+        <div class="tl-content-desc">Revisão dos resultados do mês anterior. Definição de foco do mês atual. Calendário editorial aprovado. Ajuste de campanhas com base em dados. Para cada cliente ativo, esse planejamento deve estar documentado no CRM.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Dia 1–10</div>
+      <div>
+        <div class="tl-content-title">Produção e entrega de conteúdo</div>
+        <div class="tl-content-desc">Criação dos posts, artes, legendas e Reels do mês. Envio para aprovação do cliente com prazo claro para retorno (48h). Publicação após aprovação.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Contínuo</div>
+      <div>
+        <div class="tl-content-title">Monitoramento de campanhas</div>
+        <div class="tl-content-desc">Análise semanal de desempenho de anúncios (CTR, CPL, taxa de conversão). Ajuste de segmentação, criativos e orçamento conforme necessário. Nenhuma campanha fica 7 dias sem revisão.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Dia 20–25</div>
+      <div>
+        <div class="tl-content-title">Preparação do relatório mensal</div>
+        <div class="tl-content-desc">Compilação de dados: leads gerados, custo por lead, alcance, engajamento, posicionamento no Google, GMB. Análise qualitativa: o que funcionou, o que foi ajustado, o que é o próximo passo.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Último dia útil</div>
+      <div>
+        <div class="tl-content-title">Entrega do relatório e reunião mensal</div>
+        <div class="tl-content-desc">Relatório enviado ao cliente com antecedência. Reunião de 30–45 minutos para apresentar resultados, responder dúvidas e alinhar o próximo mês. <strong>Essa reunião nunca é cancelada pela Ware.</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Comunicação durante o mês</h3>
+  <div class="two-col">
+    <div class="col-box">
+      <div class="col-box-title blue">O que a Ware faz ativamente</div>
+      <ul>
+        <li>Envia updates relevantes sem o cliente precisar perguntar</li>
+        <li>Avisa sobre anomalias em campanhas antes de virar problema</li>
+        <li>Solicita aprovação de conteúdo com prazo claro</li>
+        <li>Compartilha oportunidades identificadas (ex: trending topic jurídico)</li>
+        <li>Registra toda comunicação importante no CRM</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <div class="col-box-title amber">O que nunca fazemos</div>
+      <ul>
+        <li>Sumir por mais de 3 dias sem comunicação</li>
+        <li>Deixar o cliente descobrir um problema antes da gente</li>
+        <li>Publicar conteúdo sem aprovação prévia</li>
+        <li>Fazer ajuste em campanha sem documentar o motivo</li>
+        <li>Deixar mensagem do cliente sem resposta por mais de 4h úteis</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val">4h</div><div class="kpi-label">Tempo máximo de resposta ao cliente em dias úteis</div></div>
+    <div class="kpi"><div class="kpi-val">48h</div><div class="kpi-label">Prazo máximo para entrega de proposta após reunião</div></div>
+    <div class="kpi"><div class="kpi-val">7d</div><div class="kpi-label">Intervalo máximo sem revisão de campanhas ativas</div></div>
+    <div class="kpi"><div class="kpi-val">30d</div><div class="kpi-label">Ciclo fixo de relatório e reunião mensal</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- JORNADA: 6. RELATÓRIO & REUNIÃO -->
+<!-- ══════════════════════════════════ -->
+<div class="section reveal" id="relatorio">
+  <div class="chapter-label">Jornada do Cliente — Etapa 6</div>
+  <h2>Relatório <em>& Reunião</em><br>Transparência como diferencial</h2>
+  <p>O relatório mensal é um dos maiores diferenciais da Ware na percepção do cliente. A maioria das agências entrega um PDF com gráficos que ninguém entende. A Ware entrega um documento que conta o que aconteceu, por quê aconteceu, e o que faremos com isso.</p>
+
+  <h3>Estrutura do relatório mensal</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div><strong>Resumo executivo (1 parágrafo):</strong> o que foi o mês em uma leitura de 30 segundos. Bom, médio ou difícil — sem eufemismo.</div></li>
+    <li><div class="check-icon"></div><div><strong>Resultados por frente:</strong> dados de cada serviço ativo (leads gerados, custo por lead, alcance de posts, crescimento GMB, posicionamento SEO)</div></li>
+    <li><div class="check-icon"></div><div><strong>Análise qualitativa:</strong> o que funcionou e por quê; o que não funcionou e por quê; o que foi ajustado no mês</div></li>
+    <li><div class="check-icon"></div><div><strong>Comparativo com mês anterior:</strong> evolução dos indicadores principais</div></li>
+    <li><div class="check-icon"></div><div><strong>Próximos passos:</strong> o que será feito no próximo mês e qual o foco estratégico</div></li>
+    <li><div class="check-icon"></div><div><strong>Pergunta de fechamento:</strong> "O que você precisa que a Ware faça diferente?" — sempre ao final</div></li>
+  </ul>
+
+  <div class="rule">
+    <p><strong>Sobre meses com resultado ruim:</strong> nunca esconda. Escreva com transparência o que aconteceu — algoritmo mudou, orçamento foi baixo, a área jurídica tem sazonalidade nesse período. O cliente que recebe honestidade num mês ruim confia mais no que você diz num mês bom.</p>
+  </div>
+
+  <h3>A reunião mensal</h3>
+  <p>A reunião não é uma apresentação do relatório. É uma conversa estratégica sobre o negócio do cliente. O relatório é o ponto de partida — não o destino.</p>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div>Enviar o relatório 24h antes da reunião para o cliente chegar preparado</div></li>
+    <li><div class="check-icon"></div><div>Começar com o resumo executivo — cliente precisa entender o mês em 2 minutos</div></li>
+    <li><div class="check-icon"></div><div>Destinar 50% do tempo para ouvir o cliente — o que ele sentiu, o que os clientes dele estão falando, o que mudou no escritório</div></li>
+    <li><div class="check-icon"></div><div>Fechar com os próximos passos confirmados e documentados</div></li>
+    <li><div class="check-icon"></div><div>Perguntar diretamente: "Tem algo que você gostaria que a gente fizesse diferente?"</div></li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- JORNADA: 7. RETENÇÃO & RENOVAÇÃO -->
+<!-- ══════════════════════════════════ -->
+<div class="section reveal" id="retencao">
+  <div class="chapter-label">Jornada do Cliente — Etapa 7</div>
+  <h2><em>Retenção</em> & Renovação<br>O cliente que fica vale 10x mais</h2>
+  <p>Captar um novo cliente custa de 5 a 7 vezes mais do que manter um atual. Retenção não é só financeiramente mais inteligente — é o termômetro mais honesto da qualidade da Ware. Cliente que fica é cliente satisfeito.</p>
+
+  <h3>Os sinais de que um cliente pode sair</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div><strong>Engajamento caindo:</strong> para de responder e-mails, atrasa aprovações, falha em reuniões</div></li>
+    <li><div class="check-icon"></div><div><strong>Questionamentos crescentes:</strong> começa a questionar cada entregável, pede explicações que antes não pedia</div></li>
+    <li><div class="check-icon"></div><div><strong>Comparações externas:</strong> menciona que "um colega disse que outra agência faz mais barato"</div></li>
+    <li><div class="check-icon"></div><div><strong>Silêncio prolongado:</strong> some por mais de 1 semana sem contato — algo está errado</div></li>
+    <li><div class="check-icon"></div><div><strong>Reclamações sem resolução:</strong> o mesmo problema foi mencionado mais de uma vez</div></li>
+  </ul>
+
+  <div class="rule amber">
+    <p><strong>Protocolo de alerta:</strong> quando qualquer um desses sinais aparecer, ação imediata — não espere a reunião mensal. Entre em contato, pergunte diretamente se está tudo bem com o atendimento, e ouça sem se defender.</p>
+  </div>
+
+  <h3>Protocolo de renovação de contrato</h3>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">60d</div>
+      <div class="flow-body">
+        <div class="flow-title">60 dias antes do vencimento</div>
+        <div class="flow-desc">Revisão interna: o cliente está satisfeito? Os resultados justificam a renovação? Tem algo para melhorar antes de conversar sobre renovação?</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">45d</div>
+      <div class="flow-body">
+        <div class="flow-title">45 dias antes — conversa de evolução</div>
+        <div class="flow-desc">Reunião específica para apresentar o que foi construído desde o início, os resultados acumulados, e a visão do próximo período. Apresente o que seria o próximo passo da estratégia — crie desejo de continuidade.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">30d</div>
+      <div class="flow-body">
+        <div class="flow-title">30 dias antes — proposta de renovação</div>
+        <div class="flow-desc">Envio da proposta de renovação — com possível evolução de pacote se fizer sentido. Nunca aumente o preço sem apresentar antes o valor acumulado e o que muda com a evolução.</div>
+        <span class="flow-tag green">Meta: 90% de renovação</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>O programa de indicação</h3>
+  <p>O cliente satisfeito é o melhor vendedor da Ware. Estruture um programa simples de indicação: cliente que indica um novo cliente que fecha recebe um benefício tangível — mês de desconto, serviço adicional, crédito. Formalizar esse programa transforma indicação passiva em ativa.</p>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- PROCESSOS POR SERVIÇO -->
+<!-- ══════════════════════════════════ -->
+<div class="section reveal" id="proc-sites">
+  <div class="chapter-label">Processos por Serviço</div>
+  <h2>Sites<br><em>Do briefing ao ar</em></h2>
+
+  <h3>Etapas do processo de criação</h3>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">01</div>
+      <div class="flow-body">
+        <div class="flow-title">Briefing estratégico</div>
+        <div class="flow-desc">Especialidades, cidades-alvo, público ideal, diferenciais do escritório, tom de comunicação, referências visuais. Esse briefing alimenta tanto o design quanto o SEO.</div>
+        <span class="flow-tag">SLA: 1 semana</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">02</div>
+      <div class="flow-body">
+        <div class="flow-title">Arquitetura e mapa do site</div>
+        <div class="flow-desc">Definição das páginas: home, sobre, páginas por especialidade (ex: "Advogado Trabalhista"), páginas por cidade (ex: "Advogado em Araçatuba"), blog, contato. Cada página tem uma palavra-chave-alvo definida antes de qualquer texto ser escrito.</div>
+        <span class="flow-tag">SLA: 3 dias</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">03</div>
+      <div class="flow-body">
+        <div class="flow-title">Copywriting das páginas</div>
+        <div class="flow-desc">Texto estratégico: não são só descrições bonitas. Cada página é escrita com a palavra-chave-alvo integrada naturalmente, com foco em converter o visitante em contato. Envia para aprovação do cliente.</div>
+        <span class="flow-tag">SLA: 1 semana</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">04</div>
+      <div class="flow-body">
+        <div class="flow-title">Design e desenvolvimento</div>
+        <div class="flow-desc">Layout profissional e alinhado à identidade visual do escritório. Mobile-first. Velocidade de carregamento acima de 85 no PageSpeed. CTA claro em todas as páginas (WhatsApp e formulário).</div>
+        <span class="flow-tag">SLA: 2 semanas</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">05</div>
+      <div class="flow-body">
+        <div class="flow-title">Revisão e aprovação</div>
+        <div class="flow-desc">Envio de preview para aprovação do cliente. Máximo 2 rodadas de revisão. Alterações fora do escopo original são tratadas como aditivo.</div>
+        <span class="flow-tag">SLA: 5 dias</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">06</div>
+      <div class="flow-body">
+        <div class="flow-title">Publicação e configuração técnica</div>
+        <div class="flow-desc">Publicação no domínio do cliente. Instalação de Google Analytics 4, Search Console, pixel do Meta, tag do GTM. Sitemap submetido ao Google. Configuração de e-mail de contato. Teste completo em desktop e mobile.</div>
+        <span class="flow-tag green">Entregue</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Padrão de qualidade mínimo para todo site Ware:</strong> velocidade PageSpeed Mobile &gt; 80 · HTTPS ativo · Sitemap no Search Console · Formulário e WhatsApp funcionando · Pixel e GA4 instalados e disparando · Site responsivo em todos os dispositivos</p>
+  </div>
+</div>
+
+<!-- TRÁFEGO PAGO -->
+<div class="section reveal" id="proc-trafego">
+  <div class="chapter-label">Processos por Serviço</div>
+  <h2>Tráfego Pago<br><em>Campanhas que convertem</em></h2>
+
+  <h3>Setup inicial de campanhas</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div><strong>Definição de objetivo:</strong> leads por WhatsApp, leads por formulário ou ligação — escolher um objetivo por campanha</div></li>
+    <li><div class="check-icon"></div><div><strong>Pesquisa de palavras-chave (Google Ads):</strong> foco em palavras com intenção de contratação ("advogado trabalhista [cidade]", não "o que é direito trabalhista")</div></li>
+    <li><div class="check-icon"></div><div><strong>Criação de públicos (Meta Ads):</strong> segmentação por interesse jurídico, comportamento, remarketing de visitantes do site</div></li>
+    <li><div class="check-icon"></div><div><strong>Criação de criativos:</strong> mínimo 3 variações de arte e copy por campanha para teste A/B</div></li>
+    <li><div class="check-icon"></div><div><strong>Configuração de conversões:</strong> rastreamento de clique no WhatsApp, envio de formulário e ligação como eventos de conversão</div></li>
+    <li><div class="check-icon"></div><div><strong>Aprovação do cliente:</strong> toda campanha é apresentada antes de ativar — sem exceções</div></li>
+  </ul>
+
+  <h3>Gestão mensal das campanhas</h3>
+  <table class="ware-table">
+    <thead>
+      <tr><th>Frequência</th><th>Ação</th><th>O que analisar</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="sla blue">Diário</span></td><td>Verificação de gastos e anomalias</td><td>Campanha ultrapassando orçamento? Algum anúncio reprovado?</td></tr>
+      <tr><td><span class="sla blue">Semanal</span></td><td>Análise de desempenho</td><td>CTR, CPL, taxa de conversão, qualidade dos leads</td></tr>
+      <tr><td><span class="sla amber">Quinzenal</span></td><td>Otimização de criativos</td><td>Pausar anúncios com CTR baixo, escalar os com melhor desempenho</td></tr>
+      <tr><td><span class="sla green">Mensal</span></td><td>Revisão estratégica completa</td><td>Custo por lead, ROI estimado, ajuste de orçamento, novos testes</td></tr>
+    </tbody>
+  </table>
+
+  <div class="rule">
+    <p><strong>Regra crítica — OAB:</strong> nenhum anúncio jurídico pode prometer resultado ("ganhe sua causa"), usar linguagem sensacionalista, ou fazer comparação com outros advogados. Todo criativo passa por checklist de conformidade antes de ser publicado.</p>
+  </div>
+</div>
+
+<!-- REDES SOCIAIS -->
+<div class="section reveal" id="proc-social">
+  <div class="chapter-label">Processos por Serviço</div>
+  <h2>Redes Sociais<br><em>Conteúdo que posiciona</em></h2>
+
+  <h3>Planejamento editorial mensal</h3>
+  <p>O calendário editorial não é uma lista de datas e assuntos. É uma estratégia de posicionamento em formato de posts. Cada conteúdo tem um papel definido.</p>
+
+  <div class="two-col">
+    <div class="col-box">
+      <div class="col-box-title blue">Os 4 pilares de conteúdo jurídico</div>
+      <ul>
+        <li><strong>Autoridade:</strong> conteúdo que demonstra conhecimento profundo na especialidade</li>
+        <li><strong>Confiança:</strong> depoimentos (dentro das regras da OAB), bastidores do escritório, trajetória do advogado</li>
+        <li><strong>Educação:</strong> explica direitos e situações comuns que o cliente ideal enfrenta</li>
+        <li><strong>Humanização:</strong> o advogado como pessoa, valores, propósito — não só profissional</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <div class="col-box-title amber">O que nunca publicar</div>
+      <ul>
+        <li>Promessa de resultado ("resolvemos seu caso")</li>
+        <li>Comparação com outros advogados ou escritórios</li>
+        <li>Conteúdo sensacionalista sobre casos</li>
+        <li>Comentário sobre casos específicos sem autorização</li>
+        <li>Conteúdo genérico sem relação com a especialidade do cliente</li>
+        <li>Post copiado de outros perfis sem adaptação</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Processo de produção e aprovação</h3>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">01</div>
+      <div class="flow-body">
+        <div class="flow-title">Calendário mensal enviado até o dia 5 do mês</div>
+        <div class="flow-desc">Documento com todos os posts do mês: data, formato (carrossel, Reel, estático), tema, rascunho de legenda e referência visual. Cliente tem 48h para aprovar ou solicitar ajustes.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">02</div>
+      <div class="flow-body">
+        <div class="flow-title">Produção das artes e vídeos</div>
+        <div class="flow-desc">Design alinhado à identidade visual do escritório. Máximo 2 rodadas de revisão por peça. Arquivos finais em resolução correta para cada plataforma.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">03</div>
+      <div class="flow-body">
+        <div class="flow-title">Aprovação final e agendamento</div>
+        <div class="flow-desc">Posts aprovados são agendados com antecedência mínima de 3 dias. Nunca publicamos sem aprovação prévia do cliente — mesmo que seja um post simples.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">04</div>
+      <div class="flow-body">
+        <div class="flow-title">Monitoramento e resposta a comentários</div>
+        <div class="flow-desc">Comentários relevantes respondidos em até 24h (resposta sugerida pela Ware, aprovada e enviada pelo cliente ou enviada diretamente conforme acordado). DMs de potenciais clientes sinalizados imediatamente.</div>
+        <span class="flow-tag green">Proatividade</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GOOGLE MEU NEGÓCIO -->
+<div class="section reveal" id="proc-gmb">
+  <div class="chapter-label">Processos por Serviço</div>
+  <h2>Google Meu Negócio<br><em>Presença local que gera contato</em></h2>
+
+  <h3>Otimização inicial (primeiras 2 semanas)</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div><strong>Verificação do perfil:</strong> confirmar que o escritório é o dono do perfil no Google</div></li>
+    <li><div class="check-icon"></div><div><strong>Informações completas:</strong> nome, endereço, telefone, site, horário de funcionamento, áreas de atuação</div></li>
+    <li><div class="check-icon"></div><div><strong>Categorias corretas:</strong> categoria principal "Escritório de advocacia" + categorias secundárias por especialidade</div></li>
+    <li><div class="check-icon"></div><div><strong>Descrição otimizada:</strong> texto com palavras-chave de especialidade e cidade, dentro do limite de caracteres</div></li>
+    <li><div class="check-icon"></div><div><strong>Fotos profissionais:</strong> fachada, interior, equipe — mínimo 10 fotos de qualidade</div></li>
+    <li><div class="check-icon"></div><div><strong>Serviços cadastrados:</strong> cada especialidade jurídica como serviço individual</div></li>
+    <li><div class="check-icon"></div><div><strong>Perguntas e respostas:</strong> cadastrar as principais perguntas que clientes fariam</div></li>
+  </ul>
+
+  <h3>Manutenção mensal</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div>2 publicações mensais no perfil (novidades, conteúdo relevante, datas importantes)</div></li>
+    <li><div class="check-icon"></div><div>Resposta a todas as avaliações novas — positivas e negativas — em até 48h</div></li>
+    <li><div class="check-icon"></div><div>Monitoramento de métricas: buscas, visualizações, cliques para ligar e cliques para site</div></li>
+    <li><div class="check-icon"></div><div>Atualização de horários especiais (feriados, férias)</div></li>
+    <li><div class="check-icon"></div><div>Incentivo ativo a avaliações: sugerir ao cliente que peça avaliações a clientes satisfeitos mensalmente</div></li>
+  </ul>
+
+  <div class="rule green">
+    <p><strong>Sobre avaliações negativas:</strong> nunca ignore e nunca responda na defensiva. A resposta é para quem lê, não para quem escreveu. Uma resposta profissional e empática a uma avaliação negativa pode gerar mais confiança do que dez avaliações positivas.</p>
+  </div>
+</div>
+
+<!-- CRM & PAINEL -->
+<div class="section reveal" id="proc-crm">
+  <div class="chapter-label">Processos por Serviço</div>
+  <h2>CRM & Painel de Leads<br><em>A inteligência da operação</em></h2>
+
+  <p>O painel de leads e o mini CRM da Ware são diferenciais tecnológicos que nenhuma outra agência do setor oferece. Para que funcionem bem, precisam ser alimentados corretamente — pela equipe interna e pelos clientes.</p>
+
+  <h3>O que o painel entrega ao cliente</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div>Visualização em tempo real de cada lead gerado: nome, contato, origem (Google, Instagram, Orgânico), data</div></li>
+    <li><div class="check-icon"></div><div>Estágio do lead no funil: Novo → Contatado → Em negociação → Fechado → Perdido</div></li>
+    <li><div class="check-icon"></div><div>Histórico de interações com cada lead</div></li>
+    <li><div class="check-icon"></div><div>Volume de leads por fonte e por período</div></li>
+    <li><div class="check-icon"></div><div>Taxa de conversão: quantos leads viraram clientes</div></li>
+  </ul>
+
+  <h3>Responsabilidades da equipe Ware</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div>Garantir que todos os formulários do site e landing pages estão conectados ao painel</div></li>
+    <li><div class="check-icon"></div><div>Verificar semanalmente se os leads estão sendo registrados corretamente</div></li>
+    <li><div class="check-icon"></div><div>Treinar o cliente no uso do painel durante o onboarding</div></li>
+    <li><div class="check-icon"></div><div>Apresentar o painel na reunião mensal como parte do relatório</div></li>
+  </ul>
+
+  <h3>Scripts por estágio de lead</h3>
+  <p>Para cada estágio do lead, a Ware fornece um script de abordagem ao cliente — o que dizer, como dizer, e qual o objetivo de cada contato. Esses scripts são entregues no onboarding e revisados semestralmente.</p>
+  <table class="ware-table">
+    <thead><tr><th>Estágio</th><th>Objetivo do contato</th><th>Tom</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Lead novo (primeiras 2h)</strong></td><td>Confirmar recebimento e agendar conversa</td><td>Rápido, acolhedor, sem pressão</td></tr>
+      <tr><td><strong>Lead em negociação</strong></td><td>Entender a situação, apresentar possibilidade de ajuda</td><td>Consultivo, empático, sem promessas</td></tr>
+      <tr><td><strong>Lead sem retorno (após 3 dias)</strong></td><td>Follow-up único sem insistência</td><td>Leve, deixar porta aberta</td></tr>
+      <tr><td><strong>Lead perdido</strong></td><td>Entender o motivo, manter relação</td><td>Sem pressão, agradecendo o contato</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- GESTÃO INTERNA -->
+<!-- ══════════════════════════════════ -->
+<div class="section reveal" id="comunicacao">
+  <div class="chapter-label">Gestão Interna</div>
+  <h2>Comunicação<br><em>Interna e com clientes</em></h2>
+
+  <h3>Com clientes</h3>
+  <div class="two-col">
+    <div class="col-box">
+      <div class="col-box-title blue">Canal principal: WhatsApp</div>
+      <ul>
+        <li>Comunicação do dia a dia, aprovações rápidas, avisos urgentes</li>
+        <li>Resposta em até 4h em dias úteis</li>
+        <li>Mensagens importantes sempre seguidas de resumo escrito</li>
+        <li>Nunca enviar arquivo final só por WhatsApp — sempre e-mail também</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <div class="col-box-title green">Canal formal: E-mail</div>
+      <ul>
+        <li>Envio de relatórios, propostas, contratos e aprovações formais</li>
+        <li>Sempre usar o e-mail parcerias@warejuridico.com.br</li>
+        <li>Assunto claro e específico ("Relatório Março 2026 — Escritório X")</li>
+        <li>Confirmar recebimento quando se tratar de documento importante</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Interna (equipe)</h3>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div>Todo cliente tem uma pasta estruturada compartilhada — materiais, relatórios, contratos, histórico de comunicação</div></li>
+    <li><div class="check-icon"></div><div>Toda decisão estratégica sobre um cliente é documentada — não só conversada</div></li>
+    <li><div class="check-icon"></div><div>Alinhamento semanal de equipe: o que está em andamento, o que está atrasado, o que precisa de atenção</div></li>
+    <li><div class="check-icon"></div><div>Nenhum cliente fica sem responsável definido — cada cliente tem um ponto focal na Ware</div></li>
+  </ul>
+</div>
+
+<!-- QUALIDADE -->
+<div class="section reveal" id="qualidade">
+  <div class="chapter-label">Gestão Interna</div>
+  <h2>Padrão de <em>Qualidade</em><br>O mínimo que a Ware aceita</h2>
+  <p>Qualidade não é subjetiva na Ware. É uma lista de critérios objetivos. Antes de qualquer entrega sair para o cliente, passa por esses critérios.</p>
+
+  <h4>Checklist universal de qualidade — toda entrega</h4>
+  <ul class="checklist">
+    <li><div class="check-icon"></div><div><strong>Está correto?</strong> Informações verificadas, sem erros factuais, sem dados inventados</div></li>
+    <li><div class="check-icon"></div><div><strong>Está dentro da OAB?</strong> Nenhuma linguagem proibida, nenhuma promessa de resultado</div></li>
+    <li><div class="check-icon"></div><div><strong>Está alinhado com o briefing?</strong> Tom de voz, identidade visual, área de atuação do cliente respeitados</div></li>
+    <li><div class="check-icon"></div><div><strong>Está sem erro de português?</strong> Revisão gramatical obrigatória — especialmente em conteúdo para advogados, que são extremamente sensíveis a erro de escrita</div></li>
+    <li><div class="check-icon"></div><div><strong>Está no prazo?</strong> Entrega antes do prazo combinado, não no limite</div></li>
+    <li><div class="check-icon"></div><div><strong>Está completo?</strong> Não falta nada do que foi combinado — nenhum arquivo, nenhuma informação</div></li>
+  </ul>
+
+  <div class="rule amber">
+    <p><strong>Sobre erros:</strong> erros acontecem. O que define a Ware não é zero erro — é como lidamos. Erro identificado = comunica imediatamente ao cliente, assume, corrige, e documenta internamente para não repetir. Nunca esconda um erro. O cliente perdoa o erro. Não perdoa a ocultação.</p>
+  </div>
+</div>
+
+<!-- CRISES -->
+<div class="section reveal" id="crises">
+  <div class="chapter-label">Gestão Interna</div>
+  <h2>Gestão de <em>Crises</em><br>Quando algo dá errado</h2>
+
+  <h3>Protocolo para situações críticas</h3>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">01</div>
+      <div class="flow-body">
+        <div class="flow-title">Identifique e contenha</div>
+        <div class="flow-desc">Assim que um problema é identificado — seja internamente ou pelo cliente — pare o que estiver gerando o problema. Campanha com erro? Pause. Post errado publicado? Remova. Não deixe o problema crescer enquanto você decide o que fazer.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">02</div>
+      <div class="flow-body">
+        <div class="flow-title">Comunique antes que o cliente descubra</div>
+        <div class="flow-desc">Se foi erro da Ware, comunique antes que o cliente perceba. "Identificamos um problema em X e já estamos corrigindo. Aqui está o que aconteceu e o que estamos fazendo." Essa proatividade vale mais do que qualquer desculpa depois.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">03</div>
+      <div class="flow-body">
+        <div class="flow-title">Apresente a solução junto com o problema</div>
+        <div class="flow-desc">Nunca leve apenas o problema. Leve o problema + o que você já fez + o que vai fazer para resolver + o prazo. Cliente quer saber que está em mãos competentes, não que existe um problema sem dono.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">04</div>
+      <div class="flow-body">
+        <div class="flow-title">Documente e aprenda</div>
+        <div class="flow-desc">Após a resolução, registre internamente: o que aconteceu, por que aconteceu, o que foi feito, e o que muda no processo para evitar repetição. Crise que não vira aprendizado vira hábito.</div>
+        <span class="flow-tag green">Melhoria contínua</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="section reveal" id="kpis">
+  <div class="chapter-label">Gestão Interna</div>
+  <h2>KPIs da <em>Agência</em><br>O que medimos para crescer</h2>
+  <p>Você não melhora o que não mede. Esses são os indicadores que a Ware acompanha para avaliar a saúde da operação e do negócio.</p>
+
+  <h3>Saúde do negócio</h3>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val">MRR</div><div class="kpi-label">Receita Recorrente Mensal — crescimento mês a mês</div></div>
+    <div class="kpi"><div class="kpi-val">Churn</div><div class="kpi-label">% de clientes que cancelaram — meta: abaixo de 5% ao mês</div></div>
+    <div class="kpi"><div class="kpi-val">LTV</div><div class="kpi-label">Valor do cliente ao longo do tempo — meta: mínimo 12 meses</div></div>
+    <div class="kpi"><div class="kpi-val">NPS</div><div class="kpi-label">Net Promoter Score — avaliação semestral de satisfação</div></div>
+  </div>
+
+  <h3>Operação e atendimento</h3>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val">&lt;4h</div><div class="kpi-label">Tempo médio de resposta ao cliente</div></div>
+    <div class="kpi"><div class="kpi-val">100%</div><div class="kpi-label">Relatórios entregues no prazo todo mês</div></div>
+    <div class="kpi"><div class="kpi-val">100%</div><div class="kpi-label">Reuniões mensais realizadas — sem cancelamentos pela Ware</div></div>
+    <div class="kpi"><div class="kpi-val">&gt;90%</div><div class="kpi-label">Taxa de renovação de contratos</div></div>
+  </div>
+
+  <h3>Resultados para os clientes</h3>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val">CPL</div><div class="kpi-label">Custo por Lead — deve reduzir mês a mês conforme otimização</div></div>
+    <div class="kpi"><div class="kpi-val">GMB</div><div class="kpi-label">Crescimento mensal de visualizações e cliques no perfil</div></div>
+    <div class="kpi"><div class="kpi-val">SEO</div><div class="kpi-label">Posicionamento das palavras-chave alvo no Google</div></div>
+    <div class="kpi"><div class="kpi-val">Conv.</div><div class="kpi-label">Taxa de conversão de lead para cliente (responsabilidade compartilhada)</div></div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Revisão mensal obrigatória:</strong> no início de cada mês, a equipe revisa os KPIs do mês anterior. O que cresceu, o que regrediu, e o que vai mudar. Uma agência que não monitora os próprios números não tem autoridade para cobrar resultado de clientes.</p>
+  </div>
+</div>
+
+<!-- CLOSING -->
+<div class="section reveal" style="text-align:center; border-bottom:none; padding-bottom:80px;">
+  <div class="chapter-label" style="justify-content:center;">Ware Jurídico</div>
+  <h2 style="font-size:clamp(32px,4vw,52px);">Processo é o que separa<br>agência boa de <em>agência referência.</em></h2>
+  <p style="max-width:500px; margin:0 auto 16px; font-size:16px;">Este manual não é estático. À medida que a Ware cresce, os processos evoluem. Mas os princípios — clareza, compromisso, resultado real — são permanentes.</p>
+  <p style="font-size:12px; color:var(--white-30); margin-top:48px; letter-spacing:0.12em; text-transform:uppercase;">Ware Jurídico · warejuridico.com.br · waremarketing.pt</p>
+</div>
+
+</div><!-- /main -->
+
+<div class="footer-bar">
+  <p>Manual Operacional — Documento interno Ware Jurídico</p>
+  <p>Versão 2026 · Revisão semestral</p>
+</div>
+
+<script>
+  // Reveal on scroll
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(e => {
+    e.forEach(el => { if (el.isIntersecting) el.target.classList.add('on'); });
+  }, { threshold: 0.05 });
+  els.forEach(el => io.observe(el));
+
+  // Sidebar active state
+  const sections = document.querySelectorAll('[id]');
+  const links = document.querySelectorAll('.sidebar a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
