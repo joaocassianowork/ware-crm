@@ -248,6 +248,7 @@ select option{background:var(--s3);}
 /* KANBAN */
 .kanban-board,.task-kanban{display:grid;grid-template-columns:repeat(6,minmax(180px,1fr));gap:10px;margin-bottom:14px;align-items:start;}
 .task-kanban{grid-template-columns:repeat(4,minmax(170px,1fr));}
+.finance-kanban{grid-template-columns:repeat(4,minmax(180px,1fr));}
 .kanban-col{background:var(--s1);border:1px solid var(--br);border-radius:12px;overflow:hidden;min-height:180px;}
 .kanban-col.compact{min-height:260px;}
 .kanban-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--br);}
@@ -263,6 +264,21 @@ select option{background:var(--s3);}
 .kanban-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;flex-wrap:wrap;}
 .kanban-empty{padding:18px 8px;text-align:center;color:var(--w4);font-size:12px;border:1px dashed var(--br);border-radius:8px;}
 
+/* GROWTH / REVENUE */
+.growth-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+.growth-box{background:var(--s2);border:1px solid var(--br);border-radius:8px;padding:10px;min-width:0;}
+.growth-box span{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--w4);margin-bottom:6px;}
+.growth-box strong{display:block;font-family:'Sora',sans-serif;font-size:15px;color:var(--w);margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.growth-note{font-size:12px;color:var(--w7);line-height:1.55;background:var(--w04);border:1px solid var(--br);border-radius:8px;padding:9px 10px;margin-top:8px;}
+.growth-checkin{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;background:var(--s2);border:1px solid var(--br);border-radius:8px;padding:10px;margin-top:8px;}
+.growth-checkin strong{display:block;font-size:12px;color:var(--w);margin-bottom:4px;}
+.growth-checkin span{display:block;font-size:12px;color:var(--w7);line-height:1.5;}
+.growth-checkin em{display:block;font-size:12px;color:var(--green);font-style:normal;margin-top:5px;}
+.objection-item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--br);}
+.objection-item:last-child{border-bottom:none;}
+.objection-item strong{display:block;font-size:13px;color:var(--w);line-height:1.4;}
+.objection-item span{display:block;font-size:12px;color:var(--w4);line-height:1.5;margin-top:3px;}
+
 /* RESPONSIVE */
 @media(max-width:700px){
   .sidebar{width:50px;}
@@ -271,6 +287,8 @@ select option{background:var(--s3);}
   .fr2{grid-template-columns:1fr;}
   .inline-form{grid-template-columns:1fr;}
   .kanban-board,.task-kanban{grid-template-columns:1fr;}
+  .growth-grid{grid-template-columns:1fr;}
+  .growth-checkin{flex-direction:column;}
 }
 
 /* ── SPRINT 3 STYLES ── */

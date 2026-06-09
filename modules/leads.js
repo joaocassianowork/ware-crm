@@ -80,6 +80,7 @@ const Leads = (() => {
       <div class="dp-row"><span class="dp-key">Último contato</span><span class="dp-val">${Utils.timeAgo(l.last_contact_at)}</span></div>
       ${l.notes ? `<div class="dp-row"><span class="dp-key">Notas</span><span class="dp-val" style="font-size:12px;">${l.notes}</span></div>` : ''}
     `);
+    if (typeof Growth !== 'undefined') Growth.renderLeadPanel(id);
     UI.set('dpLeadStages', STAGES.map(s => `<button class="stage-btn ${s.id === l.stage ? 'on' : ''}" onclick="Leads.updateStage('${id}','${s.id}')">${s.id}</button>`).join(''));
     const { data: fups } = await sb.from('lead_followups').select('*').eq('lead_id', id).order('created_at', { ascending: false });
     UI.set('dpLeadFups', (fups || []).length ? (fups || []).map(f => `<div class="tl-item"><div class="tl-dot" style="background:var(--green);"></div><div><div class="tl-title">${f.note || 'Follow-up registrado'}</div><div class="tl-meta">${Utils.timeAgo(f.created_at)}</div></div></div>`).join('') : `<div style="font-size:13px;color:var(--w4);">Nenhum follow-up ainda.</div>`);
@@ -122,14 +123,21 @@ const Leads = (() => {
     document.getElementById('lNotes').value = l?.notes || '';
     UI.openModal('moLead');
   }
+  function editCurrent() {
+    const l = Store.leads.find(x => x.id === curId);
+    if (!l) return;
+    UI.closeDP('dpLead');
+    openModal(l);
+  }
   async function deleteCurrent() {
     const l = Store.leads.find(x => x.id === curId); if (!l) return;
     if (!confirm(`Excluir o lead "${l.name}"?\n\nOs follow-ups deste lead tambem serao removidos. Esta acao nao pode ser desfeita.`)) return;
     await sb.from('lead_followups').delete().eq('lead_id', curId);
+    await sb.from('sales_objections').delete().eq('lead_id', curId);
     const { error } = await sb.from('leads').delete().eq('id', curId);
     if (error) { alert('Nao foi possivel excluir. Verifique permissoes/RLS no Supabase.'); return; }
     UI.closeDP('dpLead'); curId = null; App.loadAll();
   }
 
-  return { render, openDetail, registerFU, quickFU, updateStage, switchTab, save, openModal, toggleView, dragLead, dropLead, deleteCurrent };
+  return { render, openDetail, registerFU, quickFU, updateStage, switchTab, save, openModal, editCurrent, toggleView, dragLead, dropLead, deleteCurrent };
 })();

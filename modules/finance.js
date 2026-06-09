@@ -6,6 +6,7 @@ const Finance = (() => {
     UI.set('finPend','R$ '+pend.toLocaleString('pt-BR'));
     UI.set('finPago','R$ '+pago.toLocaleString('pt-BR'));
     UI.set('finAtr','R$ '+atr.toLocaleString('pt-BR'));
+    if(typeof Growth !== 'undefined')Growth.renderFinancialPipeline();
     if(!Store.payments.length){UI.set('payTbody',`<tr><td colspan="6" class="td-empty">Nenhuma cobrança lançada</td></tr>`);return;}
     UI.set('payTbody',Store.payments.map(p=>{
       const c=Store.clients.find(x=>x.id===p.client_id);

@@ -32,6 +32,7 @@ const Clients = (() => {
       <div class="dp-row"><span class="dp-key">Saúde</span><span class="dp-val" style="color:${(c.health_score||100)>=70?'var(--green)':'var(--amber)'};">${c.health_score||100}%</span></div>
       ${c.notes?`<div class="dp-row"><span class="dp-key">Notas</span><span class="dp-val" style="font-size:12px;">${c.notes}</span></div>`:''}
     `);
+    if(typeof Growth !== 'undefined')Growth.renderClientPanel(id);
     UI.openDP('dpClient');
     const{data:tl}=await sb.from('client_timeline').select('*').eq('client_id',id).order('created_at',{ascending:false}).limit(20);
     const typeC={reunião:'var(--blue)',entrega:'var(--green)',contrato:'var(--amber)',nota:'var(--w4)',projeto:'var(--green)',onboarding:'var(--amber)'};
@@ -79,7 +80,9 @@ const Clients = (() => {
       sb.from('reports').delete().eq('client_id',curId),
       sb.from('meetings').delete().eq('client_id',curId),
       sb.from('satisfaction_surveys').delete().eq('client_id',curId),
-      sb.from('client_accesses').delete().eq('client_id',curId)
+      sb.from('client_accesses').delete().eq('client_id',curId),
+      sb.from('client_milestones').delete().eq('client_id',curId),
+      sb.from('client_checkins').delete().eq('client_id',curId)
     ]);
     const{error}=await sb.from('clients').delete().eq('id',curId);
     if(error){alert('Nao foi possivel excluir. Verifique permissoes/RLS no Supabase.');return;}

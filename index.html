@@ -204,6 +204,7 @@
           <div class="kpi"><div class="kpi-lbl">Recebido no Mês</div><div class="kpi-val c-green" id="finPago">—</div></div>
           <div class="kpi"><div class="kpi-lbl">Em Atraso</div><div class="kpi-val c-red" id="finAtr">—</div></div>
         </div>
+        <div id="financialPipeline" class="kanban-board finance-kanban"></div>
         <div class="card"><table class="tbl"><thead><tr><th>Cliente</th><th>Mês Ref.</th><th>Valor</th><th>Vencimento</th><th>Status</th><th></th></tr></thead><tbody id="payTbody"></tbody></table></div>
       </div>
 
@@ -531,6 +532,7 @@
     <div class="dp-head"><div><div class="dp-title" id="dpClientName">—</div><div class="dp-sub" id="dpClientSub">—</div></div><button class="dp-close" onclick="UI.closeDP('dpClient')">×</button></div>
     <div class="dp-body">
       <div class="dp-section"><div class="dp-section-lbl">Informações</div><div id="dpClientInfo"></div></div>
+      <div class="dp-section"><div class="dp-section-lbl">Receita e relacionamento</div><div id="dpClientGrowth"></div></div>
       <div class="dp-section"><div class="dp-section-lbl">Linha do Tempo</div><div id="dpClientTimeline"><div class="loading"><div class="spin"></div></div></div></div>
     </div>
       <div class="dp-section">
@@ -553,13 +555,17 @@
     <div class="dp-head"><div><div class="dp-title" id="dpLeadName">—</div><div class="dp-sub" id="dpLeadSub">—</div></div><button class="dp-close" onclick="UI.closeDP('dpLead')">×</button></div>
     <div class="dp-body">
       <div class="dp-section"><div class="dp-section-lbl">Dados</div><div id="dpLeadInfo"></div></div>
+      <div class="dp-section"><div class="dp-section-lbl">Objeções de venda</div><div id="dpLeadGrowth"></div></div>
       <div class="dp-section"><div class="dp-section-lbl">Script Sugerido</div><div class="script-box" id="dpLeadScript"></div></div>
       <div class="dp-section">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><div class="dp-section-lbl" style="margin:0;">Follow-ups</div><button class="fu-btn" onclick="Leads.registerFU()">+ Registrar</button></div>
         <div id="dpLeadFups"></div>
       </div>
       <div class="dp-section"><div class="dp-section-lbl">Atualizar Estágio</div><div class="stage-btns" id="dpLeadStages"></div></div>
-      <button class="btn btn-red" style="width:100%;justify-content:center;" onclick="Leads.deleteCurrent()">Excluir Lead</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-g" style="flex:1;justify-content:center;" onclick="Leads.editCurrent()">Editar Lead</button>
+        <button class="btn btn-red" style="flex:1;justify-content:center;" onclick="Leads.deleteCurrent()">Excluir Lead</button>
+      </div>
     </div>
   </div>
 </div>
@@ -622,7 +628,7 @@ const sb = supabase.createClient(
 );
 
 // STORE
-const Store = { clients:[], leads:[], payments:[], goals:[], docs:[], errors:[], projects:[], tasks:[], onboardings:[], approvals:[], reports:[], meetings:[], news:[], scripts:[], surveys:[] };
+const Store = { clients:[], leads:[], payments:[], goals:[], docs:[], errors:[], projects:[], tasks:[], onboardings:[], approvals:[], reports:[], meetings:[], news:[], scripts:[], surveys:[], objections:[], clientMilestones:[], checkins:[] };
 
 // UTILS
 const Utils = {
@@ -700,7 +706,7 @@ const App = {
   },
   async loadAll(){
     const now=new Date().toISOString().slice(0,7)+'-01';
-    const[c,l,p,g,d,e,pr,t,o,a,rep,mt,nw,sv]=await Promise.all([
+    const[c,l,p,g,d,e,pr,t,o,a,rep,mt,nw,sv,obj,ms,ci]=await Promise.all([
       sb.from('clients').select('*').order('name'),
       sb.from('leads').select('*').order('created_at',{ascending:false}),
       sb.from('payments').select('*').order('due_date',{ascending:true}),
@@ -714,12 +720,16 @@ const App = {
       sb.from('reports').select('*').order('created_at',{ascending:false}),
       sb.from('meetings').select('*').order('date',{ascending:false}),
       sb.from('news_sends').select('*').order('sent_at',{ascending:false}),
-      sb.from('satisfaction_surveys').select('*').order('responded_at',{ascending:false})
+      sb.from('satisfaction_surveys').select('*').order('responded_at',{ascending:false}),
+      sb.from('sales_objections').select('*').order('created_at',{ascending:false}),
+      sb.from('client_milestones').select('*').order('created_at',{ascending:false}),
+      sb.from('client_checkins').select('*').order('created_at',{ascending:false})
     ]);
     Store.clients=c.data||[];Store.leads=l.data||[];Store.payments=p.data||[];
     Store.goals=g.data||[];Store.docs=d.data||[];Store.errors=e.data||[];
     Store.projects=pr.data||[];Store.tasks=t.data||[];Store.onboardings=o.data||[];Store.approvals=a.data||[];
     Store.reports=rep.data||[];Store.meetings=mt.data||[];Store.news=nw.data||[];Store.surveys=sv.data||[];
+    Store.objections=obj.data||[];Store.clientMilestones=ms.data||[];Store.checkins=ci.data||[];
     App.renderAll();
   },
   renderAll(){
@@ -774,5 +784,6 @@ sb.auth.onAuthStateChange((ev,sess)=>{ if(sess)App.boot(); });
 <script src="modules/activity.js"></script>
 <script src="modules/charts.js"></script>
 <script src="modules/tasks.js"></script>
+<script src="modules/growth.js"></script>
 </body>
 </html>
