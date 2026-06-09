@@ -180,7 +180,8 @@
 
       <!-- LEADS -->
       <div class="page" id="page-leads">
-        <div class="ph"><div class="ph-left"><div class="pt">Leads</div><div class="ps">Funil de prospecção</div></div><button class="btn btn-p" onclick="Leads.openModal()">+ Novo Lead</button></div>
+        <div class="ph"><div class="ph-left"><div class="pt">Leads</div><div class="ps">Funil de prospecção</div></div><div class="ph-right"><button class="btn btn-g" id="leadViewBtn" onclick="Leads.toggleView()">Ver tabela</button><button class="btn btn-p" onclick="Leads.openModal()">+ Novo Lead</button></div></div>
+        <div id="leadsKanban" class="kanban-board"></div>
         <div class="card">
           <div class="tabs">
             <div class="tab on" onclick="Leads.switchTab('todos',this)">Todos</div>
@@ -208,7 +209,7 @@
 
       <!-- PROJETOS -->
       <div class="page" id="page-projetos">
-        <div class="ph"><div class="ph-left"><div class="pt">Projetos</div><div class="ps">Checklists por serviço</div></div><button class="btn btn-p" onclick="Projects.openModal()">+ Novo Projeto</button></div>
+        <div class="ph"><div class="ph-left"><div class="pt">Projetos</div><div class="ps">Kanban e tarefas por projeto</div></div><button class="btn btn-p" onclick="Projects.openModal()">+ Novo Projeto</button></div>
         <div id="projectsList"><div class="loading"><div class="spin"></div></div></div>
       </div>
 
@@ -538,6 +539,7 @@
       </div>
     </div>
     <div class="dp-foot">
+      <button class="btn btn-red btn-sm" onclick="Clients.deleteCurrent()">Excluir</button>
       <button class="btn btn-g btn-sm" onclick="Clients.editCurrent()">Editar</button>
       <div id="dpClientInviteBtn"></div>
     </div>
@@ -557,6 +559,7 @@
         <div id="dpLeadFups"></div>
       </div>
       <div class="dp-section"><div class="dp-section-lbl">Atualizar Estágio</div><div class="stage-btns" id="dpLeadStages"></div></div>
+      <button class="btn btn-red" style="width:100%;justify-content:center;" onclick="Leads.deleteCurrent()">Excluir Lead</button>
     </div>
   </div>
 </div>
@@ -564,12 +567,24 @@
 <!-- PROJETO DETAIL -->
 <div class="dp-overlay" id="dpProject">
   <div class="dp-back" onclick="UI.closeDP('dpProject')"></div>
-  <div class="dp-panel">
-    <div class="dp-head"><div><div class="dp-title" id="dpProjTitle">—</div><div class="dp-sub" id="dpProjSub">—</div></div><button class="dp-close" onclick="UI.closeDP('dpProject')">×</button></div>
+  <div class="dp-panel dp-panel-wide">
+    <div class="dp-head"><div><div class="dp-title" id="dpProjTitle">—</div><div class="dp-sub" id="dpProjSub">—</div></div><button class="btn btn-red btn-sm" onclick="Projects.deleteCurrent()">Excluir</button><button class="dp-close" onclick="UI.closeDP('dpProject')">×</button></div>
     <div class="dp-body">
       <div class="dp-section">
         <div class="dp-section-lbl">Progresso</div>
         <div class="prog-wrap"><div class="prog-bg"><div class="prog-fill" id="dpProjProg" style="background:var(--blue);"></div></div><div class="prog-txt" id="dpProjProgTxt">0%</div></div>
+      </div>
+      <div class="dp-section">
+        <div class="dp-section-lbl">Nova tarefa livre</div>
+        <div class="inline-form">
+          <input id="freeTaskTitle" placeholder="Ex: Ajustar copy da landing page">
+          <select id="freeTaskStage">
+            <option value="backlog">A fazer</option>
+            <option value="em_andamento">Em andamento</option>
+            <option value="aguardando">Aguardando</option>
+          </select>
+          <button class="btn btn-p" onclick="Projects.addFreeTask()">Adicionar</button>
+        </div>
       </div>
       <div id="dpProjChecklist"></div>
     </div>

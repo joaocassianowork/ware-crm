@@ -18,7 +18,7 @@ const Finance = (() => {
         <td style="font-weight:500;">R$ ${(p.amount||0).toLocaleString('pt-BR')}</td>
         <td style="font-size:12px;color:var(--w4);">${due}</td>
         <td><span class="badge ${sb}">${p.status}</span></td>
-        <td>${p.status!=='pago'?`<button class="btn btn-g btn-sm" onclick="Finance.markPaid('${p.id}')">Marcar Pago</button>`:''}</td>
+        <td style="display:flex;gap:6px;align-items:center;">${p.status!=='pago'?`<button class="btn btn-g btn-sm" onclick="Finance.markPaid('${p.id}')">Marcar Pago</button>`:''}<button class="btn btn-red btn-sm" onclick="Finance.deletePayment('${p.id}')">Excluir</button></td>
       </tr>`;
     }).join(''));
   }
@@ -32,6 +32,12 @@ const Finance = (() => {
     await sb.from('payments').insert({client_id:cId,month:document.getElementById('pMonth').value+'-01',amount:parseFloat(document.getElementById('pAmount').value)||c?.monthly_value||0,due_date:document.getElementById('pDue').value||null,status:document.getElementById('pStatus').value});
     UI.closeModal('moPayment');App.loadAll();
   }
+  async function deletePayment(id){
+    if(!confirm('Excluir esta cobranca?\n\nEsta acao nao pode ser desfeita.'))return;
+    const{error}=await sb.from('payments').delete().eq('id',id);
+    if(error){alert('Nao foi possivel excluir. Verifique permissoes/RLS no Supabase.');return;}
+    App.loadAll();
+  }
   function openModal(){
     const ac=Store.clients.filter(c=>c.status==='ativo');
     document.getElementById('pClient').innerHTML=ac.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
@@ -39,5 +45,5 @@ const Finance = (() => {
     document.getElementById('pDue').value='';document.getElementById('pAmount').value='';document.getElementById('pStatus').value='pendente';
     UI.openModal('moPayment');
   }
-  return{render,markPaid,save,openModal};
+  return{render,markPaid,save,openModal,deletePayment};
 })();

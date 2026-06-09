@@ -64,5 +64,26 @@ const Clients = (() => {
     UI.openModal('moClient');
   }
   function editCurrent(){const c=Store.clients.find(x=>x.id===curId);if(!c)return;UI.closeDP('dpClient');openModal(c);}
-  return{render,openDetail,save,openModal,editCurrent};
+  async function deleteCurrent(){
+    const c=Store.clients.find(x=>x.id===curId);if(!c)return;
+    const ok=confirm(`Excluir o cliente "${c.name}"?\n\nIsso tambem remove projetos, tarefas, cobrancas, reunioes, relatorios, aprovacoes, pesquisas e eventos ligados a ele. Esta acao nao pode ser desfeita.`);
+    if(!ok)return;
+    const projectIds=Store.projects.filter(p=>p.client_id===curId).map(p=>p.id);
+    if(projectIds.length)await sb.from('project_tasks').delete().in('project_id',projectIds);
+    await Promise.all([
+      projectIds.length?sb.from('projects').delete().in('id',projectIds):Promise.resolve(),
+      sb.from('payments').delete().eq('client_id',curId),
+      sb.from('client_timeline').delete().eq('client_id',curId),
+      sb.from('onboardings').delete().eq('client_id',curId),
+      sb.from('approvals').delete().eq('client_id',curId),
+      sb.from('reports').delete().eq('client_id',curId),
+      sb.from('meetings').delete().eq('client_id',curId),
+      sb.from('satisfaction_surveys').delete().eq('client_id',curId),
+      sb.from('client_accesses').delete().eq('client_id',curId)
+    ]);
+    const{error}=await sb.from('clients').delete().eq('id',curId);
+    if(error){alert('Nao foi possivel excluir. Verifique permissoes/RLS no Supabase.');return;}
+    UI.closeDP('dpClient');curId=null;App.loadAll();
+  }
+  return{render,openDetail,save,openModal,editCurrent,deleteCurrent};
 })();
